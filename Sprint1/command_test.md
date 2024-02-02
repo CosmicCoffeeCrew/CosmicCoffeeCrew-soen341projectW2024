@@ -1,5 +1,6 @@
 # Download git
 https://git-scm.com/download/win
+https://desktop.github.com/
 
 ## Here are some important commands  you should know for using Git:
 git-clone[1]--Clone a repository into a new directory ==> THIS COMMAND IS USE TO DOWNLOAD OUR CODE
