@@ -11,7 +11,7 @@ link to project backlog: https://github.com/users/kokkuri3/projects/3/views/1
 |                       | Back-end Developer   | ........ |
 |                       | Front-end Developer  | ........ |
 |                       | Front-end Developer  | ........ |
-|                       | Front-end Developer  | ........ |
+|Enrique Dieguez Sanz   | Front-end Developer  | 40210617 |
 
 ## Project Description
 A car rental app is a digital platform crafted to streamline the vehicle rental process, catering to short-term needs spanning from a few hours to a few weeks. This app acts as a bridge between customers seeking rental vehicles and the car rental company providing such services.
