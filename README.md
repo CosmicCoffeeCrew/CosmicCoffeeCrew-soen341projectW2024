@@ -6,7 +6,7 @@ link to project backlog: https://github.com/users/kokkuri3/projects/3/views/1
 
 | Name                  | Role                 | ID       |
 | --------------------- | -------------------- | -------- |
-|                       | Full-Stack Developer | ........ |
+|      Sara Amri        | Full-Stack Developer | 40210908 |
 |                       | Back-end Developer   | ........ |
 |                       | Back-end Developer   | ........ |
 |                       | Front-end Developer  | ........ |
