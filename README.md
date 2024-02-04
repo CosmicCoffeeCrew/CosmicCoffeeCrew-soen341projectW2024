@@ -7,8 +7,8 @@ link to project backlog: https://github.com/users/kokkuri3/projects/3/views/1
 | Name                 | Role                 | ID       |
 | -------------------- | -------------------- | -------- |
 | Sara Amri            | Full-Stack Developer | 40210908 |
+| Irina Zhukova        | Full-Stack Developer | 40248017 |
 | Hossam Khalifa       | Back-end Developer   | 40199572 |
-|                      | Back-end Developer   | ........ |
 |                      | Front-end Developer  | ........ |
 | Boudour Bannouri     | Front-end Developer  | 40200175 |
 | Enrique Dieguez Sanz | Front-end Developer  | 40210617 |
