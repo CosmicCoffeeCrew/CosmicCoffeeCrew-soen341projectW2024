@@ -53,8 +53,8 @@ We three identify primary users: Customers, Customer service representatives (CS
     |        |   languages                                           |
     |--------|-------------------------------------------------------| 
     |        |  1) Label tasks and issues                            |
-    |        |  2) Organize assignees to tasks                       |
-    | Feb 12 |  3) Review all work and submit sprint1                |
+    | Feb 12 |  2) Organize assignees to tasks                       |
+    |        |  3) Review all work and submit sprint1                |
     |--------|-------------------------------------------------------| 
 
 3. Regular Meetings: Conduct regular stand-up meetings, sprint planning sessions, and retrospectives to ensure alignment, discuss progress, and address any challenges.
