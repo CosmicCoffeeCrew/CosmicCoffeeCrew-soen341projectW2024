@@ -24,8 +24,41 @@ We three identify primary users: Customers, Customer service representatives (CS
 # Project Approach:
 
 1. Agile Methodology: Adopt Agile Scrum methodology for project management, emphasizing iterative development, flexibility, and continuous improvement.
-2. Sprint Planning: (...)
+2. Sprint Planning: 
+
+    Sprint 1:
+
+    |End Date|                 Goals
+    |--------------------------------------------------------------- | 
+    |        |  1) First team meeting, get to know the team          |
+    | Jan 30 |  2) Familiarize team with the project                 |
+    |        |  3) Familiarize team with guthub and create repositry |
+    |--------|------------------------------------------------------ |
+    |        |  1) Decide on the technologies that will be used      |
+    | Feb 2  |  2) Assign roles and split the work                   |
+    |        |  3) Create a readme file                              |
+    |--------|-------------------------------------------------------|
+    |        |  1) Make user stories backlog (GitHub issues) and     |
+    | Feb 4  |     break down the functionalities into smaller tasks |
+    |        |  2) Assign story points to the user stories           |
+    |--------|-------------------------------------------------------|
+    |        |  1) Review Previous work                              |
+    |        |  2) Finalized User stories and tasks                  |
+    | Feb 9  |  3) Finalize devlopment framework decision and coding |
+    |        |   languages                                           |
+    |--------|-------------------------------------------------------|
+    |        |  1) Review Previous work                              |
+    |        |  2) Finalized User stories and tasks                  |
+    | Feb 10 |  3) Finalize devlopment framework decision and coding |
+    |        |   languages                                           |
+    |--------|-------------------------------------------------------| 
+    |        |  1) Label tasks and issues                            |
+    |        |  2) Organize assignees to tasks                       |
+    | Feb 12 |  3) Review all work and submit sprint1                |
+    |--------|-------------------------------------------------------| 
+
 3. Regular Meetings: Conduct regular stand-up meetings, sprint planning sessions, and retrospectives to ensure alignment, discuss progress, and address any challenges.
+    Unavailable members join via online group on discord or are briefed afterwards to keep coordination at a maximum.
 4. Feedback Mechanism: Establish a feedback mechanism to gather input from stakeholders, end-users, and team members throughout the project lifecycle.
 
 # Technology Stack:
