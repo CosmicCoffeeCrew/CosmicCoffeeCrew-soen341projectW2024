@@ -1,70 +1,39 @@
-# How to start our project
+# CosmicCoffeeCrew
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Team Members and Role
 
-## Available Scripts
+| Name                 | Role                 | ID       |
+| -------------------- | -------------------- | -------- |
+| Sara Amri            | Front-end Developer  | 40210908 |
+| Irina Zhukova        | Front-end Developer  | 40248017 |
+| Boudour Bannouri     | Front-end Developer  | 40200175 |
+| Hossam Khalifa       | Back-end Developer   | 40199572 |
+| Jad Aramouni         | Back-end Developer   | 40244750 |
+| Enrique Dieguez Sanz | Back-end Developer   | 40210617 |
 
-In the project directory, you can run:
+## Project Description
 
-### `npm start`
+A car rental app is a digital platform crafted to streamline the vehicle rental process, catering to short-term needs spanning from a few hours to a few weeks. This app acts as a bridge between customers seeking rental vehicles and the car rental company providing such services.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+We identify three primary users: Customers, Customer service representatives (CSR), and system administrator(s).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+## Technology Stack:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Frontend Development:
 
-### `npm run build`
+- Framework: React.js for building interactive user interfaces and managing state efficiently.
+- UI Library: Material-UI or Bootstrap for responsive and visually appealing design components.
+- State Management: Redux or Context API for centralized state management, ensuring consistency across components.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. Backend Development:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Framework: Node.js with Express.js for building scalable and lightweight server-side applications.
+- Database: MongoDB or PostgreSQL for storing and managing data related to vehicles, users, and rental transactions.
+- Authentication: JSON Web Tokens (JWT) for secure authentication and authorization of users.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## License
 
-### `npm run eject`
+Licensed under the [MIT license](https://github.com/nextui-org/next-app-template/blob/main/LICENSE).
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
