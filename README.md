@@ -32,6 +32,10 @@ We identify three primary users: Customers, Customer service representatives (CS
 - Database: MongoDB or PostgreSQL for storing and managing data related to vehicles, users, and rental transactions.
 - Authentication: JSON Web Tokens (JWT) for secure authentication and authorization of users.
 
+## Guides
+
+Installation guide : https://github.com/kokkuri3/CosmicCoffeeCrew-soen341projectW2024/blob/7c751282c5528060bc3d6d53b8b626db690314fc/InstallationInstructions.md
+
 ## License
 
 Licensed under the [MIT license](https://github.com/nextui-org/next-app-template/blob/main/LICENSE).
