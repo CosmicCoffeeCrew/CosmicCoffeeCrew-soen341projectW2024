@@ -2,12 +2,21 @@
 
 ## Team Members and Role
 
+<<<<<<< HEAD
 | Name                 | Role                 | ID       | Background                                                      |
 | -------------------- | -------------------- | -------- | ----------------------------------------------------------------|
 | Sara Amri            | Front-end Developer  | 40210908 |                                                                 |
 | Irina Zhukova        | Front-end Developer  | 40248017 |                                                                 |
 | Boudour Bannouri     | Front-end Developer  | 40200175 | 2nd-year Software Engineering student with experience in automated testing from one internship. Developed a digital planner web application using React as a personal project.
 | Hossam Khalifa       | Back-end Developer   | 40199572 |
+=======
+| Name                 | Role                 | ID       | Background                                                             |
+| -------------------- | -------------------- | -------- | ---------------------------------------------------------------------- |
+| Sara Amri            | Front-end Developer  | 40210908 |                                                                        |
+| Irina Zhukova        | Front-end Developer  | 40248017 |                                                                        |
+| Boudour Bannouri     | Front-end Developer  | 40200175 | 2nd-year Software Engineering student with experience in automated testing from one i internship. Developed a personal project using React
+| Hossam Khalifa       | Back-end Developer   | 40199572 | 2nd-year Software engineering student with knowledge of python, java, javascript, and C/C#. Confident with logic handling. Developed a personal project using python
+>>>>>>> 242818f21a923372d997d9827f8d68f586b04543
 | Jad Aramouni         | Back-end Developer   | 40244750 |
 | Enrique Dieguez Sanz | Back-end Developer   | 40210617 |
 
