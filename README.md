@@ -39,9 +39,11 @@ For additional team rules and management guidelines, including git rules and com
 - [Basic Git Commands](https://github.com/kokkuri3/CosmicCoffeeCrew-soen341projectW2024/blob/main/Git%20Commands.md)
 
 
-## Guides
+## Installation Guide
 
-Installation guide : https://github.com/kokkuri3/CosmicCoffeeCrew-soen341projectW2024/blob/7c751282c5528060bc3d6d53b8b626db690314fc/InstallationInstructions.md
+To get started with our project, follow the instructions below to set up your development environment and run the application:
+- [Installation Instructions](https://github.com/kokkuri3/CosmicCoffeeCrew-soen341projectW2024/blob/7c751282c5528060bc3d6d53b8b626db690314fc/InstallationInstructions.md)
+
 
 ## License
 
