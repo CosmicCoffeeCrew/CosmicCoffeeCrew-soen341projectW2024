@@ -1,67 +1,70 @@
-# CosmicCoffeeCrew
+# How to start our project
 
-## Team Members and Role
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-| Name                 | Role                 | ID       |
-| -------------------- | -------------------- | -------- |
-| Sara Amri            | Front-end Developer  | 40210908 |
-| Irina Zhukova        | Front-end Developer  | 40248017 |
-| Boudour Bannouri     | Front-end Developer  | 40200175 |
-| Hossam Khalifa       | Back-end Developer   | 40199572 |
-| Jad Aramouni         | Back-end Developer   | 40244750 |
-| Enrique Dieguez Sanz | Back-end Developer   | 40210617 |
+## Available Scripts
 
-## Project Description
+In the project directory, you can run:
 
-A car rental app is a digital platform crafted to streamline the vehicle rental process, catering to short-term needs spanning from a few hours to a few weeks. This app acts as a bridge between customers seeking rental vehicles and the car rental company providing such services.
+### `npm start`
 
-We three identify primary users: Customers, Customer service representatives (CSR), and system administrator(s).
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-## Project Approach and Technology
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-# Project Approach:
+### `npm test`
 
-1. Agile Methodology: Adopt Agile Scrum methodology for project management, emphasizing iterative development, flexibility, and continuous improvement.
-2. Sprint Planning: 
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-    Sprint 1:
+### `npm run build`
 
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-    | END DATE | GOAL                                                                                                 | 
-    | ---------| ---------------------------------------------------------------------------------------------------- | 
-    | Jan 30   | 1) First team meeting, get to know the team                                                          | 
-    | Jan 30   | 2) Familiarize team with the project                                                                 |
-    | Jan 30   | 3) Familiarize team with guthub and create repositry                                                 |
-    | Feb 2    | 1) Decide on the technologies that will be used                                                      |
-    | Feb 2    | 2) Assign roles and split the work                                                                   |
-    | Feb 2    | 3) Create a readme file                                                                              |
-    | Feb 4    | 1) Make user stories backlog (GitHub issues) and break down the functionalities into smaller tasks   |
-    | Feb 4    | 2) Assign story points to the user stories                                                           |
-    | Feb 10   | 1) Review Previous work                                                                              |
-    | Feb 10   | 2) Finalized User stories and tasks                                                                  |
-    | Feb 10   | 3) Finalize devlopment framework decision and coding languages                                       |
-    | Feb 12   | 1) Label tasks and issues                                                                            |
-    | Feb 12   | 2) Organize assignees to tasks                                                                       |
-    | Feb 12   | 3) Review all work and submit sprint1                                                                |
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-3. Regular Meetings: Conduct regular stand-up meetings, sprint planning sessions, and retrospectives to ensure alignment, discuss progress, and address any challenges.
-    Unavailable members join via online group on discord or are briefed afterwards to keep coordination at a maximum.
-4. Feedback Mechanism: Establish a feedback mechanism to gather input from stakeholders, end-users, and team members throughout the project lifecycle.
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-# Technology Stack:
+### `npm run eject`
 
-1. Frontend Development:
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-- Framework: React.js for building interactive user interfaces and managing state efficiently.
-- UI Library: Material-UI or Bootstrap for responsive and visually appealing design components.
-- State Management: Redux or Context API for centralized state management, ensuring consistency across components.
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-2. Backend Development:
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-- Framework: Node.js with Express.js for building scalable and lightweight server-side applications.
-- Database: MongoDB or PostgreSQL for storing and managing data related to vehicles, users, and rental transactions.
-- Authentication: JSON Web Tokens (JWT) for secure authentication and authorization of users.
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## License
+## Learn More
 
-Licensed under the [MIT license](https://github.com/nextui-org/next-app-template/blob/main/LICENSE).
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
