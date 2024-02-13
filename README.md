@@ -9,7 +9,7 @@
 | Boudour Bannouri     | Front-end Developer  | 40200175 | 2nd-year Software Engineering student with experience in automated testing from one internship. Developed a personal project using React.
 | Hossam Khalifa       | Back-end Developer   | 40199572 | 2nd-year Software engineering student with knowledge of python, java, javascript, and C/C#. Confident with logic handling. Developed a personal project with python.
 | Jad Aramouni         | Back-end Developer   | 40244750 | 2nd-year Software engineering student with proficiency in python, java, javascript, and C/C#. Confident logic  handler. Developed a personal project with python, pycharm, pyplot, pandas, sk-learn.
-| Enrique Dieguez Sanz | Back-end Developer   | 40210617 |
+| Enrique Dieguez Sanz | Back-end Developer   | 40210617 | 3rd-year Computer Engineering student with experience in Object Oriented Programming languages. I developed a nano-server and I created a video game implementing AI. 
 
 ## Project Description
 
