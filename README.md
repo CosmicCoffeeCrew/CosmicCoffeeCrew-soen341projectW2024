@@ -35,14 +35,14 @@ We identify three primary users: Customers, Customer service representatives (CS
 ## Additional Team Rules and Management
 
 For additional team rules and management guidelines, including git rules and commands, please refer to the following documents:
-- [Git Guidelines for managing repository](https://github.com/kokkuri3/CosmicCoffeeCrew-soen341projectW2024/blob/main/Git%20Guidelines.md)
-- [Basic Git Commands](https://github.com/kokkuri3/CosmicCoffeeCrew-soen341projectW2024/blob/main/Git%20Commands.md)
+- [Git Guidelines for managing repository](https://github.com/kokkuri3/CosmicCoffeeCrew-soen341projectW2024/blob/main/Guides%20%26%20Instructions/Git%20Guidelines.md)
+- [Basic Git Commands](https://github.com/kokkuri3/CosmicCoffeeCrew-soen341projectW2024/blob/main/Guides%20%26%20Instructions/Git%20Commands.md)
 
 
 ## Installation Guide
 
 To get started with our project, follow the instructions below to set up your development environment and run the application:
-- [Installation Instructions](https://github.com/kokkuri3/CosmicCoffeeCrew-soen341projectW2024/blob/7c751282c5528060bc3d6d53b8b626db690314fc/InstallationInstructions.md)
+- [Installation Instructions](https://github.com/kokkuri3/CosmicCoffeeCrew-soen341projectW2024/blob/main/Guides%20%26%20Instructions/InstallationInstructions.md)
 
 
 ## License
