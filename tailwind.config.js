@@ -5,12 +5,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#ffc727",
+        primary: "#87a9cc",
         secondary: {
-          100: "#E2E2D5",
-          200: "#888883",
+          100: "#d2b08c",
+          200: "#e6ecee",
         },
         dark: "#111111",
+        customBrown: "d2b08c",
       },
       container: {
         center: true,

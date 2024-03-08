@@ -5,6 +5,8 @@ import "aos/dist/aos.css";
 // Component import
 import Hero from "./components/Hero/Hero";
 import Footer from "./components/Footer/Footer";
+import About from "./components/About/About";
+import Services from "./components/Services/Services";
 
 const App = () => {
   // dark mode start
@@ -36,6 +38,8 @@ const App = () => {
   return (
     <div className="bg-white dark:bg-black dark:text-white text-black overflow-x-hidden">
       <Hero theme={theme} />
+      <About />
+      <Services />
       <Footer />
     </div>
   );

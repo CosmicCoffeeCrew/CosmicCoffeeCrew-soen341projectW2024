@@ -1,7 +1,7 @@
 import { useEffect } from "react"; // Import useEffect from React
 import PropTypes from "prop-types"; // Import PropTypes for prop-type validation
 import carPng from "../../assets/car.png";
-import yellowCar from "../../assets/banner-car.png";
+import bannerCar from "../../assets/banner-car.png";
 import AOS from "aos";
 
 const Hero = ({ theme }) => {
@@ -20,36 +20,26 @@ const Hero = ({ theme }) => {
             className="order-1 sm:order-2"
           >
             <img
-              src={theme === "dark" ? carPng : yellowCar}
+              src={theme === "dark" ? carPng : bannerCar}
               alt=""
               className="sm:scale-125 relative -z-10 max-h-[600px] drop-shadow-[2px_20px_6px_rgba(0,0,0,0.50)]"
             />
           </div>
           <div className="space-y-5 order-2 sm:order-1 sm:pr-32 ">
             <p data-aos="fade-up" className="text-primary text-2xl font-serif">
-              Effortless
+              Quick and Easy
             </p>
             <h1
               data-aos="fade-up"
               data-aos-delay="600"
               className="text-5xl lg:text-7xl font-semibold font-serif"
             >
-              Car Rental
+              ZoomViteRapide
             </h1>
             <p data-aos="fade-up" data-aos-delay="1000">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
-              veritatis explicabo quibusdam quae reprehenderit ab{" "}
+            Welcome to ZoomViteRapide - your ultimate destination for hassle-free car rentals! We pride ourselves on offering a 
+            seamless and convenient car rental experience that puts you in the driver&apos;s seat of your journey.{" "}
             </p>
-            <button
-              data-aos="fade-up"
-              data-aos-delay="1500"
-              onClick={() => {
-                AOS.refreshHard();
-              }}
-              className="rounded-md bg-primary hover:bg-primary/80 transition duration-500 py-2 px-6 text-black"
-            >
-              Get Started
-            </button>
           </div>
         </div>
       </div>
