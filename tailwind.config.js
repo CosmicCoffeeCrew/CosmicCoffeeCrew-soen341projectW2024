@@ -9,6 +9,7 @@ export default {
         secondary: {
           100: "#d2b08c",
           200: "#e6ecee",
+          300: "#e4cfba"
         },
         dark: "#111111",
         customBrown: "d2b08c",
