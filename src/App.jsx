@@ -4,13 +4,14 @@ import "aos/dist/aos.css";
 
 // Component import
 import Hero from "./components/Hero/Hero";
+import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import About from "./components/About/About";
 import Services from "./components/Services/Services";
 
 const App = () => {
   // dark mode start
-  const [theme] = useState(
+  const [theme, setTheme] = useState(
     localStorage.getItem("theme") ? localStorage.getItem("theme") : "light"
   );
   const element = document.documentElement;
@@ -36,7 +37,8 @@ const App = () => {
     AOS.refresh();
   }, []);
   return (
-    <div className="bg-white dark:bg-black dark:text-white text-black overflow-x-hidden">
+    <div className="bg-secondary-300  dark:bg-black dark:text-white text-black overflow-x-hidden">
+      <Navbar theme={theme} setTheme={setTheme} />
       <Hero theme={theme} />
       <About />
       <Services />
