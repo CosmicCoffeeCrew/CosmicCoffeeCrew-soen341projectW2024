@@ -1,5 +1,6 @@
 const MONGO_URI = 'mongodb+srv://cosmiccoffeecrew:kaicBr8bsVO5zK1a@cosmiccluster.ffvw5je.mongodb.net/?retryWrites=true&w=majority&appName=CosmicCluster'
 const PORT = 4000
+const SECRET= "AFgfsdHJHjlhLFJEWpiBDIgdDHldYTODIUgodluIDFGldJFD"
 // remove mongo_URI and PORT and use them from the .env file but rn it s not working so i m keeping them here JAD A
 
 

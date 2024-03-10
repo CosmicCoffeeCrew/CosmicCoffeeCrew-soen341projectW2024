@@ -1,10 +1,10 @@
 //Enrique: I modified this fild to implement the Email & Password Validation
 
-const User = require ('.../models/userMoodel')
+const User = require ('../models/userModel')
 const jwt = require("jsonwebtoken")
-
+//process.server.SECRET;
 const createTocken = (id) => {
-    jwt.sign({id}, process.env.SECRET, {expiresIn: '30d'}) //LOOK AT THE .ENV file
+    jwt.sign({id}, process.server.SECRET , {expiresIn: '30d'}) //LOOK AT THE .ENV file
 }
 
 //login user
