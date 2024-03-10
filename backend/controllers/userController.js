@@ -4,11 +4,23 @@ const User = require ('.../models/userMoodel')
 const jwt = require("jsonwebtoken")
 
 const createTocken = (id) => {
-
     jwt.sign({id}, process.env.SECRET, {expiresIn: '30d'}) //LOOK AT THE .ENV file
 }
+
 //login user
 const loginUser = async(req,res) => {
+    const {email,password} = req.body
+    try{
+        const user = await User.login(email,password) //check
+
+        //Create a tocken 
+        const token = createTocken(user.id)
+
+        //res.status(200).json({email, user})
+        res.status(200).json({email, token})
+    }catch(error){
+        res.status(400).json({error:error.message})
+    }
     res.json ({mssg: 'login user'})
 }
 
