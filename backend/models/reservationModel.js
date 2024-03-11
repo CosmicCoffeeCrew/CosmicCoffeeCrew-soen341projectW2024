@@ -24,16 +24,21 @@ const reservationSchema = new Schema({
     charge: {
         type: String,    //make integer later
         required: true,
+    },
+    status :{
+        type : String,
+        enum:["pending","accepted","refused"],
+        required:true
     }
 
 })
 
 
-reservationSchema.statics.record = async function(userID, vehicleID, start_Date, end_Date, charge){
+reservationSchema.statics.record = async function(userID, vehicleID, start_Date, end_Date, charge, status){
 
 
     // validation
-    if (!userID || !vehicleID || !start_Date || !end_Date || !charge){
+    if (!userID || !vehicleID || !start_Date || !end_Date || !charge ||!status){
         throw Error("All fields must be filled")
     }
     const user_Exists = await User.findById(userID)
@@ -49,7 +54,7 @@ reservationSchema.statics.record = async function(userID, vehicleID, start_Date,
     }
 
 
-    const reservation = await this.create({userID, vehicleID, start_Date, end_Date, charge})
+    const reservation = await this.create({userID, vehicleID, start_Date, end_Date, charge, status})
 
     return reservation
 }
