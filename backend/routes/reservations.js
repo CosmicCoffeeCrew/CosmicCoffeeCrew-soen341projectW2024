@@ -12,10 +12,10 @@ router.post('/record', recordReservation)
 router.get('/', getReservations)
 
 //get a specific user's reservations
-router.post('/user/:userID', getUserReservations)
+router.get('/user/:userID', getUserReservations)
 
 //get a specific vehicle's reservations
-router.post('/vehicle/:vehicleID',  getVehicleReservations)
+router.get('/vehicle/:vehicleID',  getVehicleReservations)
 
 //Delete a reservation based on ID
 router.delete('/:id', deleteReservation )
