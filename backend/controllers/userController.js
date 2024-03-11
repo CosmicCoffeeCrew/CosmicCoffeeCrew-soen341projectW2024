@@ -2,9 +2,69 @@
 
 const User = require ('../models/userModel')
 const jwt = require("jsonwebtoken")
-//process.server.SECRET;
+const mongoose = require('mongoose')
+//process.env.SECRET;
 const createTocken = (id) => {
-    jwt.sign({id}, process.server.SECRET , {expiresIn: '30d'}) //LOOK AT THE .ENV file
+    return jwt.sign({id}, process.env.SECRET , {expiresIn: '30d'}) //LOOK AT THE .ENV file
+}
+
+//get all Users
+const getUsers= async (req,res) => {
+    const users = await User.find({}).sort({createdAt: -1})
+
+    res.status(200).json(users)
+}
+
+//get a single User
+const getUser = async (req,res) => {
+    const {id} =req.params
+
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({error: 'No such User'})
+    }
+    const user = await User.findById(id)
+
+    if(!user){
+        return res.status(404).json({error: 'No such User'})
+    }
+    res.status(200).json(user)
+}
+
+
+// delete a User
+const deleteUser = async (req,res) => {
+    const {id} =req.params
+
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({error: 'No such User'})
+    }
+
+    const user = await User.findOneAndDelete({_id: id})
+
+    if(!user){
+        return res.status(404).json({error: 'No such User'})
+    }
+    res.status(200).json(user)
+
+}
+
+// update a User        //////////  MUST CHECK THAT THERE IS NO OTHER ACCOUNT WITH THE CHANGED EMAIL AND CHANGED LICENSE
+const updateUser = async (req,res) => {
+    const { id } = req.params
+    
+
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({error: 'No such User'})
+    }
+
+    const user = await User.findOneAndUpdate({_id: id},{
+        ...req.body})
+
+    if(!user){
+        return res.status(404).json({error: 'No such User'})
+    }
+    res.status(200).json(user)
+
 }
 
 //login user
@@ -21,15 +81,14 @@ const loginUser = async(req,res) => {
     }catch(error){
         res.status(400).json({error:error.message})
     }
-    res.json ({mssg: 'login user'})
 }
 
 //signup user
 //tocken authentification
 const signupUser = async (req,res)=> {
-    const {email,password} = req.body
+    const {email,password, username, permission, License, birthdate, rentalHistory} = req.body
     try{
-        const user = await User.signup(email,password)
+        const user = await User.signup(email,password, username, permission, License, birthdate, rentalHistory)
 
         //Create a tocken 
         const token = createTocken(user.id)
@@ -40,8 +99,6 @@ const signupUser = async (req,res)=> {
         res.status(400).json({error:error.message})
     }
 }
-
-module.exports = {signupUser, loginUser}
 // //login user
 // const loginUser = async(req,res) => {
 //     res.json({mssg: 'login user'})
@@ -55,6 +112,4 @@ module.exports = {signupUser, loginUser}
 
 // }
 
-// modules.exports = { signupUser, loginUser}
-
- 
+module.exports = { signupUser, loginUser, getUsers, getUser, deleteUser, updateUser }
