@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 // get all vehicles
 const getVehicles = async (req,res) => {
-    const vehicles = await Vehicle.find({}).sort({createdAt: -1})
+    const vehicles = await Vehicle.find(req.query)
 
     res.status(200).json(vehicles)
 }

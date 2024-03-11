@@ -10,7 +10,7 @@ const createTocken = (id) => {
 
 //get all Users
 const getUsers= async (req,res) => {
-    const users = await User.find({}).sort({createdAt: -1})
+    const users = await User.find(req.query)
 
     res.status(200).json(users)
 }

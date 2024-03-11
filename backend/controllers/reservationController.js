@@ -19,8 +19,7 @@ const recordReservation = async (req,res)=> {
 //get reservations 
 
 const getReservations= async (req,res) => {
-    const reservations = await Reservation.find({}).sort({createdAt: -1})
-
+    const reservations = await Reservation.find(req.query);
     res.status(200).json(reservations)
 }
 //Get reservations based on a specific vehicle ID
