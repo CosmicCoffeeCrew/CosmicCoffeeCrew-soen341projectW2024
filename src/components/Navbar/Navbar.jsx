@@ -1,4 +1,3 @@
-// import React from 'react';
 import PropTypes from 'prop-types'; 
 import { useState } from "react";
 import { BiSolidSun, BiSolidMoon } from "react-icons/bi";
@@ -8,19 +7,19 @@ import ResponsiveMenu from "./ResponsiveMenu";
 export const Navlinks = [
   {
     id: 1,
-    name: "INVENTORY",
-    link: "/#",
+    name: "HOME",
+    link: "/"
   },
   {
-    id: 1,
+    id: 2,
     name: "MY BOOKINGS",
-    link: "/#booking",
+    link: "/Reservations"
   },
   {
-    id: 1,
+    id: 3,
     name: "ABOUT US",
-    link: "/#about",
-  },
+    link: "/#about"
+  }
 ];
 const Navbar = ({ theme, setTheme }) => {
   const [showMenu, setShowMenu] = useState(false);
