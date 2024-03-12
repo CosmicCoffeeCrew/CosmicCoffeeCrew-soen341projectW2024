@@ -8,8 +8,6 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import About from "./components/About/About";
 import Services from "./components/Services/Services";
-import ProductCatalog from "./components/Catalogue/ProductCatalogue";
-import products from './components/Catalogue/ProductDetails'; // Import products array
 
 const App = () => {
   // dark mode start
@@ -44,7 +42,6 @@ const App = () => {
       <Hero theme={theme} />
       <About />
       <Services />
-      <ProductCatalog products={products} />
       <Footer />
     </div>
   );
