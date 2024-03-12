@@ -10,6 +10,7 @@ import About from "./components/About/About";
 import Services from "./components/Services/Services";
 import ProductCatalog from "./components/Catalogue/ProductCatalogue";
 import products from './components/Catalogue/ProductDetails'; // Import products array
+import SearchBar from "./components/SearchBar/SearchBar";
 
 const App = () => {
   // dark mode start
@@ -41,6 +42,7 @@ const App = () => {
   return (
     <div className="bg-secondary-300  dark:bg-black dark:text-white text-black overflow-x-hidden">
       <Navbar theme={theme} setTheme={setTheme} />
+      <SearchBar />
       <Hero theme={theme} />
       <About />
       <Services />
