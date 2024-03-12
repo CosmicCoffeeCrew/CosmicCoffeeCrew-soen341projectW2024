@@ -4,6 +4,7 @@ import { useState } from "react";
 import { BiSolidSun, BiSolidMoon } from "react-icons/bi";
 import { HiMenuAlt3, HiMenuAlt1 } from "react-icons/hi";
 import ResponsiveMenu from "./ResponsiveMenu";
+import UserAuth from '../UserAuth/UserAuth'; 
 
 export const Navlinks = [
   {
@@ -21,13 +22,31 @@ export const Navlinks = [
     name: "ABOUT US",
     link: "/#about",
   },
+  
+
 ];
 const Navbar = ({ theme, setTheme }) => {
   const [showMenu, setShowMenu] = useState(false);
+  const [userAuthVisibility, setUserAuthVisibility] = useState({show: false, mode: 'login'}); // New state for UserAuth visibility and mode
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
+
+   // Handlers for showing the UserAuth component
+   const handleShowLogin = () => {
+    setUserAuthVisibility({show: true, mode: 'login'});
+  };
+
+  const handleShowSignup = () => {
+    setUserAuthVisibility({show: true, mode: 'signup'});
+  };
+
+  // Handler for closing the UserAuth component
+  const handleCloseUserAuth = () => {
+    setUserAuthVisibility({show: false, mode: userAuthVisibility.mode});
+  };
+
   return (
     <div
       className="relative z-20 shadow-xl w-full bg-secondary-100 dark:bg-black dark:text-white duration-300
@@ -50,6 +69,9 @@ const Navbar = ({ theme, setTheme }) => {
                   </a>
                 </li>
               ))}
+              {/* Login and Signup buttons */}
+              <li className="py-4"><button onClick={handleShowLogin}>Login</button></li>
+              <li className="py-4"><button onClick={handleShowSignup}>Sign Up</button></li>
               {/* DarkMode feature implement */}
               {theme === "dark" ? (
                 <BiSolidSun
@@ -96,6 +118,8 @@ const Navbar = ({ theme, setTheme }) => {
         </div>
       </div>
       <ResponsiveMenu showMenu={showMenu} />
+      {/* Conditionally render UserAuth */}
+      {userAuthVisibility.show && <UserAuth onClose={handleCloseUserAuth} initialMode={userAuthVisibility.mode} />}
     </div>
   );
 };
