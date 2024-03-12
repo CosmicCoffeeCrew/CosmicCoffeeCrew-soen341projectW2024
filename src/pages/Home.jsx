@@ -5,6 +5,9 @@ import "aos/dist/aos.css";
 import Hero from "../components/Hero/Hero";
 import About from "../components/About/About";
 import Services from "../components/Services/Services";
+import ProductCatalog from "../components/Catalogue/ProductCatalogue";
+import products from '../components/Catalogue/ProductDetails'; // Import products array
+
 
 const Home = () => {
   // dark mode start

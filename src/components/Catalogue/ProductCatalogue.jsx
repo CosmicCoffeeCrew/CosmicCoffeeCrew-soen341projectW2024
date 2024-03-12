@@ -1,6 +1,7 @@
 import React from 'react';
 import "./ProductCatalogue.css";
 import products from "./ProductDetails"; // Importing the products array
+import PropTypes from 'prop-types';
 
 // ProductCatalog: Contains a grid of multiple ProductTiles
 class ProductCatalog extends React.Component {
@@ -83,5 +84,17 @@ const ProductCatalogue = () => {
         </div>
     );
 }
+
+ProductCatalogue.propTypes = {
+    products: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            image: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+            short_description: PropTypes.string.isRequired,
+            aosDelay: PropTypes.number // Assuming aosDelay is a number (optional)
+        })
+    ).isRequired
+};
 
 export default ProductCatalogue;

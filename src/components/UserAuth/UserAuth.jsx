@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 function UserAuth({ onClose, initialMode }) {
   const [mode, setMode] = useState(initialMode); // "login" or "signup"
@@ -143,5 +144,10 @@ function UserAuth({ onClose, initialMode }) {
     </div>
   );
 }
+
+UserAuth.propTypes = {
+  onClose: PropTypes.func.isRequired, // onClose should be a function and is required
+  initialMode: PropTypes.string.isRequired, // initialMode should be a string and is required
+};
 
 export default UserAuth;

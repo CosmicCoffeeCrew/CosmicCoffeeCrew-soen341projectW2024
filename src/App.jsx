@@ -13,9 +13,6 @@ import {
 import Reservations from "./pages/Reservations";
 import Footer from "./components/Footer/Footer";
 
-import ProductCatalog from "./components/Catalogue/ProductCatalogue";
-import products from './components/Catalogue/ProductDetails'; // Import products array
-
 const App = () => {
   // dark mode start
   const [theme, setTheme] = useState(
