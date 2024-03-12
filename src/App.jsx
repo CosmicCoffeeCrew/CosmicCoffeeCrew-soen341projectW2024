@@ -13,8 +13,7 @@ import {
 import Reservations from "./pages/Reservations";
 import Footer from "./components/Footer/Footer";
 
-import ProductCatalog from "./components/Catalogue/ProductCatalogue";
-import products from './components/Catalogue/ProductDetails'; // Import products array
+// import products from './components/Catalogue/ProductDetails'; // Import products array
 
 const App = () => {
   // dark mode start
@@ -47,11 +46,6 @@ const App = () => {
     <div className="bg-secondary-300  dark:bg-black dark:text-white text-black overflow-x-hidden">
       <Router>
       <Navbar theme={theme} setTheme={setTheme} />
-      <SearchBar />
-      <Hero theme={theme} />
-      <About />
-      <Services />
-      <ProductCatalog products={products} />
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/Reservations" element={<Reservations />} />

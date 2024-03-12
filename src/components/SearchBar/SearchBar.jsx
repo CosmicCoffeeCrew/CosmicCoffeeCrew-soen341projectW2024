@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { MdSearch, MdLocationOn } from 'react-icons/md'; 
+import { useState } from 'react';
+import { MdSearch} from 'react-icons/md'; 
 
 const SearchBar = () => {
   const [location, setLocation] = useState('');
