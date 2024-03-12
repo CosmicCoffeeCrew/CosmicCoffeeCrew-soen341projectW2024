@@ -1,4 +1,4 @@
-import {Navlinks} from '../Navbar/Navbar';
+import {Navlinks} from '../components/Navbar/Navbar';
 
 describe('Navbar', () => {
   it('should render three correct links', () => {
