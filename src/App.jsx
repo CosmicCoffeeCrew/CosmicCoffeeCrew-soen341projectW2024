@@ -3,11 +3,16 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 // Component import
-import Hero from "./components/Hero/Hero";
+import Home from "./pages/Home";
 import Navbar from "./components/Navbar/Navbar";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
+import Reservations from "./pages/Reservations";
 import Footer from "./components/Footer/Footer";
-import About from "./components/About/About";
-import Services from "./components/Services/Services";
+
 import ProductCatalog from "./components/Catalogue/ProductCatalogue";
 import products from './components/Catalogue/ProductDetails'; // Import products array
 import SearchBar from "./components/SearchBar/SearchBar";
@@ -41,13 +46,19 @@ const App = () => {
   }, []);
   return (
     <div className="bg-secondary-300  dark:bg-black dark:text-white text-black overflow-x-hidden">
+      <Router>
       <Navbar theme={theme} setTheme={setTheme} />
       <SearchBar />
       <Hero theme={theme} />
       <About />
       <Services />
       <ProductCatalog products={products} />
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route path="/Reservations" element={<Reservations />} />
+      </Routes>
       <Footer />
+    </Router>
     </div>
   );
 };
