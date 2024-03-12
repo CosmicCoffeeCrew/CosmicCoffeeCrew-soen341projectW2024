@@ -38,6 +38,7 @@ React.useEffect(() => {
       <Hero theme={theme} />
       <About />
       <Services />
+      <ProductCatalog products={products} />
     </div>
   );
 };
