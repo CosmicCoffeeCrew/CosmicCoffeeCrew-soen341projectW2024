@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   darkMode: "class",
   theme: {
@@ -12,7 +12,7 @@ export default {
           300: "#e4cfba"
         },
         dark: "#111111",
-        customBrown: "d2b08c",
+        customBrown: "#d2b08c", 
       },
       container: {
         center: true,
