@@ -5,6 +5,7 @@ import { HiMenuAlt3, HiMenuAlt1 } from "react-icons/hi";
 import ResponsiveMenu from "./ResponsiveMenu";
 import UserAuth from '../UserAuth/UserAuth'; 
 
+
 export const Navlinks = [
   {
     id: 1,
@@ -22,7 +23,12 @@ export const Navlinks = [
     link: "/#about"
   },
   {
-    id:4,
+    id: 4,
+    name: "INVENTORY",
+    link: "/InventoryPage"
+  },
+  {
+    id:5,
     name:"OUR REVIEWS",
     link:"/CustomerReview"
   }

@@ -8,6 +8,9 @@ import Navbar from "./components/Navbar/Navbar";
 import CustomerReview from "./components/CustormerReview/CustomerReview";
 import PaymentPage from "./components/Payement/PaymentPage";                //PaymentPage
 import PaymentSuccessPage from "./components/Payement/PaymentSuccessPage";  //SuccessPayment
+import InventoryPage from "./components/InventoryPage/InventoryPage";
+import VehicleDetailPage from './components/InventoryPage/VehicleDetailPage';
+import RentalFormPage from './components/RentalFormPage';
 
 import {
   BrowserRouter as Router,
@@ -54,8 +57,11 @@ const App = () => {
         <Route exact path="/" element={<Home />} />
         <Route path="/Reservations" element={<Reservations />} />
         <Route path="/CustomerReview" element = {<CustomerReview/>}/>
+        <Route path="/InventoryPage" element={<InventoryPage/>} />
         <Route path="/PaymentPage" element = {<PaymentPage/>}/>
         <Route path="/payment-success" element={<PaymentSuccessPage/>} />
+        <Route path="/inventory/:vehicleId" element={<VehicleDetailPage />} />
+        <Route path="/rental-form" element={<RentalFormPage />} />
       </Routes>
       <Footer />
     </Router>
