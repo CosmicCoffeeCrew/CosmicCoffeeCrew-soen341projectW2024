@@ -15,8 +15,9 @@ const CustomerReview = () => {
     event.preventDefault();
     if (!newReview || rating === 0) return; // Prevent blank reviews or reviews without ratings
 
+    //CHANGE IN HERE
     const reviewData = {
-      username: "Anonymous", // You might want to replace this with actual user data
+      username: "Anonymous", // We need to replace this with actual data... "real user links from the database"
       text: newReview,
       stars: rating,
     };
