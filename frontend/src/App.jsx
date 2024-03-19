@@ -5,6 +5,8 @@ import "aos/dist/aos.css";
 // Component import
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar/Navbar";
+
+import CustomerReview from "./components/CustormerReview/CustomerReview";
 import {
   BrowserRouter as Router,
   Routes,
@@ -12,7 +14,6 @@ import {
 } from "react-router-dom";
 import Reservations from "./pages/Reservations";
 import Footer from "./components/Footer/Footer";
-
 // import products from './components/Catalogue/ProductDetails'; // Import products array
 
 const App = () => {
@@ -49,6 +50,7 @@ const App = () => {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/Reservations" element={<Reservations />} />
+        <Route path="/CustomerReview" element = {<CustomerReview/>}/>
       </Routes>
       <Footer />
     </Router>

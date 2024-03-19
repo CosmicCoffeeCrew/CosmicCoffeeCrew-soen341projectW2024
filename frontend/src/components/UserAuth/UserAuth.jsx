@@ -26,7 +26,7 @@ function UserAuth({ onClose, initialMode }) {
   const handleSignupSubmit = (e) => {
     e.preventDefault();
     // Implement your signup logic here
-    console.log("Signup", { fullName, surname, email, signupUsername, signupPassword, confirmPassword });
+    console.log("Sign-up", { fullName, surname, email, signupUsername, signupPassword, confirmPassword });
   };
 
   return (

@@ -1,0 +1,47 @@
+.review-container {
+    max-width: auto;
+    margin: 2rem auto;
+    padding: 20px;
+    background-color: rgb(255 255 255 / 0.8);
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(148, 128, 128, 0.1);
+  }
+  
+  .reviews-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 1rem;
+  }
+  
+  .reviews-list li:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+  /* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    .review-container {
+      padding: 40px;
+    }
+  }
+  
+  /* Large devices (desktops, 1024px and up) */
+  @media (min-width: 1024px) {
+    .review-container {
+      padding: 60px;
+    }
+  }
+  .star {
+    color: gray;
+    cursor: pointer;
+    font-size: 25px;
+  }
+  
+  .star.selected {
+    color: gold;
+  }
+  
+  /* Add responsiveness to star rating */
+  @media (max-width: 768px) {
+    .star {
+      font-size: 20px; /* smaller stars on mobile devices */
+    }
+  }

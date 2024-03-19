@@ -6,6 +6,7 @@ describe('Navbar', () => {
     const expectedLinks = [
       { name: 'HOME', link: "/"},
       { name: 'MY BOOKINGS', link: "/Reservations" },
+      { name: 'REVIEWS', link: "/CustomerReview"}, 
       { name: 'ABOUT US', link: "/#about" }
     ];
 

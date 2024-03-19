@@ -20,6 +20,11 @@ export const Navlinks = [
     id: 3,
     name: "ABOUT US",
     link: "/#about"
+  },
+  {
+    id:4,
+    name:"OUR REVIEWS",
+    link:"/CustomerReview"
   }
 ];
 const Navbar = ({ theme, setTheme }) => {
