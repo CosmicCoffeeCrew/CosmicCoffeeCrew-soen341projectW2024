@@ -13,12 +13,15 @@ import VehicleDetailPage from './components/InventoryPage/VehicleDetailPage';
 //Forms-Instructions
 import RentalFormPage from './components/RentalFormPage';
 import ReturnInstructionsPage from './components/ReturnInstructionsPage';
+//New from the back-end
+
+//import Catalog from "./pages/Catalog";
+import ProductCatalogue from "./components/Catalogue/ProductCatalogue"; //New Inventory
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-} 
-from "react-router-dom";
+} from "react-router-dom";
 import Reservations from "./pages/Reservations";
 import Footer from "./components/Footer/Footer";
 // import products from './components/Catalogue/ProductDetails'; // Import products array
@@ -65,6 +68,7 @@ const App = () => {
         <Route path="/inventory/:vehicleId" element={<VehicleDetailPage />} />
         <Route path="/rental-form" element={<RentalFormPage/>} />
         <Route path="/return-instructions" element={<ReturnInstructionsPage />} />
+        <Route path="/Catalog" element={<ProductCatalogue />} />
       </Routes>
       <Footer />
     </Router>

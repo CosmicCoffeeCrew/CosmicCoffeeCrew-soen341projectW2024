@@ -41,7 +41,7 @@ const userSchema = new Schema({
 
 })
 
-// static sign up methid
+// static sign up method
 
 userSchema.statics.signup = async function(email, password, username, permission, License, birthdate, rentalHistory){
 
