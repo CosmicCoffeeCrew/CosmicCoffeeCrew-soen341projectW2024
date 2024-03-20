@@ -12,7 +12,16 @@ import {
 } from "react-router-dom";
 import Reservations from "./pages/Reservations";
 import Footer from "./components/Footer/Footer";
+
+//Inventory Cars:
+//Testing with invetory page:
+import InventoryPage from "./components/InventoryPage/InventoryPage";
+import VehicleDetailPage from './components/InventoryPage/VehicleDetailPage';
+//------
 import ProductCatalogue from "./components/Catalogue/ProductCatalogue";
+
+//Catalogue->ProductCatalogue
+//Catalogue->Forms->RentalFormPage.jsx
 
 // import products from './components/Catalogue/ProductDetails'; // Import products array
 
@@ -51,6 +60,8 @@ const App = () => {
         <Route exact path="/" element={<Home />} />
         <Route path="/Reservations" element={<Reservations />} />
         <Route path="/Catalog" element={<ProductCatalogue />} />
+        <Route path="/InventoryPage" element={<InventoryPage/>} />
+        <Route path="/inventory/:vehicleId" element={<VehicleDetailPage />} />
       </Routes>
       <Footer />
     </Router>

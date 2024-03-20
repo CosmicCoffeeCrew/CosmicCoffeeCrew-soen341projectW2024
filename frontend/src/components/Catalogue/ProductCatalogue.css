@@ -1,61 +1,64 @@
-/* Use any custom styles you'd like here */
-
-/* Easily customizable colors for the web app */
-:root {
-    --main-background-color: #F9FBF2;
-    --main-top-background-color: #FBFEF9;
-    --main-accent-color: #e7dcd8;
-    --title-color: #584b44;
+.catalogue-container {
+    padding: 2rem;
+    background-color: #f5f5f5; /* Light background color */
 }
 
-.button.is-primary {
-    background-color: var(--main-accent-color);
-}
-
-.button.is-primary:hover {
-    background-color: var(--title-color);
-}
-
-.title {
-    color: var(--main-accent-color);
-    font-family: 'Inconsolata', monospace;
-    font-size: 3em;
+.catalogue-title {
     text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
 }
 
-#inner-large-banner {
-    height: 40%;
-    width: 100%;
-    background-image: url('https://wallpaperaccess.com/full/3167720.jpg');
-    background-size: cover;
-    background-position: 50% 25%;
-}
-
-#wrapper {
-    width: 80%;
-    min-height: 70%;
-    /* margin-top: -100px; */
-    background-color: rgba(165, 144, 121, 0.247);
-    margin: -100px auto 0 auto;
-    padding: 30px;
-    box-shadow: 0 0.5em 1em -0.125em rgba(255, 255, 255, 0.253), 0 0 0 1px rgb(10 10 10 / 2%);
-    border-radius: .25rem;
-}
-
-#product-catalog {
+.catalogue-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+    align-items: stretch;
 }
 
-.product-title {
-    font-size: 2em;
+.vehicle-card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
-.about-bg {
-    background-color: #F9FAFB; /* Light background color */
-  }
-  
-  .dark-text {
-    color: #333; /* Dark text color */
-  }
+.vehicle-make, .vehicle-model, .vehicle-type, .vehicle-mileage, .vehicle-location, .vehicle-price {
+    margin: 0.5rem;
+}
+
+.vehicle-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.view-details-button {
+    background-color: #007bff; /* Primary color for the button */
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    }
+    
+    .view-details-button:hover {
+    background-color: #0056b3; /* Darker shade for hover effect */
+    }
+    
+    .vehicle-info {
+    padding: 0.5rem 1rem;
+    background-color: #fafafa; /* Slightly off-white for the vehicle info background /
+    border-top: 1px solid #eee; / Light border for separation from the image */
+    }
+    
+    /* Responsive tweaks for smaller screens */
+    @media (max-width: 768px) {
+    .catalogue-grid {
+    grid-template-columns: 1fr;
+    }
+}

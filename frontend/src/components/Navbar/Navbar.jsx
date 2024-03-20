@@ -25,6 +25,11 @@ export const Navlinks = [
     id: 4,
     name: "ABOUT US",
     link: "/#about"
+  },
+  {
+    id: 5,
+    name: "INVENTORY",
+    link: "/InventoryPage"
   }
 ];
 const Navbar = ({ theme, setTheme }) => {
