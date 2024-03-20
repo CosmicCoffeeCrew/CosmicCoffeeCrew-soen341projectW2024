@@ -4,13 +4,13 @@ import "aos/dist/aos.css";
 
 // Component import
 import Home from "./pages/Home";
-import Navbar from "./components/Navbar/Navbar";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
 } from "react-router-dom";
 import Reservations from "./pages/Reservations";
+import CSR from "./pages/CSR";
 import Footer from "./components/Footer/Footer";
 
 // import products from './components/Catalogue/ProductDetails'; // Import products array
@@ -45,10 +45,10 @@ const App = () => {
   return (
     <div className="bg-secondary-300  dark:bg-black dark:text-white text-black overflow-x-hidden">
       <Router>
-      <Navbar theme={theme} setTheme={setTheme} />
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/Reservations" element={<Reservations />} />
+        <Route path="/csr" element={<CSR />} />
       </Routes>
       <Footer />
     </Router>

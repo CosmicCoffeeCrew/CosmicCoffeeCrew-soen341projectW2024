@@ -23,6 +23,7 @@ export const Navlinks = [
   }
 ];
 const Navbar = ({ theme, setTheme }) => {
+ 
   const [showMenu, setShowMenu] = useState(false);
   const [userAuthVisibility, setUserAuthVisibility] = useState({show: false, mode: 'login'}); // New state for UserAuth visibility and mode
 

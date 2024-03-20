@@ -2,6 +2,7 @@ import React, {useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
+import Navbar from "../components/Navbar/Navbar";
 import SearchBar from "../components/SearchBar/SearchBar";
 import Hero from "../components/Hero/Hero";
 import About from "../components/About/About";
@@ -12,7 +13,7 @@ import products from '../components/Catalogue/ProductDetails'; // Import product
 
 const Home = () => {
   // dark mode start
-  const [theme] = useState(
+  const [theme, setTheme] = useState(
     localStorage.getItem("theme") ? localStorage.getItem("theme") : "light"
   );
   const element = document.documentElement;
@@ -39,6 +40,7 @@ React.useEffect(() => {
   }, []);
   return (
     <div className="bg-secondary-300  dark:bg-black dark:text-white text-black overflow-x-hidden">
+      <Navbar theme={theme} setTheme={setTheme} />
       <SearchBar />
       <Hero theme={theme} />
       <About />
