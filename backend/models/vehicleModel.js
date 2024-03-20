@@ -76,7 +76,8 @@ const vehicleSchema = new Schema({
   description: {
     type: String,
     required: true
-  },
+  }
+
 });
 
 const Vehicle = mongoose.model('Vehicle', vehicleSchema);

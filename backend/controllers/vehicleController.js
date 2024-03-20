@@ -43,7 +43,8 @@ const createVehicle = async (req,res) => {
             seats,
             pricePerDay,
             available,
-            image
+            image,
+            description
         });
         //created vehicle in json format
         res.status(200).json(vehicle)
