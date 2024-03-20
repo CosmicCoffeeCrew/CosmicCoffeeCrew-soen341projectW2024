@@ -15,16 +15,24 @@ import Footer from "./components/Footer/Footer";
 
 //Inventory Cars:
 //Testing with invetory page:
-import InventoryPage from "./components/InventoryPage/InventoryPage";
-import VehicleDetailPage from './components/InventoryPage/VehicleDetailPage';
+
+//import InventoryPage from "./components/InventoryPage/InventoryPage";
+//<Route path="/InventoryPage" element={<InventoryPage/>} />
+
+//import VehicleDetailPage from './components/InventoryPage/VehicleDetailPage';
 //------
 import ProductCatalogue from "./components/Catalogue/ProductCatalogue";
+import VehicleDetailPage from './components/Catalogue/View_details/VehicleDetailPage';
+
+// import RentalForm from './components/Catalogue/RentalFormPage'; // Make sure this component exists
+// <Route path="/rental-form" element={<RentalForm />} />
 
 //Catalogue->ProductCatalogue
 //Catalogue->Forms->RentalFormPage.jsx
 
 // import products from './components/Catalogue/ProductDetails'; // Import products array
-
+//Customer Review
+import CustomerReview from "./components/CustormerReview/CustomerReview";
 const App = () => {
   // dark mode start
   const [theme, setTheme] = useState(
@@ -59,9 +67,11 @@ const App = () => {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/Reservations" element={<Reservations />} />
+        <Route path="/CustomerReview" element = {<CustomerReview/>}/>
         <Route path="/Catalog" element={<ProductCatalogue />} />
-        <Route path="/InventoryPage" element={<InventoryPage/>} />
         <Route path="/inventory/:vehicleId" element={<VehicleDetailPage />} />
+        
+        
       </Routes>
       <Footer />
     </Router>

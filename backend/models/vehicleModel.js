@@ -14,6 +14,7 @@ fuelType: Represents the type of fuel the vehicle uses (e.g., gasoline, diesel).
 seats: Represents the number of seats in the vehicle.
 pricePerDay: Represents the rental price per day for the vehicle.
 available: Represents whether the vehicle is available for rental.
+description: Represent a small description of the vehicle
 */
 const vehicleSchema = new Schema({
   make: {
@@ -64,7 +65,6 @@ const vehicleSchema = new Schema({
     type: Number,
     required: true
   },
-
   available: {
     type: Boolean,
     default: true
@@ -72,7 +72,11 @@ const vehicleSchema = new Schema({
   image: {
     type: String,
     required: true
-  }
+  },
+  description: {
+    type: String,
+    required: true
+  },
 });
 
 const Vehicle = mongoose.model('Vehicle', vehicleSchema);

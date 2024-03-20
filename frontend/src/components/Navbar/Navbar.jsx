@@ -27,10 +27,15 @@ export const Navlinks = [
     link: "/#about"
   },
   {
-    id: 5,
-    name: "INVENTORY",
-    link: "/InventoryPage"
+    id:5,
+    name:"OUR REVIEWS",
+    link:"/CustomerReview"
   }
+  // {
+  //   id: 5,
+  //   name: "INVENTORY",
+  //   link: "/InventoryPage"
+  // }
 ];
 const Navbar = ({ theme, setTheme }) => {
   const [showMenu, setShowMenu] = useState(false);
