@@ -10,13 +10,15 @@ import PaymentPage from "./components/Payement/PaymentPage";                //Pa
 import PaymentSuccessPage from "./components/Payement/PaymentSuccessPage";  //SuccessPayment
 import InventoryPage from "./components/InventoryPage/InventoryPage";
 import VehicleDetailPage from './components/InventoryPage/VehicleDetailPage';
+//Forms-Instructions
 import RentalFormPage from './components/RentalFormPage';
-
+import ReturnInstructionsPage from './components/ReturnInstructionsPage';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-} from "react-router-dom";
+} 
+from "react-router-dom";
 import Reservations from "./pages/Reservations";
 import Footer from "./components/Footer/Footer";
 // import products from './components/Catalogue/ProductDetails'; // Import products array
@@ -61,7 +63,8 @@ const App = () => {
         <Route path="/PaymentPage" element = {<PaymentPage/>}/>
         <Route path="/payment-success" element={<PaymentSuccessPage/>} />
         <Route path="/inventory/:vehicleId" element={<VehicleDetailPage />} />
-        <Route path="/rental-form" element={<RentalFormPage />} />
+        <Route path="/rental-form" element={<RentalFormPage/>} />
+        <Route path="/return-instructions" element={<ReturnInstructionsPage />} />
       </Routes>
       <Footer />
     </Router>
