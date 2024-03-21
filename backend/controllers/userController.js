@@ -14,7 +14,7 @@ const createUser = async (req, res) => {
     const { email, password, username, permission, License, birthdate, rentalHistory } = req.body;
     try {
         // Check if the required fields are provided
-        if (!email || !password || !username || !permission || !License || !birthdate) {
+        if (!email || !password || !username || !permission || !License ) {
             throw new Error("All fields must be filled");
         }
 

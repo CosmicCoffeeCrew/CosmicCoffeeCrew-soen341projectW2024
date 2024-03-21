@@ -27,9 +27,11 @@ const AdminDashboard = () => {
         password: '',
         username: '',
         permission: 'Customer',
-        license: '',
-        birthdate: ''
+        License: '',
+        birthdate: '',
+        rentalHistory: ''
     });
+
     const [vehicleError, setVehicleError] = useState(null);
     const [userError, setUserError] = useState(null);
 
@@ -100,6 +102,8 @@ const AdminDashboard = () => {
                 body: JSON.stringify(formData)
             });
             console.log(response); //for debugging
+            const responseBody = await response.json();
+            console.log('Response body:', responseBody);
             if (response.ok) {
                 // Handle success, maybe show a success message
                 console.log('Vehicle created successfully');
@@ -108,6 +112,7 @@ const AdminDashboard = () => {
             } else {
                 // Handle error, maybe show an error message
                 console.error('Failed to create vehicle');
+                setVehicleError('Failed to create vehicle. Please try again later.');
             }
         } catch (error) {
             console.error('Error creating vehicle:', error);
@@ -123,7 +128,7 @@ const AdminDashboard = () => {
                 ...userFormData,
                 rentalHistory: []
             };
-
+    
             const response = await fetch('/api/users', {
                 method: 'POST',
                 headers: {
@@ -131,25 +136,74 @@ const AdminDashboard = () => {
                 },
                 body: JSON.stringify(updatedUserFormData)
             });
-
-           // Log the response body
-            const responseBody = await response.json();
-            console.log('Response body:', responseBody);
-
+    
             if (response.ok) {
-                // Handle success, maybe show a success message
-                console.log('User created successfully');
-                // Fetch users data after submission
-                fetchUsers();
+                // Check content type before parsing
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    // Parse JSON response
+                    const responseBody = await response.json();
+                    console.log('Response body:', responseBody);
+    
+                    // Handle success, maybe show a success message
+                    console.log('User created successfully');
+                    // Fetch users data after submission
+                    fetchUsers();
+                } else {
+                    console.error('Invalid content type in response:', contentType);
+                    setUserError('Failed to create user. Invalid response from server.');
+                }
             } else {
                 // Handle error, maybe show an error message
-                console.error('Failed to create user');
+                console.error('Failed to create user:', response.statusText);
+                setUserError('Failed to create user. Please try again later.');
             }
         } catch (error) {
             console.error('Error creating user:', error);
             setUserError('Failed to create user. Please try again later.');
         }
     };
+
+    // Function to handle deleting a vehicle by ID
+    const handleDeleteVehicle = async (id) => {
+        try {
+            const response = await fetch(`/api/vehicles/${id}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                // Remove the deleted vehicle from the local state
+                setVehicles(vehicles.filter(vehicle => vehicle._id !== id));
+                console.log('Vehicle deleted successfully');
+            } else {
+             console.error('Failed to delete vehicle');
+             setVehicleError('Failed to delete vehicle. Please try again later.');
+          }
+     } catch (error) {
+            console.error('Error deleting vehicle:', error);
+            setVehicleError('Failed to delete vehicle. Please try again later.');
+     }
+    };
+
+    // Function to handle deleting a user by ID
+    const handleDeleteUser = async (id) => {
+        try {
+            const response = await fetch(`/api/users/${id}`, {
+            method: 'DELETE'
+            });
+            if (response.ok) {
+                // Remove the deleted user from the local state
+                setUsers(users.filter(user => user._id !== id));
+                console.log('User deleted successfully');
+            } else {
+                console.error('Failed to delete user');
+                setUserError('Failed to delete user. Please try again later.');
+            }
+        } catch (error) {
+            console.error('Error deleting user:', error);
+            setUserError('Failed to delete user. Please try again later.');
+        }
+    };
+    
 
     return (
         <div className="dark:bg-black dark:text-white duration-300">
@@ -164,6 +218,9 @@ const AdminDashboard = () => {
                         <button className="button is-primary" onClick={() => handleListClick('uTable')}>List Users</button>
                     </div>
                 </div>
+
+                {vehicleError && <div>Error: {vehicleError}</div>} {/* Render error message if vehicleError is not null */}
+                {userError && <div>Error: {userError}</div>} {/* Render error message if userError is not null */}
 
                 {showVForm && (
                     <div>
@@ -182,7 +239,12 @@ const AdminDashboard = () => {
             </div>
             <div>
                 <label htmlFor="type">Type <hr></hr> </label>
-                <input type="text" id="type" name="type" value={formData.type} onChange={handleChange} required />
+                <select id="type" name="type" value={formData.type} onChange={handleChange} required>
+                    <option value="">Select Type</option>
+                    {['sedan', 'SUV', 'truck', 'van', 'convertible', 'other', 'sport'].map((type) => (
+                        <option key={type} value={type}>{type}</option>
+                    ))}
+                </select>
             </div>
             <div>
                 <label htmlFor="color">Color <hr></hr> </label>
@@ -194,15 +256,30 @@ const AdminDashboard = () => {
             </div>
             <div>
                 <label htmlFor="transmission">Transmission <hr></hr> </label>
-                <input type="text" id="transmission" name="transmission" value={formData.transmission} onChange={handleChange} required />
+                <select id="transmission" name="transmission" value={formData.transmission} onChange={handleChange} required>
+                    <option value="">Select Transmission</option>
+                    {['automatic', 'manual'].map((transmission) => (
+                        <option key={transmission} value={transmission}>{transmission}</option>
+                    ))}
+                </select>
             </div>
             <div>
                 <label htmlFor="location">Location <hr></hr> </label>
-                <input type="text" id="location" name="location" value={formData.location} onChange={handleChange} required />
+                <select id="location" name="location" value={formData.location} onChange={handleChange} required>
+                    <option value="">Select Location</option>
+                    {['Montreal', 'Ottawa', 'Toronto', 'Vancouver', 'Halifax', 'Edmonton'].map((location) => (
+                        <option key={location} value={location}>{location}</option>
+                    ))}
+                </select>
             </div>
             <div>
                 <label htmlFor="fuelType">Fuel Type <hr></hr> </label>
-                <input type="text" id="fuelType" name="fuelType" value={formData.fuelType} onChange={handleChange} required />
+                <select id="fuelType" name="fuelType" value={formData.fuelType} onChange={handleChange} required>
+                    <option value="">Select Fuel Type</option>
+                    {['gasoline', 'diesel', 'electric', 'hybrid'].map((fuelType) => (
+                        <option key={fuelType} value={fuelType}>{fuelType}</option>
+                    ))}
+                </select>
             </div>
             <div>
                 <label htmlFor="seats">Seats <hr></hr> </label>
@@ -250,8 +327,8 @@ const AdminDashboard = () => {
                                 </select>
                             </div>
                             <div>
-                                <label htmlFor="license">License <hr></hr> </label>
-                                <input type="text" id="license" name="license" value={userFormData.license} onChange={handleUserChange} />
+                                <label htmlFor="License">License <hr></hr> </label>
+                                <input type="text" id="License" name="License" value={userFormData.License} onChange={handleUserChange} />
                             </div>
                             <div>
                                 <label htmlFor="birthdate">Birthdate <hr></hr> </label>
@@ -308,7 +385,7 @@ const AdminDashboard = () => {
                                         <td>
                                             <button className="formButton">Edit</button>
                                             <br/><br/>
-                                            <button className="formButton">Delete</button>
+                                            <button className="formButton" onClick={() => handleDeleteVehicle(vehicle._id)}>Delete</button>
                                         </td>
                                     </tr>
                                 ))}
@@ -341,12 +418,12 @@ const AdminDashboard = () => {
                                         <td>{user.password}</td>
                                         <td>{user.username}</td>
                                         <td>{user.permission}</td>
-                                        <td>{user.license}</td>
+                                        <td>{user.License}</td>
                                         <td>{user.birthdate}</td>
                                         <td>
                                             <button className="formButton">Edit</button>
                                             <br/><br/>
-                                            <button className="formButton">Delete</button>
+                                            <button className="formButton" onClick={() => handleDeleteUser(user._id)}>Delete</button>
                                         </td>
                                     </tr>
                                 ))}
