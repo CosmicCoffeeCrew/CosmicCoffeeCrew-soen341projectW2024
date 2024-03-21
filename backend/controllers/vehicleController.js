@@ -29,14 +29,11 @@ const getVehicle = async (req,res) => {
 const createVehicle = async (req,res) => {
 
     const { make, model, year, type, color, mileage, transmission,location, fuelType, seats, pricePerDay, image, description } = req.body;
-<<<<<<< HEAD
 
     // Check if required fields are present
     if (!make || !model || !year || !type || !color || !mileage || !transmission || !location || !fuelType || !seats || !pricePerDay || !image || !description) {
         return res.status(400).json({ message: "Missing required fields" });
     }
-=======
->>>>>>> 7ffc7eadd8b38609eca287def9e7c740cc962835
 
     // add doc to db
     try{
