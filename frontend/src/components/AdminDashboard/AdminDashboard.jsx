@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
@@ -6,7 +6,25 @@ const AdminDashboard = () => {
     const [showUForm, setShowUForm] = useState(false);
     const [showVTable, setShowVTable] = useState(false);
     const [showUTable, setShowUTable] = useState(false);
+    const [vehicles, setVehicles] = useState([]);
 
+    useEffect(() => {
+        fetchVehicles();
+    }, []);
+
+    const fetchVehicles = async () => {
+        try {
+            const response = await fetch('/api/vehicles');
+            if (response.ok) {
+                const json = await response.json();
+                setVehicles(json);
+            } else {
+                throw new Error('Failed to fetch vehicles');
+            }
+        } catch (error) {
+            console.error('Error fetching vehicles:', error);
+        }
+    };
     const handleListClick = (type) => {
         setShowVForm(false);
         setShowUForm(false);
@@ -154,26 +172,27 @@ const AdminDashboard = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Toyota</td>
-                                    <td>Camry</td>
-                                    <td>2022</td>
-                                    <td>Sedan</td>
-                                    <td>Red</td>
-                                    <td>5000</td>
-                                    <td>Automatic</td>
-                                    <td>Montreal</td>
-                                    <td>Gasoline</td>
-                                    <td>5</td>
-                                    <td>$50</td>
-                                    <td>
-                                        <button  className="formButton">Edit</button>
-                                        <br></br><br></br>
-                                        <button  className="formButton">Delete</button>
-                                    </td>
-                                </tr>
-                                {/* Connect Backend */}
+                            {vehicles.map(vehicle => (
+                                    <tr key={vehicle._id}>
+                                        <td>{vehicle._id}</td>
+                                        <td>{vehicle.make}</td>
+                                        <td>{vehicle.model}</td>
+                                        <td>{vehicle.year}</td>
+                                        <td>{vehicle.type}</td>
+                                        <td>{vehicle.color}</td>
+                                        <td>{vehicle.mileage}</td>
+                                        <td>{vehicle.transmission}</td>
+                                        <td>{vehicle.location}</td>
+                                        <td>{vehicle.fuelType}</td>
+                                        <td>{vehicle.seats}</td>
+                                        <td>{vehicle.pricePerDay}</td>
+                                        <td>
+                                            <button className="formButton">Edit</button>
+                                            <br/><br/>
+                                            <button className="formButton">Delete</button>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>
