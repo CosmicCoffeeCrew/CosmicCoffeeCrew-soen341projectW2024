@@ -10,7 +10,7 @@ const VehicleDetailPage = () => {
     const fetchVehicleDetails = async () => {
       try {
         // Replace this URL with the actual URL to your API
-        const response = await navigate('/vehicle/${vehicleId}');
+        const response = await fetch('api/vehicle/_id= ${vehicleId}');
         console.log('response',response);
         if (!response.ok) {
           throw new Error('Vehicle not found');

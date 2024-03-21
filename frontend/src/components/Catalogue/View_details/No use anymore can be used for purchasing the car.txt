@@ -1,1 +1,1 @@
-This thing is not used anymore
+RentalFormPage.jsx I think is not well implemented.
