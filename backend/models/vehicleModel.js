@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
-
 /*
 make: Represents the make of the vehicle (e.g., Toyota, Honda).
 model: Represents the model of the vehicle (e.g., Camry, Civic).
