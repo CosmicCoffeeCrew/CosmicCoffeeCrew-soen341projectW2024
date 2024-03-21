@@ -7,9 +7,25 @@ const AdminDashboard = () => {
     const [showVTable, setShowVTable] = useState(false);
     const [showUTable, setShowUTable] = useState(false);
     const [vehicles, setVehicles] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [formData, setFormData] = useState({
+        make: '',
+        model: '',
+        year: '',
+        type: '',
+        color: '',
+        mileage: '',
+        transmission: '',
+        location: '',
+        fuelType: '',
+        seats: '',
+        pricePerDay: '',
+        image: ''
+    });
 
     useEffect(() => {
         fetchVehicles();
+        fetchUsers();
     }, []);
 
     const fetchVehicles = async () => {
@@ -25,22 +41,58 @@ const AdminDashboard = () => {
             console.error('Error fetching vehicles:', error);
         }
     };
-    const handleListClick = (type) => {
-        setShowVForm(false);
-        setShowUForm(false);
-        setShowVTable(false);
-        setShowUTable(false);
 
-        if (type === 'vForm') {
-            setShowVForm(true);
-        } else if (type === 'uForm') {
-            setShowUForm(true);
-        } else if (type === 'vTable') {
-            setShowVTable(true);
-        } else if (type === 'uTable') {
-            setShowUTable(true);
+    const fetchUsers = async () => {
+        try {
+            const response = await fetch('/api/users');
+            if (response.ok) {
+                const json = await response.json();
+                setUsers(json);
+            } else {
+                throw new Error('Failed to fetch users');
+            }
+        } catch (error) {
+            console.error('Error fetching users:', error);
         }
     };
+
+    const handleListClick = (type) => {
+        setShowVForm(type === 'vForm');
+        setShowUForm(type === 'uForm');
+        setShowVTable(type === 'vTable');
+        setShowUTable(type === 'uTable');
+    };
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch('/api/vehicles', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            console.log(response); //for debugging
+            if (response.ok) {
+                // Handle success, maybe show a success message
+                console.log('Vehicle created successfully');
+            } else {
+                // Handle error, maybe show an error message
+                console.error('Failed to create vehicle');
+            }
+        } catch (error) {
+            console.error('Error creating vehicle:', error);
+        }
+    };
+
 
     return (
         <div className="dark:bg-black dark:text-white duration-300">
@@ -58,58 +110,58 @@ const AdminDashboard = () => {
 
                 {showVForm && (
                     <div>
-                        <form>
-                            <div>
-                                <label htmlFor="make">Make <hr></hr> </label>
-                                <input type="text" id="make" name="make" />
-                            </div>
-                            <div>
-                                <label htmlFor="model">Model <hr></hr> </label>
-                                <input type="text" id="model" name="model" />
-                            </div>
-                            <div>
-                                <label htmlFor="year">Year <hr></hr> </label>
-                                <input type="number" id="year" name="year" />
-                            </div>
-                            <div>
-                                <label htmlFor="type">Type <hr></hr> </label>
-                                <input type="text" id="type" name="type" />
-                            </div>
-                            <div>
-                                <label htmlFor="color">Color <hr></hr> </label>
-                                <input type="text" id="color" name="color" />
-                            </div>
-                            <div>
-                                <label htmlFor="mileage">Mileage <hr></hr> </label>
-                                <input type="number" id="mileage" name="mileage" />
-                            </div>
-                            <div>
-                                <label htmlFor="transmission">Transmission <hr></hr> </label>
-                                <input type="text" id="transmission" name="transmission" />
-                            </div>
-                            <div>
-                                <label htmlFor="location">Location <hr></hr> </label>
-                                <input type="text" id="location" name="location" />
-                            </div>
-                            <div>
-                                <label htmlFor="fuelType">Fuel Type <hr></hr> </label>
-                                <input type="text" id="fuelType" name="fuelType" />
-                            </div>
-                            <div>
-                                <label htmlFor="seats">Seats <hr></hr> </label>
-                                <input type="number" id="seats" name="seats" />
-                            </div>
-                            <div>
-                                <label htmlFor="pricePerDay">Price Per Day <hr></hr> </label>
-                                <input type="number" id="pricePerDay" name="pricePerDay" />
-                            </div>
-                            <div>
-                                <label htmlFor="image">Image Link<hr></hr> </label>
-                                <input type="text" id="image" name="image" />
-                            </div>
-                            <br></br>
-                            <button className="formButton" type="submit">Submit</button>
-                        </form>
+                        <form onSubmit={handleSubmit}>
+                        <div>
+                <label htmlFor="make">Make <hr></hr> </label>
+                <input type="text" id="make" name="make" value={formData.make} onChange={handleChange} required />
+            </div>
+            <div>
+                <label htmlFor="model">Model <hr></hr> </label>
+                <input type="text" id="model" name="model" value={formData.model} onChange={handleChange} required />
+            </div>
+            <div>
+                <label htmlFor="year">Year <hr></hr> </label>
+                <input type="number" id="year" name="year" value={formData.year} onChange={handleChange} required />
+            </div>
+            <div>
+                <label htmlFor="type">Type <hr></hr> </label>
+                <input type="text" id="type" name="type" value={formData.type} onChange={handleChange} required />
+            </div>
+            <div>
+                <label htmlFor="color">Color <hr></hr> </label>
+                <input type="text" id="color" name="color" value={formData.color} onChange={handleChange} required />
+            </div>
+            <div>
+                <label htmlFor="mileage">Mileage <hr></hr> </label>
+                <input type="number" id="mileage" name="mileage" value={formData.mileage} onChange={handleChange} required />
+            </div>
+            <div>
+                <label htmlFor="transmission">Transmission <hr></hr> </label>
+                <input type="text" id="transmission" name="transmission" value={formData.transmission} onChange={handleChange} required />
+            </div>
+            <div>
+                <label htmlFor="location">Location <hr></hr> </label>
+                <input type="text" id="location" name="location" value={formData.location} onChange={handleChange} required />
+            </div>
+            <div>
+                <label htmlFor="fuelType">Fuel Type <hr></hr> </label>
+                <input type="text" id="fuelType" name="fuelType" value={formData.fuelType} onChange={handleChange} required />
+            </div>
+            <div>
+                <label htmlFor="seats">Seats <hr></hr> </label>
+                <input type="number" id="seats" name="seats" value={formData.seats} onChange={handleChange} required />
+            </div>
+            <div>
+                <label htmlFor="pricePerDay">Price Per Day <hr></hr> </label>
+                <input type="number" id="pricePerDay" name="pricePerDay" value={formData.pricePerDay} onChange={handleChange} required />
+            </div>
+            <div>
+                <label htmlFor="image">Image Link<hr></hr> </label>
+                <input type="text" id="image" name="image" value={formData.image} onChange={handleChange} required />
+            </div>
+            <br></br>
+            <button className="formButton" type="submit">Submit</button>
+        </form>
                     </div>
                 )}
 
@@ -156,6 +208,7 @@ const AdminDashboard = () => {
                             {/* Vehicle table contents */}
                             <thead>
                                 <tr>
+                                    <th>Image</th>
                                     <th>ID</th>
                                     <th>Make</th>
                                     <th>Model</th>
@@ -174,6 +227,9 @@ const AdminDashboard = () => {
                             <tbody>
                             {vehicles.map(vehicle => (
                                     <tr key={vehicle._id}>
+                                        <td>
+                                            <img src={vehicle.image} alt="e" style={{ width: "200px", height: "auto" }} />
+                                        </td>
                                         <td>{vehicle._id}</td>
                                         <td>{vehicle.make}</td>
                                         <td>{vehicle.model}</td>
@@ -215,21 +271,22 @@ const AdminDashboard = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>example@example.com</td>
-                                    <td>password123</td>
-                                    <td>Example User</td>
-                                    <td>Customer</td>
-                                    <td>yes</td>
-                                    <td>1990-01-01</td>
-                                    <td>
-                                        <button className="formButton">Edit</button>
-                                        <br></br><br></br>
-                                        <button className="formButton">Delete</button>
-                                    </td>
-                                </tr>
-                                {/* Connect to Backend */}
+                                {users.map(user => (
+                                    <tr key={user._id}>
+                                        <td>{user._id}</td>
+                                        <td>{user.email}</td>
+                                        <td>{user.password}</td>
+                                        <td>{user.username}</td>
+                                        <td>{user.permission}</td>
+                                        <td>{user.license}</td>
+                                        <td>{user.birthdate}</td>
+                                        <td>
+                                            <button className="formButton">Edit</button>
+                                            <br/><br/>
+                                            <button className="formButton">Delete</button>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>

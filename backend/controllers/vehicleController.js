@@ -28,6 +28,11 @@ const createVehicle = async (req,res) => {
 
     const { make, model, year, type, color, mileage, transmission,location, fuelType, seats, pricePerDay,  available, image } = req.body;
 
+    // Check if description is included in the request body
+    if (!description) {
+        return res.status(400).json({ error: 'Description is required' });
+    }
+
     // add doc to db
     try{
         const vehicle = await Vehicle.create({
