@@ -8,6 +8,9 @@ const AdminDashboard = () => {
     const [showUTable, setShowUTable] = useState(false);
     const [vehicles, setVehicles] = useState([]);
     const [users, setUsers] = useState([]);
+    const [vehicleError, setVehicleError] = useState(null);
+    const [userError, setUserError] = useState(null);
+
     const [formData, setFormData] = useState({
         make: '',
         model: '',
@@ -31,9 +34,7 @@ const AdminDashboard = () => {
         birthdate: '',
         rentalHistory: ''
     });
-
-    const [vehicleError, setVehicleError] = useState(null);
-    const [userError, setUserError] = useState(null);
+    
 
     useEffect(() => {
         fetchVehicles();
@@ -207,6 +208,12 @@ const AdminDashboard = () => {
 
     return (
         <div className="dark:bg-black dark:text-white duration-300">
+        <div>
+      {/* UI elements */}
+      {vehicleError && <div className="error-message">{vehicleError}</div>}
+      {userError && <div className="error-message">{userError}</div>}
+      {/* More UI elements */}
+    </div>
             <div className="container mx-auto py-8">
                 <div className="flex justify-between mb-8">
                     <div>
