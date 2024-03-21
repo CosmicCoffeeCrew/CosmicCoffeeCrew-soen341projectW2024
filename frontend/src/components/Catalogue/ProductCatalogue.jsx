@@ -41,7 +41,7 @@ const ProductCatalogue = () => {
                             <p className="vehicle-type">{vehicle.type}</p>
                             <p className="vehicle-mileage">{`${vehicle.mileage} km`}</p>
                             <p className="vehicle-location">{vehicle.location}</p>
-                            <p className="vehicle-price">{`$${vehicle.price} / day`}</p>
+                            <p className="vehicle-price">{`$${vehicle.pricePerDay} / day`}</p>
                         </div>
                         <button className="view-details-button" onClick={() => viewDetails(vehicle._id)}>
                             View Details
