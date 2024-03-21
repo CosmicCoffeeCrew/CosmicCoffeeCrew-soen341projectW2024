@@ -1,64 +1,116 @@
 .catalogue-container {
     padding: 2rem;
-    background-color: #f5f5f5; /* Light background color */
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .catalogue-title {
     text-align: center;
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 3rem;
 }
 
 .catalogue-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1rem;
-    align-items: stretch;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
 }
 
 .vehicle-card {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
+    background-color: #fff;
     border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     display: flex;
     flex-direction: column;
 }
 
-.vehicle-make, .vehicle-model, .vehicle-type, .vehicle-mileage, .vehicle-location, .vehicle-price {
-    margin: 0.5rem;
+.vehicle-image-container {
+    width: 100%;
+    height: 200px;
 }
 
 .vehicle-image {
     width: 100%;
-    height: 200px;
+    height: 100%;
     object-fit: cover;
 }
 
-.view-details-button {
-    background-color: #007bff; /* Primary color for the button */
-    color: white;
+.vehicle-details {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.vehicle-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.vehicle-header h2 {
+    font-size: 1.6rem;
+    color: #333;
+    margin: 0;
+}
+
+.vehicle-year {
+    background-color: #f0f0f0;
+    padding: 0.3rem 0.6rem;
+    border-radius: 5px;
+}
+
+.vehicle-specs {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
+}
+
+.vehicle-specs li {
+    margin-bottom: 0.25rem;
+}
+
+.vehicle-description {
+    flex-grow: 1;
+    margin-bottom: 1rem;
+}
+
+.vehicle-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+vehicle-price {
+    font-size: 1.1rem;
+    font-weight: bold; /* Make the price bold */
+    color: #333;
+}
+
+
+.vehicle-price {
+    font-size: 1.1rem;
+    font-weight: 800; /* Increase font-weight for bolder text, values can be 600, 700, 800, 900 depending on the font */
+    color: #333;
+    margin: 5px 0; /* Add margin if needed */
+}
+
+.rent-button {
+    background-color: #654321; /* A deeper shade of brown, adjust as needed */
+    color: #fff;
     border: none;
-    padding: 0.5rem 1rem;
-    margin: 1rem;
+    padding: 12px;
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-    }
-    
-    .view-details-button:hover {
-    background-color: #0056b3; /* Darker shade for hover effect */
-    }
-    
-    .vehicle-info {
-    padding: 0.5rem 1rem;
-    background-color: #fafafa; /* Slightly off-white for the vehicle info background /
-    border-top: 1px solid #eee; / Light border for separation from the image */
-    }
-    
-    /* Responsive tweaks for smaller screens */
-    @media (max-width: 768px) {
-    .catalogue-grid {
-    grid-template-columns: 1fr;
-    }
+    transition: background 0.2s ease;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: bold; /* Keep the button text bold */
+}
+
+.rent-button:hover {
+    background-color: #765942; /* A slightly lighter shade for the hover effect, adjust as needed */
 }
