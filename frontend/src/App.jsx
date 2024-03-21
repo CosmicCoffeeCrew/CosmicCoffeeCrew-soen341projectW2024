@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 import Reservations from "./pages/Reservations";
 import Footer from "./components/Footer/Footer";
+import AdminDashboard from "./pages/Admin";
 
 //Inventory Cars:
 //Testing with invetory page:
@@ -70,6 +71,7 @@ const App = () => {
         <Route path="/CustomerReview" element = {<CustomerReview/>}/>
         <Route path="/Catalog" element={<ProductCatalogue />} />
         <Route path="/inventory/:vehicleId" element={<VehicleDetailPage />} />
+        <Route path="/AdminDashboard" element={<AdminDashboard />} />
         
         
       </Routes>

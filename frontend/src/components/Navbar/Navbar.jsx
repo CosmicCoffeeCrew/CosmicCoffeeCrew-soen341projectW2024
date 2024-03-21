@@ -30,6 +30,11 @@ export const Navlinks = [
     id:5,
     name:"OUR REVIEWS",
     link:"/CustomerReview"
+  },
+  {
+    id: 6,
+    name: "ADMIN",
+    link: "/AdminDashboard"
   }
   // {
   //   id: 5,
