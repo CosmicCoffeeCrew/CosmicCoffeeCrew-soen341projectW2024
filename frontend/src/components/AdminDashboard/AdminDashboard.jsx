@@ -22,6 +22,16 @@ const AdminDashboard = () => {
         pricePerDay: '',
         image: ''
     });
+    const [userFormData, setUserFormData] = useState({
+        email: '',
+        password: '',
+        username: '',
+        permission: 'Customer',
+        license: '',
+        birthdate: ''
+    });
+    const [vehicleError, setVehicleError] = useState(null);
+    const [userError, setUserError] = useState(null);
 
     useEffect(() => {
         fetchVehicles();
@@ -39,6 +49,7 @@ const AdminDashboard = () => {
             }
         } catch (error) {
             console.error('Error fetching vehicles:', error);
+            setVehicleError('Failed to fetch vehicles. Please try again later.');
         }
     };
 
@@ -53,6 +64,7 @@ const AdminDashboard = () => {
             }
         } catch (error) {
             console.error('Error fetching users:', error);
+            setUserError('Failed to fetch users. Please try again later.');
         }
     };
 
@@ -70,7 +82,14 @@ const AdminDashboard = () => {
         });
     };
 
-    const handleSubmit = async (e) => {
+    const handleUserChange = (e) => {
+        setUserFormData({
+            ...userFormData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSubmitVehicle = async (e) => {
         e.preventDefault();
         try {
             const response = await fetch('/api/vehicles', {
@@ -84,15 +103,53 @@ const AdminDashboard = () => {
             if (response.ok) {
                 // Handle success, maybe show a success message
                 console.log('Vehicle created successfully');
+                // Fetch vehicles data after submission
+                fetchVehicles();
             } else {
                 // Handle error, maybe show an error message
                 console.error('Failed to create vehicle');
             }
         } catch (error) {
             console.error('Error creating vehicle:', error);
+            setVehicleError('Failed to create vehicle. Please try again later.');
         }
     };
 
+    const handleSubmitUser = async (e) => {
+        e.preventDefault();
+        try {
+            // Set rentalHistory to null in userFormData
+            const updatedUserFormData = {
+                ...userFormData,
+                rentalHistory: []
+            };
+
+            const response = await fetch('/api/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedUserFormData)
+            });
+
+           // Log the response body
+            const responseBody = await response.json();
+            console.log('Response body:', responseBody);
+
+            if (response.ok) {
+                // Handle success, maybe show a success message
+                console.log('User created successfully');
+                // Fetch users data after submission
+                fetchUsers();
+            } else {
+                // Handle error, maybe show an error message
+                console.error('Failed to create user');
+            }
+        } catch (error) {
+            console.error('Error creating user:', error);
+            setUserError('Failed to create user. Please try again later.');
+        }
+    };
 
     return (
         <div className="dark:bg-black dark:text-white duration-300">
@@ -110,7 +167,7 @@ const AdminDashboard = () => {
 
                 {showVForm && (
                     <div>
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmitVehicle}>
                         <div>
                 <label htmlFor="make">Make <hr></hr> </label>
                 <input type="text" id="make" name="make" value={formData.make} onChange={handleChange} required />
@@ -159,6 +216,10 @@ const AdminDashboard = () => {
                 <label htmlFor="image">Image Link<hr></hr> </label>
                 <input type="text" id="image" name="image" value={formData.image} onChange={handleChange} required />
             </div>
+            <div>
+                <label htmlFor="description">Description <hr></hr> </label>
+                <textarea id="description" name="description" value={formData.description} onChange={handleChange} />
+            </div>
             <br></br>
             <button className="formButton" type="submit">Submit</button>
         </form>
@@ -167,22 +228,22 @@ const AdminDashboard = () => {
 
                 {showUForm &&  (
                     <div>
-                        <form>
+                        <form onSubmit={handleSubmitUser}>
                             <div>
                                 <label htmlFor="email">Email <hr></hr> </label>
-                                <input type="email" id="email" name="email" />
+                                <input type="email" id="email" name="email" value={userFormData.email} onChange={handleUserChange} />
                             </div>
                             <div>
                                 <label htmlFor="password">Password <hr></hr> </label>
-                                <input type="password" id="password" name="password" />
+                                <input type="password" id="password" name="password" value={userFormData.password} onChange={handleUserChange} />
                             </div>
                             <div>
                                 <label htmlFor="username">Username <hr></hr> </label>
-                                <input type="text" id="username" name="username" />
+                                <input type="text" id="username" name="username" value={userFormData.username} onChange={handleUserChange} />
                             </div>
                             <div>
-                                <label htmlFor="permission">Permission <hr></hr> </label>
-                                <select id="permission" name="permission">
+                                <label htmlFor="permission">Permission <hr /></label>
+                                <select id="permission" name="permission" value={userFormData.permission} onChange={handleUserChange}>
                                     <option value="Customer">Customer</option>
                                     <option value="CSR">CSR</option>
                                     <option value="Admin">Admin</option>
@@ -190,11 +251,11 @@ const AdminDashboard = () => {
                             </div>
                             <div>
                                 <label htmlFor="license">License <hr></hr> </label>
-                                <input type="text" id="license" name="license" />
+                                <input type="text" id="license" name="license" value={userFormData.license} onChange={handleUserChange} />
                             </div>
                             <div>
                                 <label htmlFor="birthdate">Birthdate <hr></hr> </label>
-                                <input type="date" id="birthdate" name="birthdate" />
+                                <input type="date" id="birthdate" name="birthdate" value={userFormData.birthdate} onChange={handleUserChange} />
                             </div>
                             <br></br>
                             <button className="formButton" type="submit">Submit</button>
@@ -221,6 +282,7 @@ const AdminDashboard = () => {
                                     <th>Fuel Type</th>
                                     <th>Seats</th>
                                     <th>Price Per Day</th>
+                                    <th>Description</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -242,6 +304,7 @@ const AdminDashboard = () => {
                                         <td>{vehicle.fuelType}</td>
                                         <td>{vehicle.seats}</td>
                                         <td>{vehicle.pricePerDay}</td>
+                                        <td>{vehicle.description.split(' ').slice(0, 7).join(' ')}...</td> {/* Show only the first 7 words of the description */}
                                         <td>
                                             <button className="formButton">Edit</button>
                                             <br/><br/>

@@ -28,11 +28,11 @@ const getVehicle = async (req,res) => {
 // create a new vehicle
 const createVehicle = async (req,res) => {
 
-    const { make, model, year, type, color, mileage, transmission,location, fuelType, seats, pricePerDay, image } = req.body;
+    const { make, model, year, type, color, mileage, transmission,location, fuelType, seats, pricePerDay, image, description } = req.body;
 
-    // Check if description is included in the request body
-    if (!description) {
-        return res.status(400).json({ error: 'Description is required' });
+    // Check if required fields are present
+    if (!make || !model || !year || !type || !color || !mileage || !transmission || !location || !fuelType || !seats || !pricePerDay || !image || !description) {
+        return res.status(400).json({ message: "Missing required fields" });
     }
 
     // add doc to db
@@ -55,8 +55,9 @@ const createVehicle = async (req,res) => {
         //created vehicle in json format
         res.status(200).json(vehicle)
 
-    }catch (error) {
-        res.status(400).json({error: error.message})
+    } catch (error) {
+        console.error('Error creating vehicle:', error);
+        res.status(500).json({ message: "Internal server error" });
     }
 }
 

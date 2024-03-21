@@ -1,15 +1,17 @@
 const express = require('express')
-
 const router = express.Router()
 
 //controller functions
-const{ signupUser, loginUser, getUsers, getUser, deleteUser, updateUser }= require('../controllers/userController')
+const{ signupUser, createUser, loginUser, getUsers, getUser, deleteUser, updateUser }= require('../controllers/userController')
 
 //login route
 router.post('/login',loginUser)
 
 //signup route
 router.post('/signup',signupUser)
+
+//signup route for admin use
+router.post('/create',createUser)
 
 //get all users route
 router.get('/',getUsers)

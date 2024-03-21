@@ -41,8 +41,36 @@ const userSchema = new Schema({
 
 })
 
-// static sign up method
+// create user method for admin use
+userSchema.statics.createUser = async function (
+    email,
+    password,
+    username,
+    permission,
+    License,
+    birthdate,
+    rentalHistory
+) {
+    try {
+        const user = new this({
+            email,
+            password,
+            username,
+            permission,
+            License,
+            birthdate,
+            rentalHistory,
+        });
 
+        await user.save();
+
+        return user;
+    } catch (error) {
+        throw new Error("Failed to create user: " + error.message);
+    }
+};
+
+// static sign up method
 userSchema.statics.signup = async function(email, password, username, permission, License, birthdate, rentalHistory){
 
 
