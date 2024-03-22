@@ -17,8 +17,8 @@ const Checkout = () => {
   const [reservations] = useState([
     {
       id: 'Res101',
-      pickUpDate: '2024-03-30',
-      returnDate: '2024-03-21',
+      pickUpDate: '2024-03-01',
+      returnDate: '2024-03-22',
       vehicleInfo: 'Tesla Model 3',
       customerInfo: 'Jane Doe',
       rentalAgreement: 'Signed',
@@ -27,8 +27,8 @@ const Checkout = () => {
     },
     {
       id: 'Res102',
-      pickUpDate: '2024-03-27',
-      returnDate: '2024-03-21',
+      pickUpDate: '2024-03-07',
+      returnDate: '2024-03-22',
       vehicleInfo: 'Toyota',
       customerInfo: 'Peter Peterson',
       rentalAgreement: 'Signed',
