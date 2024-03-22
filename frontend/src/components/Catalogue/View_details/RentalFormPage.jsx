@@ -2,16 +2,12 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useAuthContext } from '../../../hooks/useAuthContext'
+//import {userId} from '../../../hooks/useLogin';
+//import userModel from '../../../../../backend/models/userModel.js';
 
 const RentalFormPage = () => {
-  // const { vehicleId } = useParams();
-  // const [vehicle, setVehicle] = useState(null);
-  // const [reservations, setReservations] = useState([]);
-  // const [rentalDays, setRentalDays] = useState(''); //connected to the database
 
-  // const [rentalStart, setRentalStart] = useState('');
-  // const [rentalEnd, setRentalEnd] = useState('');
-  // const [errorMessage, setErrorMessage] = useState('');
   const { vehicleId } = useParams();
   const [vehicle, setVehicle] = useState(null);
   const [reservations, setReservations] = useState([]);
@@ -19,6 +15,11 @@ const RentalFormPage = () => {
   const [endDate, setEndDate] = useState(new Date());
   const [errorMessage, setErrorMessage] = useState('');
   const [disabledDates, setDisabledDates] = useState([]);
+  //const user = JSON.parse(localStorage.getItem('user'));
+  //const userId = user?._id;
+  const { user } = useAuthContext();
+  const userId = user?.userId;
+  
 
   useEffect(() => {
     fetchVehicleDetails(vehicleId);
@@ -70,32 +71,47 @@ const RentalFormPage = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
-    if (!checkAvailability(rentalStart, rentalEnd, reservations)) {
-      setErrorMessage('Vehicle is not available for the selected period.');
-      return;
+    
+    if (!checkAvailability(startDate, endDate, reservations)) {
+      setErrorMessage('The vehicle is not available for the selected dates.');
+      return; // Exit the function if the vehicle is not available
     }
+  
 
-
+    // Convert dates to a format your backend can understand, e.g., ISO string
+    const start = startDate.toISOString();
+    const end = endDate.toISOString();
+    
+    //BACKEND
     try {
-      const response = await fetch(`/api/reservations`, {
+      const response = await fetch(`/api/reservations/record`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          vehicleId: vehicle._id,
-          rentalDays,
+          'vehicleId': vehicleId, // Assuming the backend expects vehicleId directly
+          'userId': userId,
+          'status' : 'pending',
+          'start_date': start , // Adjust these field names according to your API
+          'end_Date': end,
+          'charge': vehicle.pricePerDay
         }),
       });
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        // If the server responds with a non-OK status, throw an error
+        const errorResponse = await response.json(); // Assuming the server responds with JSON
+        throw new Error(errorResponse.message || 'Failed to create reservation');
       }
-      // Here, you may want to update the state or redirect the user
+
+      // If the request is successful, handle accordingly, e.g., show a success message,
+      // redirect the user, or refresh the reservation list
+      setErrorMessage('Reservation created successfully!');
+      fetchVehicleReservations(vehicleId); // Optionally refresh reservations list
     } catch (error) {
       console.error("Error creating reservation:", error);
-      setErrorMessage('Error creating reservation.');
+      setErrorMessage(error.message || 'Error creating reservation.');
     }
   };
 
