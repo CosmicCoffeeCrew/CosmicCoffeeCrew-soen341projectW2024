@@ -1,10 +1,11 @@
 import { useState } from "react"
 import { useAuthContext } from './useAuthContext'
-
+let userId;
 export const useLogin = () => {
     const [errorLog, setErrorLog] = useState(null)
     const [isLoadingLog, setIsLoadingLog] = useState(null)
     const { dispatch } = useAuthContext()
+    
 
     const login = async (email, password) => {
         setIsLoadingLog(true)
@@ -20,6 +21,7 @@ export const useLogin = () => {
         if (!response.ok) {
             setIsLoadingLog(false)
             setErrorLog(json.error)
+
         }
         if (response.ok) {
             //save the user to local storage
@@ -29,8 +31,10 @@ export const useLogin = () => {
             dispatch({type: 'LOGIN', payload: json})
 
             setIsLoadingLog(false)
+            userId = response.tempId;
         }
     }
 
-    return { login, isLoadingLog, errorLog}
+    return { login, isLoadingLog, errorLog,userId}
 }
+//module.exports = {userId}

@@ -24,7 +24,8 @@ import CSRPage from "./pages/CSR";
 //import VehicleDetailPage from './components/InventoryPage/VehicleDetailPage';
 //------
 import ProductCatalogue from "./components/Catalogue/ProductCatalogue";
-import VehicleDetailPage from './components/Catalogue/View_details/VehicleDetailPage';
+//import VehicleDetailPage from './components/Catalogue/View_details/VehicleDetailPage';
+//<Route path="/inventory/:vehicleId" element={<VehicleDetailPage />} />
 import RentalFormPage from './components/Catalogue/View_details/RentalFormPage';
 // import RentalForm from './components/Catalogue/RentalFormPage'; // Make sure this component exists
 // <Route path="/rental-form" element={<RentalForm />} />
@@ -72,7 +73,6 @@ const App = () => {
         <Route path="/CustomerReview" element = {<CustomerReview/>}/>
         <Route path="/Catalog" element={<ProductCatalogue />} />
         <Route path="/vehicles/:vehicleId" element={<RentalFormPage />} />
-        <Route path="/inventory/:vehicleId" element={<VehicleDetailPage />} />
         <Route path="/rental-form" element={<RentalFormPage/>} />
         <Route path="/AdminDashboard" element={<AdminDashboard />} />
         <Route path="/" element={<AdminDashboard />} />
