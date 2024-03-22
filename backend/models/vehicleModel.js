@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
+// const Reservation = mongoose.model('Reservation', reservationSchema);
+const Reservation = require ('./reservationModel')
 
 /*
 make: Represents the make of the vehicle (e.g., Toyota, Honda).
@@ -65,10 +66,6 @@ const vehicleSchema = new Schema({
     type: Number,
     required: true
   },
-  available: {
-    type: Boolean,
-    default: true
-  },
   image: {
     type: String,
     required: true
@@ -76,9 +73,49 @@ const vehicleSchema = new Schema({
   description: {
     type: String,
     required: true
-  }
+  },
+  //NEXT IS THE LINK WITH THE RESERVATIONS
+  numOfRatings:{
+    type: Number,
+    default : 0
+  },
+  averageRating: {
+    type: Number,
+    default: 0  // Default to 0 if no ratings exist yet
+  },
+  reviews: [{
+    userID: String,
+    msg: String,
+    rating: Number
+  }]
 
 });
+
+// vehicleSchema.pre('save', async function(next) {
+//   const vehicleID = this._id;
+//   try {
+//       const reservations = await Reservation.find({ vehicleID });
+//       let totalRating = 0;
+//       const reviews = [];
+//       for (let reservation of reservations) {
+//           if (reservation.rating) {
+//               totalRating += reservation.rating;
+//           }
+//           if (reservation.review) {
+//               reviews.push({
+//                   userID: reservation.userID,
+//                   msg: reservation.review,
+//                   rating: reservation.rating
+//               });
+//           }
+//       }
+//       this.averageRating = totalRating / reservations.length || 0;
+//       this.reviews = reviews;
+//       next();
+//   } catch (error) {
+//       next(error);
+//   }
+// });
 
 const Vehicle = mongoose.model('Vehicle', vehicleSchema);
 
