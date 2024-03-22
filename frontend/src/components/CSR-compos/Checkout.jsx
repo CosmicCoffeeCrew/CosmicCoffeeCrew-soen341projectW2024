@@ -117,7 +117,7 @@ const Checkout = () => {
        {isCheckoutModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10">
           <div className="bg-white p-6 rounded-lg shadow-xl max-w-md">
-            <form onSubmit={handleCheckoutFormSubmit} className="space-y-4">
+            <form onSubmit={handleCheckoutFormSubmit} className="space-y-0 p-[5px]">
               <h3 className="text-lg font-semibold">Check-Out Verification</h3>
               {/* Check-Out Verification Checklist */}
 <div className="space-y-2">

@@ -138,10 +138,10 @@ const Checkin = () => {
   
         {/* Modal Placeholder, Add reservation form to be completed */}
         {isModalOpen && (
-          <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
-            <div className="bg-white p-4 rounded-lg">
-            <form onSubmit={handleSubmit}>
-              <h2 className="text-lg font-semibold mb-4">Add New Reservation</h2>
+          <div className="absolute bg-black bg-opacity-50 flex justify-center items-center z-10">
+            <div className="bg-white p-4 rounded-lg max-w-md">
+            <form onSubmit={handleSubmit} className= "p-[2px]">
+              <h2 className="text-lg font-semibold">Add New Reservation</h2>
 
               {/* Vehicle ID */}
               <label htmlFor="vehicleId" className="block">Enter Vehicle ID:</label>
