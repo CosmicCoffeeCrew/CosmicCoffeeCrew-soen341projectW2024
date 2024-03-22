@@ -3,6 +3,7 @@
 const User = require ('../models/userModel')
 const jwt = require("jsonwebtoken")
 const mongoose = require('mongoose')
+const {transporter} = require('../mail')
 
 //process.env.SECRET;
 const createTocken = (id) => {
@@ -117,8 +118,41 @@ const signupUser = async (req,res)=> {
         //Create a tocken 
         const token = createTocken(user.id)
 
+        /////////////////////////////////////////////////////////////Email
+        // ///////////////////////////////////////////////////////////////// EMAIL
+        // Retrieve user's email
+        
+        const userEmail = user.email;
+
+        // Construct email content
+        const emailContent = `
+    <p>Dear ${user.username},</p>
+    <p>Welcome to Cosmic Coffee Crew  ZOOMVITERAPIDE Car Rental Company!</p>
+    <p>We're thrilled to have you on board and excited to assist you in exploring the world with our range of high-quality vehicles.</p>
+    <p>At Cosmic Coffee Crew, we pride ourselves on providing exceptional service and ensuring your journey is smooth and memorable.</p>
+    <p>Whether you're planning a weekend getaway, a business trip, or an adventurous road trip, our fleet of vehicles is here to cater to your needs.</p>
+    <p>Feel free to browse through our selection of vehicles and make your reservation conveniently through our website or mobile app.</p>
+    <p>If you have any questions or need assistance, our friendly team is always here to help. Don't hesitate to reach out!</p>
+    <p>Once again, welcome to the Cosmic Coffee Crew Car Rental family. We look forward to serving you!</p>
+    <p>Best regards,</p>
+    <p>The Cosmic Coffee Crew Car Rental Team</p>
+`;
+
+
+
+        const mailOptions = {
+            from: 'cosmiccoffeecrew@gmail.com',
+            to: userEmail,
+            subject: 'Reservation Confirmation',
+            html: emailContent
+        };
+
+        await transporter.sendMail(mailOptions);
+///////////////////////////////////////////////////////////////////////
+
         //res.status(200).json({email, user})
         res.status(200).json({email, token})
+
     }catch(error){
         res.status(400).json({error:error.message})
     }
