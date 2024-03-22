@@ -50,8 +50,6 @@ const Checkin = () => {
           paymentMethod,
         };
     
-        console.log(formData);
-    
         // Here you would typically send formData to your backend via an API call
         // Example:
         // await fetch('/api/reservations', {
@@ -61,6 +59,15 @@ const Checkin = () => {
         // });
     
         setIsModalOpen(false); // Close the modal after form submission
+
+        // Show success message
+        setSuccessPopup({
+            show: true, 
+            message: "The reservation has been successfully created. An email will be sent to the customer shortly. Thank you!"
+        });
+
+        // Optionally close the success message after some time
+        setTimeout(() => setSuccessPopup({ show: false, message: '' }), 3000);
       };
 
       // Hardcoded customer data for demonstration
@@ -96,13 +103,91 @@ const Checkin = () => {
        }
     ]);
 
-      const updateStatus = async (reservationId, newStatus) => {
-        console.log(`Updating status for reservation ${reservationId} to ${newStatus}`);
-        const updatedReservations = reservations.map(reservations =>
-        reservations.id === reservationId ? { ...reservations, status: newStatus } : reservations
-        );
-        setReservations(updatedReservations);
+    const updateStatus = async (reservationId, newStatus) => {
+      console.log(`Updating status for reservation ${reservationId} to ${newStatus}`);
+      const updatedReservations = reservations.map(reservation =>
+        reservation.id === reservationId ? { ...reservation, status: newStatus } : reservation
+      );
+      setReservations(updatedReservations);
+    
+      // Map newStatus to the correct action for handleClick
+      let action;
+      switch (newStatus) {
+        case 'confirmed':
+          action = 'accept';
+          break;
+        case 'declined':
+          action = 'decline';
+          break;
+        case 'canceled':
+          action = 'cancel';
+          break;
+        default:
+          console.error('Unhandled status:', newStatus);
+          return; // Exit if the status is not recognized
+      }
+    
+      handleClick(action, reservationId);
+    };
+    
+
+        const [successPopup, setSuccessPopup] = useState({ show: false, message: '' });
+
+        const handleClick = (action, reservationId) => {
+          let message = '';
+          switch (action) {
+            case 'accept':
+              message = `Reservation ${reservationId} has been successfully accepted. We'll inform the customer with an email. Thank you!`;
+              break;
+            case 'decline':
+              message = `Reservation ${reservationId} has been successfully declined. We'll inform the customer accordingly. Thank you!`;
+              break;
+            case 'cancel':
+              message = `Reservation ${reservationId} has been successfully canceled. We'll inform the customer accordingly. Thank you!`;
+              break;
+            default:
+              console.error('Unhandled action:', action);
+              return; // Exit if the action is not recognized
+          }
+        
+          // Show the success message popup
+          setSuccessPopup({ show: true, message: message });
+        
+          // Optionally close the popup after some time
+          setTimeout(() => setSuccessPopup({ show: false, message: '' }), 3000);
         };
+
+        const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+        const [editingReservation, setEditingReservation] = useState(null);
+        
+        const handleEditClick = (reservation) => {
+          setEditingReservation(reservation);
+          setIsEditModalOpen(true);
+        };
+
+        const handleEditReservation = (e) => {
+          e.preventDefault();
+          const updatedReservations = reservations.map(reservation =>
+            reservation.id === editingReservation.id ? editingReservation : reservation
+          );
+          setReservations(updatedReservations);
+          setIsEditModalOpen(false); // Close the edit modal
+
+           // Set the success message to be displayed
+          setSuccessPopup({
+    show: true,
+    message: "The changes have been successfully applied to the current reservation. We will update the customer with an email shortly."
+  });
+
+  // Optionally, auto-hide the success message after a few seconds
+  setTimeout(() => setSuccessPopup({ show: false, message: '' }), 5000);
+        };
+        
+        
+
+        
+        
+        
 /* Temporarily until linked with backend
       // Define reservations state variable with useState
      const [reservations, setReservations] = useState([]);
@@ -237,16 +322,18 @@ const Checkin = () => {
                     <td className="px-4 py-2 border">{reservation.rentalAgreement}</td>
                     <td className="px-4 py-2 border">{reservation.paymentInfo}</td>
                     <td className="px-4 py-2 border flex justify-around">
-                      <button 
-                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded"
-                        onClick={() => updateStatus(reservation.id, 'confirmed')}>
-                        Accept
-                      </button>
-                      <button 
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                        onClick={() => updateStatus(reservation.id, 'declined')}>
-                        Decline
-                      </button>
+                    <button 
+  onClick={() => updateStatus(reservation.id, 'confirmed')}
+  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2">
+  Accept
+</button>
+<button 
+  onClick={() => updateStatus(reservation.id, 'declined')}
+  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded m-2">
+  Decline
+</button>
+
+
                     </td>
                   </tr>
                  ))
@@ -258,6 +345,15 @@ const Checkin = () => {
            </tbody>
         </table>
       </div>
+
+      {successPopup.show && (
+  <div className="fixed inset-0 flex justify-center items-center z-20">
+    <div className="bg-gray-500 text-white p-4 rounded-lg shadow-lg">
+      {successPopup.message}
+    </div>
+  </div>
+)}
+
 
 
       {/* Scheduled Reservations table */}
@@ -307,19 +403,56 @@ const Checkin = () => {
         </button>
       </td>
        <td className="px-4 py-2 border flex justify-around">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded" onClick={() => console.log('Editing reservation', reservation.id)}>Edit</button>
-            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded" onClick={() => console.log('Cancelling reservation', reservation.id)}>Cancel</button>
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded" onClick={() => handleEditClick(reservation)}>Edit</button>
+            {reservation.status !== 'canceled' && (
+              <button 
+                onClick={() => updateStatus(reservation.id, 'canceled')}
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">
+             Cancel
+             </button>
+      )}
         </td>
     </tr>
     ))
   ) : (
     <tr>
-      <td colSpan="7" className="text-center py-3">No scheduled reservations found.</td>
+      <td colSpan="8" className="text-center py-3">No scheduled reservations found.</td>
    </tr>
    )}
           </tbody>
         </table>
       </div>
+      {isEditModalOpen && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div className="bg-white p-4 rounded-lg max-w-md">
+      <form onSubmit={handleEditReservation} className="space-y-2 p-[2px]">
+        <h3 className="text-lg font-semibold">Edit Reservation</h3>
+
+        {/* Vehicle Information */}
+        <div>
+          <label htmlFor="editVehicleInfo" className="block">Vehicle Information:</label>
+          <input type="text" id="editVehicleInfo" value={editingReservation.vehicleInfo} onChange={(e) => setEditingReservation({...editingReservation, vehicleInfo: e.target.value})} className="mb-4 w-full" />
+        </div>
+
+        {/* Pickup Date */}
+        <div>
+          <label htmlFor="editPickUpDate" className="block">Pickup Date:</label>
+          <input type="date" id="editPickUpDate" value={editingReservation.pickUpDate} onChange={(e) => setEditingReservation({...editingReservation, pickUpDate: e.target.value})} className="mb-4 w-full" />
+        </div>
+
+        {/* Return Date */}
+        <div>
+          <label htmlFor="editReturnDate" className="block">Return Date:</label>
+          <input type="date" id="editReturnDate" value={editingReservation.returnDate} onChange={(e) => setEditingReservation({...editingReservation, returnDate: e.target.value})} className="mb-4 w-full" />
+        </div>
+
+        <button type="submit" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Save Changes</button>
+        <button type="button" onClick={() => setIsEditModalOpen(false)} className="ml-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Close</button>
+      </form>
+    </div>
+  </div>
+)}
+
 
       <div className="mt-8">
   <h2 className="text-lg font-semibold">Declined Reservations</h2>
