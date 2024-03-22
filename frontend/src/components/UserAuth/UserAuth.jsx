@@ -1,8 +1,15 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useSignup } from '../../hooks/useSignUp';
+import { useLogin } from '../../hooks/useLogin'
+// import { useLogin } from '..//../hooks/useLogin'
 
 function UserAuth({ onClose, initialMode }) {
   const [mode, setMode] = useState(initialMode); // "login" or "signup"
+  const {signup, error, isLoading} = useSignup()
+  const {login, errorLog, isLoadingLog} = useLogin()
+
+
   
   // Login form states
   const [username, setUsername] = useState('');
@@ -10,28 +17,30 @@ function UserAuth({ onClose, initialMode }) {
   const [rememberMe, setRememberMe] = useState(false);
 
   // Signup form states
-  const [fullName, setFullName] = useState('');
-  const [surname, setSurname] = useState(''); // New state for surname
-  const [email, setEmail] = useState('');
-  const [signupUsername, setSignupUsername] = useState(''); // Username for signup
+  const [signupUsername, setSignupUsername] = useState('');
   const [signupPassword, setSignupPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [permission, setPermission] = useState('');
+  const [license, setLicense] = useState('');
+  const [birthdate, setBirthdate] = useState('');
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    // Implement your login logic here
+
+    await login(username, password)
     console.log("Login", { username, password, rememberMe });
   };
 
-  const handleSignupSubmit = (e) => {
+  const handleSignupSubmit = async (e) => {
     e.preventDefault();
-    // Implement your signup logic here
-    console.log("Signup", { fullName, surname, email, signupUsername, signupPassword, confirmPassword });
+
+    await signup(email, signupPassword, signupUsername, permission, license, birthdate)
+    console.log("Signup", {email, signupPassword, signupUsername, permission, license, birthdate });
   };
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white dark:bg-gray-800 p-5 rounded-lg max-w-sm w-full mx-4">
+      <div className="bg-white dark:bg-gray-800 p-5 rounded-lg max-w-lg w-full mx-4">
         <div className="flex justify-between items-center mb-5">
           <button onClick={() => setMode("login")} className={`px-4 py-2 rounded-md ${mode === "login" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"}`}>Login</button>
           <button onClick={() => setMode("signup")} className={`px-4 py-2 rounded-md ${mode === "signup" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"}`}>SignUp</button>
@@ -73,27 +82,18 @@ function UserAuth({ onClose, initialMode }) {
               </div>
               <a href="#forgot-password" className="text-sm text-blue-600 hover:text-blue-500">Forgot password?</a>
             </div>
-            <button type="submit" className="w-full px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none">Login</button>
+            <button type="submit" disabled={isLoadingLog} className="w-full px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none">Login</button>
+            {errorLog && <div className="block text-sm font-medium text-gray-700">{errorLog}</div>}
           </form>
         ) : (
           <form onSubmit={handleSignupSubmit}>
-            <div className="mb-4">
-              <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">Full Name</label>
+             <div className="mb-4">
+              <label htmlFor="signupUsername" className="block text-sm font-medium text-gray-700">Username</label>
               <input
                 type="text"
-                id="fullName"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="surname" className="block text-sm font-medium text-gray-700">Surname</label>
-              <input
-                type="text"
-                id="surname"
-                value={surname}
-                onChange={(e) => setSurname(e.target.value)}
+                id="signupUsername"
+                value={signupUsername}
+                onChange={(e) => setSignupUsername(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
@@ -108,12 +108,12 @@ function UserAuth({ onClose, initialMode }) {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="signupUsername" className="block text-sm font-medium text-gray-700">Username</label>
+              <label htmlFor="permission" className="block text-sm font-medium text-gray-700">Permission</label>
               <input
                 type="text"
-                id="signupUsername"
-                value={signupUsername}
-                onChange={(e) => setSignupUsername(e.target.value)}
+                id="permission"
+                value={permission}
+                onChange={(e) => setPermission(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
@@ -128,16 +128,27 @@ function UserAuth({ onClose, initialMode }) {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Confirm Password</label>
+              <label htmlFor="license" className="block text-sm font-medium text-gray-700">License</label>
               <input
-                type="password"
-                id="confirmPassword"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                type="text"
+                id="license"
+                value={license}
+                onChange={(e) => setLicense(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
-            <button type="submit" className="w-full px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none">SignUp</button>
+            <div className="mb-4">
+              <label htmlFor="birthdate" className="block text-sm font-medium text-gray-700">Birthdate</label>
+              <input
+                type="date"
+                id="birthdate"
+                value={birthdate}
+                onChange={(e) => setBirthdate(e.target.value)}
+                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <button type="submit" disabled={isLoading} className="w-full px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none">SignUp</button>
+            {error && <div className="block text-sm font-medium text-gray-700">{error}</div>}
           </form>
         )}
       </div>

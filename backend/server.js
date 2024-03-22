@@ -5,23 +5,14 @@ require('dotenv').config()
 
 const express = require('express')
 const mongoose = require('mongoose')
-const cors = require('cors');
 const vehicleRoutes = require('./routes/vehicles')
 const userRoutes = require('./routes/users')
 const reservationRoutes = require('./routes/reservations')
 
-
 // express app
 const app = express()
 
-// configure cors
-const corsOptions = {
-    origin: 'http://localhost:3000',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-};
-
 // middleware
-app.use(cors(corsOptions));
 app.use(express.json())
 
 app.use((req, res, next) => {

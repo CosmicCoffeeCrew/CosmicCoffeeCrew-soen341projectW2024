@@ -1,7 +1,5 @@
 const Vehicle = require('../models/vehicleModel')
-const Reservation = require('../models/reservationModel')
 const mongoose = require('mongoose')
-
 
 // get all vehicles
 const getVehicles = async (req,res) => {
@@ -28,12 +26,7 @@ const getVehicle = async (req,res) => {
 // create a new vehicle
 const createVehicle = async (req,res) => {
 
-    const { make, model, year, type, color, mileage, transmission,location, fuelType, seats, pricePerDay, image, description } = req.body;
-
-    // Check if required fields are present
-    if (!make || !model || !year || !type || !color || !mileage || !transmission || !location || !fuelType || !seats || !pricePerDay || !image || !description) {
-        return res.status(400).json({ message: "Missing required fields" });
-    }
+    const { make, model, year, type, color, mileage, transmission,location, fuelType, seats, pricePerDay,  available, image } = req.body;
 
 
     // add doc to db
@@ -50,15 +43,15 @@ const createVehicle = async (req,res) => {
             fuelType,
             seats,
             pricePerDay,
+            available,
             image,
             description
         });
         //created vehicle in json format
         res.status(200).json(vehicle)
 
-    } catch (error) {
-        console.error('Error creating vehicle:', error);
-        res.status(500).json({ message: "Internal server error" });
+    }catch (error) {
+        res.status(400).json({error: error.message})
     }
 }
 
@@ -98,44 +91,6 @@ const updateVehicle = async (req,res) => {
 
 }
 
-const availableVehicles = async (req,res) => {
-
-const {startDate, endDate, location} = req.body
-try{
-let vehicles = await Vehicle.find()
-let available = [];
-let i =0
-for (let vehicle of vehicles) {
-  let reservations1 = await Reservation.find({ 
-    vehicleID: vehicle._id,  
-    start_Date: { $gte: startDate },
-    end_Date: { $lte: endDate }
-  })
-
-  let reservations2 = await Reservation.find({ 
-    vehicleID: vehicle._id,  
-    start_Date: { $gte: startDate, $lte: endDate },
-  })
-
-  let reservations3 = await Reservation.find({ 
-    vehicleID: vehicle._id,  
-    end_Date: { $gte: startDate, $lte: endDate },
-  })
-
-  if (reservations1[0] == null && reservations2[0] == null && reservations3[0] == null ) {
-    if(vehicle.location == location){
-        available.push(vehicle);
-    }
-  }
-i++
-}
-res.status(200).json(available)
-return available
-}
-catch(error){
-    res.status(400).json({error: "we are here"})
-}
-}
 
 
 module.exports = { 
@@ -143,6 +98,5 @@ module.exports = {
     getVehicle,
     createVehicle,
     deleteVehicle,
-    updateVehicle,
-    availableVehicles
+    updateVehicle
 }

@@ -17,7 +17,7 @@ const Checkout = () => {
   const [reservations] = useState([
     {
       id: 'Res101',
-      pickUpDate: '2024-02-30',
+      pickUpDate: '2024-03-05',
       returnDate: '2024-03-22',
       vehicleInfo: 'Tesla Model 3',
       customerInfo: 'Jane Doe',
@@ -27,34 +27,14 @@ const Checkout = () => {
     },
     {
       id: 'Res102',
-      pickUpDate: '2024-02-27',
+      pickUpDate: '2024-03-20',
       returnDate: '2024-03-22',
       vehicleInfo: 'Toyota',
       customerInfo: 'Peter Peterson',
       rentalAgreement: 'Signed',
       paymentInfo: 'Visa 0094 5683 3345 8949',
       status: 'confirmed'
-    },
-    {
-        id: 'Res103',
-        pickUpDate: '2024-03-05',
-        returnDate: '2024-03-23',
-        vehicleInfo: 'Tesla Model 3',
-        customerInfo: 'Jane Doe',
-        rentalAgreement: 'Signed',
-        paymentInfo: 'MasterCard 0094 5683 3345 8949',
-        status: 'confirmed'
-      },
-      {
-        id: 'Res104',
-        pickUpDate: '2024-03-21',
-        returnDate: '2024-03-23',
-        vehicleInfo: 'Toyota',
-        customerInfo: 'Peter Peterson',
-        rentalAgreement: 'Signed',
-        paymentInfo: 'Visa 0094 5683 3345 8949',
-        status: 'confirmed'
-      }
+    }
   ]);
 
   // Generate today's date in YYYY-MM-DD format for comparison
@@ -116,8 +96,8 @@ const Checkout = () => {
        {/* Checkout Modal */}
        {isCheckoutModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10">
-          <div className="bg-white p-6 rounded-lg shadow-xl max-w-md">
-            <form onSubmit={handleCheckoutFormSubmit} className="space-y-0 p-[5px]">
+          <div className="bg-white p-2 rounded-lg shadow-xl max-w-md">
+            <form onSubmit={handleCheckoutFormSubmit} className="space-y-1 p-2">
               <h3 className="text-lg font-semibold">Check-Out Verification</h3>
               {/* Check-Out Verification Checklist */}
 <div className="space-y-2">

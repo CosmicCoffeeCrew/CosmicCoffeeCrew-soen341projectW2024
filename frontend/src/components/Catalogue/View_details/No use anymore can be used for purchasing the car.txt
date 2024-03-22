@@ -1,1 +1,0 @@
-RentalFormPage.jsx I think is not well implemented.

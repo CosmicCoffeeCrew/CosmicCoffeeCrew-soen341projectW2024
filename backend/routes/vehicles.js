@@ -7,8 +7,7 @@ const {
     getVehicles,
     getVehicle,
     deleteVehicle,
-    updateVehicle,
-    availableVehicles
+    updateVehicle
 } = require('../controllers/vehicleController.js')
 
 // GET all Vehicles
@@ -26,6 +25,5 @@ router.delete('/:id', deleteVehicle)
 //UPDATE a Vehicle
 router.patch('/:id',updateVehicle)
 
-router.post('/search', availableVehicles)
 
 module.exports = router

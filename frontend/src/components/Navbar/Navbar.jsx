@@ -4,6 +4,8 @@ import { BiSolidSun, BiSolidMoon } from "react-icons/bi";
 import { HiMenuAlt3, HiMenuAlt1 } from "react-icons/hi";
 import ResponsiveMenu from "./ResponsiveMenu";
 import UserAuth from '../UserAuth/UserAuth'; 
+import { useLogout } from '../../hooks/useLogout';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 export const Navlinks = [
   {
@@ -50,6 +52,12 @@ export const Navlinks = [
 const Navbar = ({ theme, setTheme }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [userAuthVisibility, setUserAuthVisibility] = useState({show: false, mode: 'login'}); // New state for UserAuth visibility and mode
+  const { logout } = useLogout()
+  const { user } = useAuthContext()
+
+  const handleLogOut = () => {
+    logout()
+  }
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -91,9 +99,20 @@ const Navbar = ({ theme, setTheme }) => {
                   </a>
                 </li>
               ))}
-              {/* Login and Signup buttons */}
-              <li className="py-4"><button onClick={handleShowLogin}>Login</button></li>
-              <li className="py-4"><button onClick={handleShowSignup}>Sign Up</button></li>
+              {/* Logout button and user email (displayed if person logged in)*/}
+              {user && (
+                <div>
+                  <li><span className="py-4">{user.email}</span></li>
+                  <li className="py-4"><button onClick={handleLogOut}>Logout</button></li>
+                </div>
+              )}
+              {/* Login and Signup buttons (displayed if person logged out) */}
+              {!user && (
+                <div>
+                  <li className="py-4"><button onClick={handleShowLogin}>Login</button></li>
+                  <li className="py-4"><button onClick={handleShowSignup}>Sign Up</button></li>
+                </div>
+              )}
               {/* DarkMode feature implement */}
               {theme === "dark" ? (
                 <BiSolidSun
