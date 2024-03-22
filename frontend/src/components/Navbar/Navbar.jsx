@@ -35,6 +35,11 @@ export const Navlinks = [
     id: 6,
     name: "ADMIN",
     link: "/AdminDashboard"
+  },
+  {
+    id: 7, 
+    name: "CSR",
+    link: "/CSR"
   }
   // {
   //   id: 5,
