@@ -28,6 +28,7 @@ const createVehicle = async (req,res) => {
 
     const { make, model, year, type, color, mileage, transmission,location, fuelType, seats, pricePerDay,  available, image } = req.body;
 
+
     // add doc to db
     try{
         const vehicle = await Vehicle.create({

@@ -36,6 +36,11 @@ mongoose.connect(process.env.MONGO_URI)
 
     })
     .catch((error) => {
-        console.log(error)
+        console.log('Error connecting to DB:', error)
     })
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
