@@ -79,7 +79,7 @@ const vehicleSchema = new Schema({
     type: Number,
     default : 0
   },
-  averageRating: {
+  totalRating: {
     type: Number,
     default: 0  // Default to 0 if no ratings exist yet
   },

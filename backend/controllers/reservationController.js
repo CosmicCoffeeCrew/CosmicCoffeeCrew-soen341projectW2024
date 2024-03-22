@@ -1,8 +1,10 @@
 const nodemailer  = require('nodemailer')
 const User = require ('../models/userModel')
+const Vehicle = require ('../models/vehicleModel')
 const Reservation = require ('../models/reservationModel')
 const mongoose = require('mongoose')
 const {transporter} = require('../mail')
+const { unstable_renderSubtreeIntoContainer } = require('react-dom')
 //process.env.SECRET;
 
 //record a reservation
@@ -146,6 +148,52 @@ const deleteReservation = async (req,res) => {
 }
 
 
+const rateReservation = async (req,res) => {
+    const {id} =req.params
+
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({error: 'No such reservation'})
+    }
+
+    try{
+    const reservation = await Reservation.findOneAndUpdate({_id: id}, {...req.body})
+
+    if(!reservation){
+        return res.status(404).json({error: 'No such reservation'})
+    }
+
+    const {rating, review} = req.body
+    vId = reservation.vehicleID
+    const vehicle = await Vehicle.findById({_id: vId})
+
+        const newnumofratings = vehicle.numOfRatings + 1
+        const newtotalrating = vehicle.totalRating + rating
+        const reviewobj = {
+            userID: reservation.userID,
+            msg: review,
+            rating: rating
+          }
+        const newreviews = vehicle.reviews
+        newreviews.push(reviewobj)
+
+
+    const newV = await Vehicle.findOneAndUpdate({_id: vId}, {"numOfRatings": newnumofratings})
+    const newV2 = await Vehicle.findOneAndUpdate({_id: vId}, {"totalRating": newtotalrating})
+    const newV3 = await Vehicle.findOneAndUpdate({_id: vId}, {"reviews": newreviews})
+
+
+    // , {"totalRating": newtotalrating}, {"reviews": newreviews}
+        
+    //, "totalRatings": newtotalrating, "reviews": newreviews
+        res.status(200).json(reservation)
+    }
+    catch(error){
+        res.status(400).json(error.message)
+    }
+
+}
+
+
 // }
 
-module.exports = { updateReservation, recordReservation, getReservations, getUserReservations, getVehicleReservations,deleteReservation }
+module.exports = { updateReservation, recordReservation, getReservations, getUserReservations, getVehicleReservations,deleteReservation, rateReservation }
