@@ -66,10 +66,6 @@ const vehicleSchema = new Schema({
     type: Number,
     required: true
   },
-  available: {
-    type: Boolean,
-    default: true
-  },
   image: {
     type: String,
     required: true
