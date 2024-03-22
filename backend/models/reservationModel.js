@@ -29,6 +29,14 @@ const reservationSchema = new Schema({
         type : String,
         enum:["pending","accepted","refused"],
         required:true
+    },
+    review: {
+        type: String,
+    },
+    rating: {
+        type: Number,
+        min: 1,
+        max: 5
     }
 
 })
