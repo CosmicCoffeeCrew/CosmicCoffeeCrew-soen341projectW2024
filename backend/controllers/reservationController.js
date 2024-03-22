@@ -1,8 +1,10 @@
 const nodemailer  = require('nodemailer')
 const User = require ('../models/userModel')
+const Vehicle = require ('../models/vehicleModel')
 const Reservation = require ('../models/reservationModel')
 const mongoose = require('mongoose')
 const {transporter} = require('../mail')
+const { unstable_renderSubtreeIntoContainer } = require('react-dom')
 //process.env.SECRET;
 
 //record a reservation
@@ -164,43 +166,52 @@ const deleteReservation = async (req,res) => {
 }
 
 
-// //EMAIL TEMPLATE
-// // JavaScript code
-// document.addEventListener("DOMContentLoaded", async function () {
-//     // Get user information
-//     const thisUser = await User.findById(reservation.UserID)
-//     const renterInfo = {
-//         name: "John Doe",
-//         address: "123 Main St",
-//         contactNumber: "555-123-4567",
-//         emailAddress: "john@example.com",
-//         driversLicenseNumber: "DL123456",
-//         // Add other user information as needed
-//     };
+const rateReservation = async (req,res) => {
+    const {id} =req.params
 
-//     // Populate the rental agreement template
-//     const rentalAgreementTemplate = `
-//         <h1>Rental Agreement</h1>
-//         <p>Renter's Information:</p>
-//         <p>Name: ${renterInfo.name}</p>
-//         <p>Address: ${renterInfo.address}</p>
-//         <p>Contact Number: ${renterInfo.contactNumber}</p>
-//         <p>Email Address: ${renterInfo.emailAddress}</p>
-//         <p>Driver's License Number: ${renterInfo.driversLicenseNumber}</p>
-//         <!-- Add other agreement details here -->
-//     `;
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({error: 'No such reservation'})
+    }
 
-//     // Generate PDF
-//     const doc = new jsPDF();
-//     doc.html(document.getElementById("rentalAgreement"), {
-//         callback: function (pdf) {
-//             // Save the PDF
-//             pdf.save("rental_agreement.pdf");
-//         },
-//     });
-// });
+    try{
+    const reservation = await Reservation.findOneAndUpdate({_id: id}, {...req.body})
+
+    if(!reservation){
+        return res.status(404).json({error: 'No such reservation'})
+    }
+
+    const {rating, review} = req.body
+    vId = reservation.vehicleID
+    const vehicle = await Vehicle.findById({_id: vId})
+
+        const newnumofratings = vehicle.numOfRatings + 1
+        const newtotalrating = vehicle.totalRating + rating
+        const reviewobj = {
+            userID: reservation.userID,
+            msg: review,
+            rating: rating
+          }
+        const newreviews = vehicle.reviews
+        newreviews.push(reviewobj)
+
+
+    const newV = await Vehicle.findOneAndUpdate({_id: vId}, {"numOfRatings": newnumofratings})
+    const newV2 = await Vehicle.findOneAndUpdate({_id: vId}, {"totalRating": newtotalrating})
+    const newV3 = await Vehicle.findOneAndUpdate({_id: vId}, {"reviews": newreviews})
+
+
+    // , {"totalRating": newtotalrating}, {"reviews": newreviews}
+        
+    //, "totalRatings": newtotalrating, "reviews": newreviews
+        res.status(200).json(reservation)
+    }
+    catch(error){
+        res.status(400).json(error.message)
+    }
+
+}
 
 
 // }
 
-module.exports = {confirmReservation, updateReservation, recordReservation, getReservations, getUserReservations, getVehicleReservations,deleteReservation }
+module.exports = {confirmReservation, updateReservation, recordReservation, getReservations, getUserReservations, getVehicleReservations,deleteReservation, rateReservation }
