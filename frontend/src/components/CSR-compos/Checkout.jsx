@@ -17,8 +17,8 @@ const Checkout = () => {
   const [reservations] = useState([
     {
       id: 'Res101',
-      pickUpDate: '2024-03-30',
-      returnDate: '2024-03-21',
+      pickUpDate: '2024-02-30',
+      returnDate: '2024-03-22',
       vehicleInfo: 'Tesla Model 3',
       customerInfo: 'Jane Doe',
       rentalAgreement: 'Signed',
@@ -27,14 +27,34 @@ const Checkout = () => {
     },
     {
       id: 'Res102',
-      pickUpDate: '2024-03-27',
-      returnDate: '2024-03-21',
+      pickUpDate: '2024-02-27',
+      returnDate: '2024-03-22',
       vehicleInfo: 'Toyota',
       customerInfo: 'Peter Peterson',
       rentalAgreement: 'Signed',
       paymentInfo: 'Visa 0094 5683 3345 8949',
       status: 'confirmed'
-    }
+    },
+    {
+        id: 'Res103',
+        pickUpDate: '2024-03-05',
+        returnDate: '2024-03-23',
+        vehicleInfo: 'Tesla Model 3',
+        customerInfo: 'Jane Doe',
+        rentalAgreement: 'Signed',
+        paymentInfo: 'MasterCard 0094 5683 3345 8949',
+        status: 'confirmed'
+      },
+      {
+        id: 'Res104',
+        pickUpDate: '2024-03-21',
+        returnDate: '2024-03-23',
+        vehicleInfo: 'Toyota',
+        customerInfo: 'Peter Peterson',
+        rentalAgreement: 'Signed',
+        paymentInfo: 'Visa 0094 5683 3345 8949',
+        status: 'confirmed'
+      }
   ]);
 
   // Generate today's date in YYYY-MM-DD format for comparison

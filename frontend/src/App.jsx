@@ -13,6 +13,7 @@ import {
 import Reservations from "./pages/Reservations";
 import Footer from "./components/Footer/Footer";
 import AdminDashboard from "./pages/Admin";
+import CSRPage from "./pages/CSR";
 
 //Inventory Cars:
 //Testing with invetory page:
@@ -74,6 +75,7 @@ const App = () => {
         <Route path="/rental-form" element={<RentalFormPage/>} />
         <Route path="/AdminDashboard" element={<AdminDashboard />} />
         <Route path="/" element={<AdminDashboard />} />
+        <Route path="/csr" element={<CSRPage />} />
         
       </Routes>
       <Footer />
