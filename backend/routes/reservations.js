@@ -3,8 +3,9 @@ const express = require('express')
 const router = express.Router()
 
 //controller functions
-const{ recordReservation, getReservations , getUserReservations, getVehicleReservations, deleteReservation, updateReservation}= require('../controllers/reservationController')
+const{confirmReservation, recordReservation, getReservations , getUserReservations, getVehicleReservations, deleteReservation, updateReservation}= require('../controllers/reservationController')
 
+router.patch('/confirm/:id',confirmReservation)
 //record route
 router.post('/record', recordReservation)
 

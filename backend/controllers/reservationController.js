@@ -116,6 +116,24 @@ const updateReservation = async (req,res) => {
     res.status(200).json(reservation)
 
 }
+//CONFIRM RESERVATION CSR
+
+const confirmReservation = async (req,res) => {
+    const { id } = req.params
+    
+
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({error: 'No such reservation'})
+    }
+
+    const reservation = await Reservation.findOneAndUpdate({_id: id},{'status':'accepted'})
+
+    if(!reservation){
+        return res.status(404).json({error: 'No such reservation'})
+    }
+    res.status(200).json(reservation)
+
+}
 
 // //login user
 // const loginUser = async(req,res) => {
@@ -146,6 +164,43 @@ const deleteReservation = async (req,res) => {
 }
 
 
+// //EMAIL TEMPLATE
+// // JavaScript code
+// document.addEventListener("DOMContentLoaded", async function () {
+//     // Get user information
+//     const thisUser = await User.findById(reservation.UserID)
+//     const renterInfo = {
+//         name: "John Doe",
+//         address: "123 Main St",
+//         contactNumber: "555-123-4567",
+//         emailAddress: "john@example.com",
+//         driversLicenseNumber: "DL123456",
+//         // Add other user information as needed
+//     };
+
+//     // Populate the rental agreement template
+//     const rentalAgreementTemplate = `
+//         <h1>Rental Agreement</h1>
+//         <p>Renter's Information:</p>
+//         <p>Name: ${renterInfo.name}</p>
+//         <p>Address: ${renterInfo.address}</p>
+//         <p>Contact Number: ${renterInfo.contactNumber}</p>
+//         <p>Email Address: ${renterInfo.emailAddress}</p>
+//         <p>Driver's License Number: ${renterInfo.driversLicenseNumber}</p>
+//         <!-- Add other agreement details here -->
+//     `;
+
+//     // Generate PDF
+//     const doc = new jsPDF();
+//     doc.html(document.getElementById("rentalAgreement"), {
+//         callback: function (pdf) {
+//             // Save the PDF
+//             pdf.save("rental_agreement.pdf");
+//         },
+//     });
+// });
+
+
 // }
 
-module.exports = { updateReservation, recordReservation, getReservations, getUserReservations, getVehicleReservations,deleteReservation }
+module.exports = {confirmReservation, updateReservation, recordReservation, getReservations, getUserReservations, getVehicleReservations,deleteReservation }
