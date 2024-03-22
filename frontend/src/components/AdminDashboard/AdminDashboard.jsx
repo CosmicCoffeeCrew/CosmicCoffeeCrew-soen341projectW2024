@@ -157,7 +157,7 @@ const AdminDashboard = () => {
     return (
         <div className="dark:bg-black dark:text-white duration-300">
         <div>
-      {/* UI elements */}
+      {/* UI elements  ADDD THIS SO NO ERRORS PLEASE CORRECTED*/}
       {vehicleError && <div className="error-message">{vehicleError}</div>}
       {userError && <div className="error-message">{userError}</div>}
       {/* More UI elements */}
