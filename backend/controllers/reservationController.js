@@ -1,7 +1,8 @@
-//Enrique: I modified this fild to implement the Email & Password Validation
-
+const nodemailer  = require('nodemailer')
+const User = require ('../models/userModel')
 const Reservation = require ('../models/reservationModel')
 const mongoose = require('mongoose')
+const {transporter} = require('../mail')
 //process.env.SECRET;
 
 //record a reservation
@@ -9,7 +10,35 @@ const recordReservation = async (req,res)=> {
     const {userID, vehicleID, start_Date, end_Date, charge, status} = req.body
     try{
         const reservation = await Reservation.record(userID, vehicleID, start_Date, end_Date, charge, status)
+// ///////////////////////////////////////////////////////////////// EMAIL
+        // Retrieve user's email
+        const user = await User.findById(userID);
+        const userEmail = user.email;
 
+        // Construct email content
+        const emailContent = `
+            <p>Dear ${user.username},</p>
+            <p>Your reservation has been successfully recorded.</p>
+            <p>Reservation Details:</p>
+            <ul>
+                <li>Start Date: ${start_Date}</li>
+                <li>End Date: ${end_Date}</li>
+                <li>Charge: ${charge}</li>
+                <li>Status: ${status}</li>
+            </ul>
+            <p>Thank you for choosing our service.</p>
+        `;
+
+
+        const mailOptions = {
+            from: 'cosmiccoffeecrew@gmail.com',
+            to: userEmail,
+            subject: 'Reservation Confirmation',
+            html: emailContent
+        };
+
+        await transporter.sendMail(mailOptions);
+///////////////////////////////////////////////////////////////////////
         res.status(200).json({userID, vehicleID, status})
     }catch(error){
         res.status(400).json({error:error.message})

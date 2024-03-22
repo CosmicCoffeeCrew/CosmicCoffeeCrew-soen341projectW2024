@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import NavBar from '../components/CSR-compos/NavBar';
 import Checkin from '../components/CSR-compos/Checkin';
 import Checkout from '../components/CSR-compos/Checkout';
