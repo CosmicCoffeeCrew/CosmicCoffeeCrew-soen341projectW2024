@@ -3,33 +3,9 @@
 const User = require ('../models/userModel')
 const jwt = require("jsonwebtoken")
 const mongoose = require('mongoose')
-
 //process.env.SECRET;
 const createTocken = (id) => {
     return jwt.sign({id}, process.env.SECRET , {expiresIn: '30d'}) //LOOK AT THE .ENV file
-}
-
-// Function to create a new user
-const createUser = async (req, res) => {
-    const { email, password, username, permission, License, birthdate, rentalHistory } = req.body;
-    try {
-        // Check if the required fields are provided
-        if (!email || !password || !username || !permission || !License ) {
-            throw new Error("All fields must be filled");
-        }
-
-        // Create the user
-        const user = await User.create({ email, password, username, permission, License, birthdate, rentalHistory });
-
-        // Create a token
-        const token = createToken(user._id);
-
-        // Return success response with token
-        res.status(200).json({ email, token });
-    } catch (error) {
-        // Return error response
-        res.status(400).json({ error: error.message });
-    }
 }
 
 //get all Users
@@ -110,9 +86,9 @@ const loginUser = async(req,res) => {
 //signup user
 //tocken authentification
 const signupUser = async (req,res)=> {
-    const {email,password, username, permission, License, birthdate, rentalHistory} = req.body
+    const {email,password, username, permission, License, birthdate} = req.body
     try{
-        const user = await User.signup(email,password, username, permission, License, birthdate, rentalHistory)
+        const user = await User.signup(email,password, username, permission, License, birthdate)
 
         //Create a tocken 
         const token = createTocken(user.id)
@@ -136,4 +112,4 @@ const signupUser = async (req,res)=> {
 
 // }
 
-module.exports = {createUser, signupUser, loginUser, getUsers, getUser, deleteUser, updateUser }
+module.exports = { signupUser, loginUser, getUsers, getUser, deleteUser, updateUser }

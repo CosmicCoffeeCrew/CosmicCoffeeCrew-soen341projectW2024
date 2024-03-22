@@ -2,6 +2,8 @@ import React, {useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
+
+
 // Component import
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar/Navbar";
@@ -24,7 +26,7 @@ import AdminDashboard from "./pages/Admin";
 //------
 import ProductCatalogue from "./components/Catalogue/ProductCatalogue";
 import VehicleDetailPage from './components/Catalogue/View_details/VehicleDetailPage';
-import RentalFormPage from './components/Catalogue/View_details/RentalFormPage';
+
 // import RentalForm from './components/Catalogue/RentalFormPage'; // Make sure this component exists
 // <Route path="/rental-form" element={<RentalForm />} />
 
@@ -71,9 +73,8 @@ const App = () => {
         <Route path="/CustomerReview" element = {<CustomerReview/>}/>
         <Route path="/Catalog" element={<ProductCatalogue />} />
         <Route path="/inventory/:vehicleId" element={<VehicleDetailPage />} />
-        <Route path="/rental-form" element={<RentalFormPage/>} />
         <Route path="/AdminDashboard" element={<AdminDashboard />} />
-        <Route path="/" element={<AdminDashboard />} />
+        
         
       </Routes>
       <Footer />

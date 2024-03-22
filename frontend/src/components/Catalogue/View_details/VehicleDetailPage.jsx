@@ -1,3 +1,8 @@
+//import { useParams, useNavigate } from 'react-router-dom';
+//import products from '.components/Catalogue/ProductCatalogue'; // Make sure this path is correct
+//import { products } from '../Catalogue/ProductCatalogue';
+
+
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
@@ -10,8 +15,7 @@ const VehicleDetailPage = () => {
     const fetchVehicleDetails = async () => {
       try {
         // Replace this URL with the actual URL to your API
-        const response = await fetch('api/vehicle/_id= ${vehicleId}');
-        console.log('response',response);
+        const response = await fetch(`/api/vehicle/${vehicleId}`);
         if (!response.ok) {
           throw new Error('Vehicle not found');
         }
