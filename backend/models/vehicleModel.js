@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 // const Reservation = mongoose.model('Reservation', reservationSchema);
-const Reservation = require ('./reservationModel')
+// const Reservation = require ('./reservationModel')
 
 /*
 make: Represents the make of the vehicle (e.g., Toyota, Honda).

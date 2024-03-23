@@ -14,7 +14,7 @@ const recordReservation = async (req,res)=> {
         const reservation = await Reservation.record(userID, vehicleID, start_Date, end_Date, charge, status)
 // ///////////////////////////////////////////////////////////////// EMAIL
         // Retrieve user's email
-        const user = await User.findById(userID);
+        const user = await User.findById({_id: userID});
         const userEmail = user.email;
 
         // Construct email content
