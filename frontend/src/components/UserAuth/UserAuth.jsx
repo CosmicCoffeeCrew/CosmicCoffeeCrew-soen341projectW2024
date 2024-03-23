@@ -20,7 +20,7 @@ function UserAuth({ onClose, initialMode }) {
   const [signupUsername, setSignupUsername] = useState('');
   const [signupPassword, setSignupPassword] = useState('');
   const [email, setEmail] = useState('');
-  const [permission, setPermission] = useState('');
+  const [permission] = useState('Customer');
   const [license, setLicense] = useState('');
   const [birthdate, setBirthdate] = useState('');
 
@@ -108,16 +108,6 @@ function UserAuth({ onClose, initialMode }) {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="permission" className="block text-sm font-medium text-gray-700">Permission</label>
-              <input
-                type="text"
-                id="permission"
-                value={permission}
-                onChange={(e) => setPermission(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-            <div className="mb-4">
               <label htmlFor="signupPassword" className="block text-sm font-medium text-gray-700">Password</label>
               <input
                 type="password"
@@ -128,7 +118,7 @@ function UserAuth({ onClose, initialMode }) {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="license" className="block text-sm font-medium text-gray-700">License</label>
+              <label htmlFor="license" className="block text-sm font-medium text-gray-700">Driving  License Number</label>
               <input
                 type="text"
                 id="license"
@@ -143,6 +133,7 @@ function UserAuth({ onClose, initialMode }) {
                 type="date"
                 id="birthdate"
                 value={birthdate}
+                max="2006-12-31"
                 onChange={(e) => setBirthdate(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
