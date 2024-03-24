@@ -9,8 +9,24 @@ const { unstable_renderSubtreeIntoContainer } = require('react-dom')
 
 //record a reservation
 const recordReservation = async (req,res)=> {
-    const {userID, vehicleID, start_Date, end_Date, charge, status} = req.body
+    const {userID, vehicleID, start_Date, end_Date, status} = req.body
     try{
+        // Calculate the difference in days between start_Date and end_Date
+        const startDate = new Date(start_Date);
+        const endDate = new Date(end_Date);
+        const timeDifference = endDate.getTime() - startDate.getTime();
+        const daysDifference = timeDifference / (1000 * 3600 * 24); // milliseconds to days
+
+        // Retrieve vehicle information to calculate charge
+        const vehicle = await Vehicle.findById(vehicleID);
+        if (!vehicle) {
+            throw new Error('Vehicle not found');
+        }
+
+        // Calculate the charge based on the vehicle's pricePerDay and the number of days
+        const charge = vehicle.pricePerDay * daysDifference;
+
+        //Recording the reservation 0w0 -----------------------------------------------------------------------
         const reservation = await Reservation.record(userID, vehicleID, start_Date, end_Date, charge, status)
 // ///////////////////////////////////////////////////////////////// EMAIL
         // Retrieve user's email
@@ -20,13 +36,13 @@ const recordReservation = async (req,res)=> {
         // Construct email content
         const emailContent = `
             <p>Dear ${user.username},</p>
-            <p>Your reservation has been successfully recorded.</p>
+            <p>Your reservation has been requested</p>
             <p>Reservation Details:</p>
             <ul>
                 <li>Start Date: ${start_Date}</li>
                 <li>End Date: ${end_Date}</li>
-                <li>Charge: ${charge}</li>
-                <li>Status: ${status}</li>
+                <li>This reservation will cost you: ${charge} CAD$ </li>
+                <li>Your request is ${status}</li>
             </ul>
             <p>Thank you for choosing our service.</p>
         `;
@@ -41,7 +57,7 @@ const recordReservation = async (req,res)=> {
 
         await transporter.sendMail(mailOptions);
 ///////////////////////////////////////////////////////////////////////
-        res.status(200).json({userID, vehicleID, status})
+res.status(200).json({ userID, vehicleID, status, charge, daysDifference });
     }catch(error){
         res.status(400).json({error:error.message})
     }
