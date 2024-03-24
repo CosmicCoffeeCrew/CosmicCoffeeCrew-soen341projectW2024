@@ -3,8 +3,6 @@ const express = require('express')
 const router = express.Router()
 
 //controller functions
-<<<<<<< HEAD
-
 const{checkInReservation,checkOutReservation,cancelReservation, confirmReservation, recordReservation, getReservations , getUserReservations, getVehicleReservations, deleteReservation, updateReservation, rateReservation}= require('../controllers/reservationController')
 
 //CheckIn/CheckOut
@@ -14,13 +12,6 @@ router.patch('/checkout/:id',checkOutReservation)
 //Confirm/Cancel reservation
 router.patch('/cancel/:id',cancelReservation)
 router.patch('/confirm/:id',confirmReservation)
-
-
-=======
-const{confirmReservation, recordReservation, getReservations , getUserReservations, getVehicleReservations, deleteReservation, updateReservation, rateReservation}= require('../controllers/reservationController')
-
-router.patch('/confirm/:id',confirmReservation)
->>>>>>> parent of 2041d386d (connect Accept, Decline and Cancel to backend (Added functions in backend))
 //record route
 router.post('/record', recordReservation)
 
