@@ -153,6 +153,24 @@ const confirmReservation = async (req,res) => {
 
 }
 
+//Cancel RESERVATION USER/CSR
+const cancelReservation = async (req,res) => {
+    const { id } = req.params
+    
+
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({error: 'No such reservation'})
+    }
+
+    const reservation = await Reservation.findOneAndUpdate({_id: id},{'status':'refused'})
+
+    if(!reservation){
+        return res.status(404).json({error: 'No such reservation'})
+    }
+    res.status(200).json(reservation)
+
+}
+
 // //login user
 // const loginUser = async(req,res) => {
 //     res.json({mssg: 'login user'})
@@ -230,4 +248,4 @@ const rateReservation = async (req,res) => {
 
 // }
 
-module.exports = {confirmReservation, updateReservation, recordReservation, getReservations, getUserReservations, getVehicleReservations,deleteReservation, rateReservation }
+module.exports = {cancelReservation, confirmReservation, updateReservation, recordReservation, getReservations, getUserReservations, getVehicleReservations,deleteReservation, rateReservation }
