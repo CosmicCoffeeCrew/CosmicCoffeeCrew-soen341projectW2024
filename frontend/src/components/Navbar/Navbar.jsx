@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'; 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BiSolidSun, BiSolidMoon } from "react-icons/bi";
 import { HiMenuAlt3, HiMenuAlt1 } from "react-icons/hi";
 import ResponsiveMenu from "./ResponsiveMenu";
@@ -11,37 +11,44 @@ export const Navlinks = [
   {
     id: 1,
     name: "HOME",
-    link: "/"
+    link: "/",
+    permission: "Customer"
   },
   {
     id: 2,
     name: "CATALOG",
-    link: "/Catalog"
+    link: "/Catalog",
+    permission: "Customer"
   },
   {
     id: 3,
     name: "MY BOOKINGS",
-    link: "/Reservations"
+    link: "/Reservations",
+    permission: "Customer"
   },
   {
     id: 4,
     name: "ABOUT US",
-    link: "/#about"
+    link: "/#about",
+    permission: "Customer"
   },
   {
     id:5,
     name:"OUR REVIEWS",
-    link:"/CustomerReview"
+    link:"/CustomerReview",
+    permission: "Customer"
   },
   {
     id: 6,
     name: "ADMIN",
-    link: "/AdminDashboard"
+    link: "/AdminDashboard",
+    permission: "Admin"
   },
   {
     id: 7, 
     name: "CSR",
-    link: "/CSR"
+    link: "/CSR",
+    permission: "CSR"
   }
   // {
   //   id: 5,
@@ -54,6 +61,53 @@ const Navbar = ({ theme, setTheme }) => {
   const [userAuthVisibility, setUserAuthVisibility] = useState({show: false, mode: 'login'}); // New state for UserAuth visibility and mode
   const { logout } = useLogout()
   const { user } = useAuthContext()
+  const [filteredNavlinks, setFilteredNavlinks] = useState([]);
+
+  const fetchUserPermission = async () => {
+    let access;
+    try {
+      // while (user.tempId != null) {console.log('waiting')}
+
+      if (user && user.tempId) { // Check if user is not null or undefined
+        const response = await fetch('/api/users/' + user.tempId);
+        if (response.ok) {
+            const json = await response.json();
+            access = await json.permission;
+            console.log(access);  
+        } else {
+            throw new Error('Failed to fetch users');
+        }
+        return access;
+      } else {
+        throw new Error('User is null or undefined');
+      }
+    } catch (error) {
+        console.error('Error fetching users:', error);
+    }
+  }; 
+  
+  useEffect(() => {
+  const getUserPermission = async () => {
+    const userPermission = await fetchUserPermission();
+    // console.log(userPermission);
+    // console.log(userPermission.toString() === 'Admin')
+    // let userPermission = "Admin";
+
+    const filteredLinks = Navlinks.filter(link => {
+      if (userPermission === "Admin") {
+        return link.permission === "Admin" || link.permission === "Customer";
+      } else if (userPermission === "CSR") {
+        return link.permission === "CSR" || link.permission === "Customer";
+      } else {
+        return link.permission === "Customer";
+      }
+    });
+    setFilteredNavlinks(filteredLinks);
+  };
+
+  getUserPermission();
+}, [user]);
+
 
   const handleLogOut = () => {
     logout()
@@ -89,7 +143,7 @@ const Navbar = ({ theme, setTheme }) => {
           </div>
           <nav className="hidden md:block">
             <ul className="flex items-center gap-8">
-              {Navlinks.map(({ id, name, link }) => (
+              {filteredNavlinks.map(({ id, name, link }) => (
                 <li key={id} className="py-4">
                   <a
                     href={link}
