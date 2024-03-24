@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react';
 
 const Checkin = () => {
+    const [reservations, setReservations] = useState([]);
+    const [formData, setFormData] = useState([]);
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isExistingCustomer, setIsExistingCustomer] = useState(true); // To toggle between existing and new customer forms
     const [vehicleId, setVehicleId] = useState('');
@@ -13,6 +16,48 @@ const Checkin = () => {
     const [customerPhone, setCustomerPhone] = useState(''); // For new customer
     const [paymentMethod, setPaymentMethod] = useState('');
     const [cardNumber, setCardNumber] = useState(''); 
+
+    useEffect(() => {
+      const fetchReservations = async () => {
+        try {
+          const resResponse = await fetch('/api/reservations');
+          if (!resResponse.ok) throw new Error('Failed to fetch reservations');
+          const reservations = await resResponse.json();
+          console.log("Fetched reservations:", reservations); 
+    
+          const detailedReservations = await Promise.all(reservations.map(async (reservation) => {
+            // Fetch vehicle details
+            const vehicleResponse = await fetch(`/api/vehicles/${reservation.vehicleID}`);
+            const vehicle = vehicleResponse.ok ? await vehicleResponse.json() : null;
+    
+            // Fetch customer details
+            const customerResponse = await fetch(`/api/users/${reservation.userID}`);
+            const customer = customerResponse.ok ? await customerResponse.json() : null;
+    
+            // Combine data into a structured object
+            return {
+              id: reservation._id,
+              pickUpDate: new Date(reservation.start_Date),
+              returnDate: new Date(reservation.end_Date),
+              vehicleInfo: vehicle ? `${vehicle.make} ${vehicle.model}` : 'Vehicle details not available',
+              customerInfo: customer ? customer.email : 'Customer details not available',
+              status: reservation.status,
+              // Include any other fields you need
+            };
+          }));
+    
+          setFormData(detailedReservations);
+          console.log("Processed formData:", formData); // Debug log after processing
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      };
+    
+      fetchReservations();
+    }, []);
+    
+    
+    
 
     const handleOpenModal = () => {
       setIsModalOpen(true);
@@ -79,7 +124,7 @@ const Checkin = () => {
     };
     
      // Hardcoded Reservations data for demonstration
-    const [reservations, setReservations] = useState([
+    /*const [reservations, setReservations] = useState([
         {
           id: 'Res101',
           pickUpDate: '2024-03-30',
@@ -101,36 +146,36 @@ const Checkin = () => {
             paymentInfo: 'Visa 0094 5683 3345 8949',
             status: 'pending'
        }
-    ]);
+    ]); */
 
     const updateStatus = async (reservationId, newStatus) => {
-      console.log(`Updating status for reservation ${reservationId} to ${newStatus}`);
-      const updatedReservations = reservations.map(reservation =>
-        reservation.id === reservationId ? { ...reservation, status: newStatus } : reservation
-      );
-      setReservations(updatedReservations);
+      if (newStatus === 'accepted') {
+        try {
+          const response = await fetch(`/api/confirm/${reservationId}`, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            // If additional data needs to be sent in the request body, include it here
+          });
     
-      // Map newStatus to the correct action for handleClick
-      let action;
-      switch (newStatus) {
-        case 'confirmed':
-          action = 'accept';
-          break;
-        case 'declined':
-          action = 'decline';
-          break;
-        case 'canceled':
-          action = 'cancel';
-          break;
-        default:
-          console.error('Unhandled status:', newStatus);
-          return; // Exit if the status is not recognized
+          if (response.ok) {
+            // Update was successful, you can update your local state to reflect the change
+            const updatedReservations = formData.map(reservation =>
+              reservation.id === reservationId ? { ...reservation, status: 'accepted' } : reservation
+            );
+            setFormData(updatedReservations);
+    
+            // Optionally, perform other actions on successful update
+          } else {
+            console.error('Failed to confirm reservation');
+          }
+        } catch (error) {
+          console.error('Error confirming reservation:', error);
+        }
       }
-    
-      handleClick(action, reservationId);
+      // Handle other status updates similarly, if applicable
     };
-    
-
         const [successPopup, setSuccessPopup] = useState({ show: false, message: '' });
 
         const handleClick = (action, reservationId) => {
@@ -185,33 +230,6 @@ const Checkin = () => {
         
         
 
-        
-        
-        
-/* Temporarily until linked with backend
-      // Define reservations state variable with useState
-     const [reservations, setReservations] = useState([]);
-
-    useEffect(() => {
-        fetchReservations();
-      }, []);
-    
-      const fetchReservations = async () => {
-        // Placeholder for fetching reservations data
-        // This should be replaced with actual fetching logic
-        console.log('Fetching reservations...');
-        // Assuming the fetch populates the 'reservations' state
-      };
-    
-      const updateStatus = async (reservationId, newStatus) => {
-        console.log(`Updating status for reservation ${reservationId} to ${newStatus}`);
-        // Placeholder for API call to update reservation status
-        // Replace with your actual API call logic
-        // After updating, re-fetch reservations to reflect changes
-        fetchReservations();
-      };
-      */
-  
     return (
       <div className="p-4 font-serif">
         <p>  Welcome! You have logged in as a <b>Customer Service Representative.</b> </p>
@@ -311,24 +329,24 @@ const Checkin = () => {
             </tr>
           </thead>
           <tbody>
-                {reservations.filter(reservation => reservation.status === 'pending').length > 0 ? (
-                 reservations.filter(reservation => reservation.status === 'pending').map((reservation) => (
+                {formData.filter(reservation => reservation.status === 'pending').length > 0 ? (
+                 formData.filter(reservation => reservation.status === 'pending').map((reservation) => (
                     <tr key={reservation.id}>
                     <td className="px-4 py-2 border">{reservation.id}</td>
-                    <td className="px-4 py-2 border">{reservation.pickUpDate}</td>
-                    <td className="px-4 py-2 border">{reservation.returnDate}</td>
+                    <td className="px-4 py-2 border">{reservation.pickUpDate.toLocaleDateString('en-CA')}</td>
+                    <td className="px-4 py-2 border">{reservation.returnDate.toLocaleDateString('en-CA')}</td>
                     <td className="px-4 py-2 border">{reservation.vehicleInfo}</td>
                     <td className="px-4 py-2 border">{reservation.customerInfo}</td>
-                    <td className="px-4 py-2 border">{reservation.rentalAgreement}</td>
-                    <td className="px-4 py-2 border">{reservation.paymentInfo}</td>
+                    <td className="px-4 py-2 border">Signed</td>
+                    <td className="px-4 py-2 border">MasterCard 0094 5683 3345 8949</td>
                     <td className="px-4 py-2 border flex justify-around">
                     <button 
-  onClick={() => updateStatus(reservation.id, 'confirmed')}
+  onClick={() => updateStatus(reservation.id, 'accepted')}
   className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2">
   Accept
 </button>
 <button 
-  onClick={() => updateStatus(reservation.id, 'declined')}
+  onClick={() => updateStatus(reservation.id, 'refused')}
   className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded m-2">
   Decline
 </button>
@@ -372,26 +390,23 @@ const Checkin = () => {
             </tr>
           </thead>
           <tbody>
-            {reservations .filter(reservation => {
+            {formData.filter(reservation => {
                const today = new Date();
+
                const pickUpDate = new Date(reservation.pickUpDate);
   
-               // Set hours, minutes, seconds, and milliseconds to 0 for today's date to ensure correct comparison
-               today.setHours(0, 0, 0, 0);
-  
                // Include the reservation if its pick-up date is today or later
-               return (pickUpDate >= today) && (reservation.status === 'confirmed' || reservation.status === 'canceled');
+               return (pickUpDate >= today) && (reservation.status === 'accepted' || reservation.status === 'canceled');
             }).length > 0 ? (
-                reservations.filter(reservation => {
+                formData.filter(reservation => {
                   const today = new Date();
                   const pickUpDate = new Date(reservation.pickUpDate);
-                  today.setHours(0, 0, 0, 0);
-                  return (pickUpDate >= today) && (reservation.status === 'confirmed' || reservation.status === 'canceled');
+                  return (pickUpDate >= today) && (reservation.status === 'accepted' || reservation.status === 'canceled');
                 }).map((reservation) => (
     <tr key={reservation.id}>
       <td className="px-4 py-2 border">{reservation.id}</td>
-      <td className="px-4 py-2 border">{reservation.pickUpDate}</td>
-      <td className="px-4 py-2 border">{reservation.returnDate}</td>
+      <td className="px-4 py-2 border">{reservation.pickUpDate.toLocaleDateString('en-CA')}</td>
+      <td className="px-4 py-2 border">{reservation.returnDate.toLocaleDateString('en-CA')}</td>
       <td className="px-4 py-2 border">{reservation.vehicleInfo}</td>
       <td className="px-4 py-2 border">{reservation.customerInfo}</td>
       <td className="text-center align-middle">
@@ -453,7 +468,7 @@ const Checkin = () => {
   </div>
 )}
 
-
+        {/* Declined Reservations table */}
       <div className="mt-8">
   <h2 className="text-lg font-semibold">Declined Reservations</h2>
   <table className="min-w-full mt-2">
@@ -470,12 +485,12 @@ const Checkin = () => {
       </tr>
     </thead>
     <tbody>
-      {reservations.filter(reservation => reservation.status === 'declined').length > 0 ? (
-        reservations.filter(reservation => reservation.status === 'declined').map((reservation) => (
+      {formData.filter(reservation => reservation.status === 'refused').length > 0 ? (
+        formData.filter(reservation => reservation.status === 'refused').map((reservation) => (
           <tr key={reservation.id}>
             <td className="px-4 py-2 border">{reservation.id}</td>
-            <td className="px-4 py-2 border">{reservation.pickUpDate}</td>
-            <td className="px-4 py-2 border">{reservation.returnDate}</td>
+            <td className="px-4 py-2 border">{reservation.pickUpDate.toLocaleDateString('en-CA')}</td>
+            <td className="px-4 py-2 border">{reservation.returnDate.toLocaleDateString('en-CA')}</td>
             <td className="px-4 py-2 border">{reservation.vehicleInfo}</td>
             <td className="px-4 py-2 border">{reservation.customerInfo}</td>
             <td className="text-center align-middle">
