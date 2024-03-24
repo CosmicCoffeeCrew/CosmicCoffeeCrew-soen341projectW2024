@@ -5,8 +5,10 @@ const Reservation = require ('../models/reservationModel')
 const mongoose = require('mongoose')
 const {transporter} = require('../mail')
 const { unstable_renderSubtreeIntoContainer } = require('react-dom')
-//const puppeteer = require('puppeteer')
+const puppeteer = require('puppeteer')
 const fs = require('fs-extra')
+const fs2 = require('fs');
+
 //process.env.SECRET;
 
 //record a reservation
@@ -328,6 +330,14 @@ const confirmReservation = async (req,res) => {
         };
     
         await transporter.sendMail(mailOptions);
+
+        try {
+            fs2.unlinkSync(pathtest);
+            console.log('File is deleted.');
+          } catch (err) {
+            console.error(err);
+          }
+
 
     }
     catch(error){
