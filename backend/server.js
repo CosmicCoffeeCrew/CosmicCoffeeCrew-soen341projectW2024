@@ -8,14 +8,9 @@ const mongoose = require('mongoose')
 const vehicleRoutes = require('./routes/vehicles')
 const userRoutes = require('./routes/users')
 const reservationRoutes = require('./routes/reservations')
-const cors = require('cors')
-
 
 // express app
 const app = express()
-
-// Use CORS for all routes
-app.use(cors());
 
 // middleware
 app.use(express.json())

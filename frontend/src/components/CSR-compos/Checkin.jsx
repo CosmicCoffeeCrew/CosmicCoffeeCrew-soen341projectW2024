@@ -55,6 +55,9 @@ const Checkin = () => {
     
       fetchReservations();
     }, []);
+    
+    
+    
 
     const handleOpenModal = () => {
       setIsModalOpen(true);
@@ -120,124 +123,84 @@ const Checkin = () => {
          phoneNumber: '555-1234',
     };
     
-    
+     // Hardcoded Reservations data for demonstration
+    /*const [reservations, setReservations] = useState([
+        {
+          id: 'Res101',
+          pickUpDate: '2024-03-30',
+          returnDate: '2024-04-05',
+          vehicleInfo: 'Tesla Model 3',
+          customerInfo: 'Jane Doe',
+          rentalAgreement: 'Signed',
+          paymentInfo: 'MasterCard 0094 5683 3345 8949',
+          status: 'pending'
+        },
+
+        {
+            id: 'Res102',
+            pickUpDate: '2024-03-27',
+            returnDate: '2024-04-05',
+            vehicleInfo: 'Toyota',
+            customerInfo: 'Peter Peterson',
+            rentalAgreement: 'Signed',
+            paymentInfo: 'Visa 0094 5683 3345 8949',
+            status: 'pending'
+       }
+    ]); */
+
     const updateStatus = async (reservationId, newStatus) => {
       if (newStatus === 'accepted') {
         try {
-          const response = await fetch(`/api/reservations/confirm/${reservationId}`, {
-            method: 'PATCH', // Using PATCH as specified
+          const response = await fetch(`/api/confirm/${reservationId}`, {
+            method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
             },
+            // If additional data needs to be sent in the request body, include it here
           });
     
-          if (!response.ok) {
-            const errorData = await response.json();
-            console.error('Failed to update reservation status:', errorData.error);
-            return; // Exit the function if there was an error response
+          if (response.ok) {
+            // Update was successful, you can update your local state to reflect the change
+            const updatedReservations = formData.map(reservation =>
+              reservation.id === reservationId ? { ...reservation, status: 'accepted' } : reservation
+            );
+            setFormData(updatedReservations);
+    
+            // Optionally, perform other actions on successful update
+          } else {
+            console.error('Failed to confirm reservation');
           }
-    
-          // Assuming the successful response includes the updated reservation, you might want to update your local state
-          const updatedReservation = await response.json();
-          console.log('Reservation status updated successfully:', updatedReservation);
-    
-          // Update local state to reflect the change
-          const updatedReservations = formData.map(reservation =>
-            reservation.id === reservationId ? { ...reservation, status: 'accepted' } : reservation
-          );
-          setFormData(updatedReservations);
         } catch (error) {
           console.error('Error confirming reservation:', error);
         }
       }
-      if (newStatus === 'refused') {
-        try {
-          const response = await fetch(`/api/reservations/confirm/${reservationId}`, {
-            method: 'PATCH', // Using PATCH as specified
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-    
-          if (!response.ok) {
-            const errorData = await response.json();
-            console.error('Failed to update reservation status:', errorData.error);
-            return; // Exit the function if there was an error response
-          }
-    
-          // Assuming the successful response includes the updated reservation, you might want to update your local state
-          const updatedReservation = await response.json();
-          console.log('Reservation status updated successfully:', updatedReservation);
-    
-          // Update local state to reflect the change
-          const updatedReservations = formData.map(reservation =>
-            reservation.id === reservationId ? { ...reservation, status: 'refused' } : reservation
-          );
-          setFormData(updatedReservations);
-        } catch (error) {
-          console.error('Error declining reservation:', error);
-        }
-      }
-      if (newStatus === 'canceled') {
-        try {
-          const response = await fetch(`/api/reservations/confirm/${reservationId}`, {
-            method: 'PATCH', // Using PATCH as specified
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-    
-          if (!response.ok) {
-            const errorData = await response.json();
-            console.error('Failed to update reservation status:', errorData.error);
-            return; // Exit the function if there was an error response
-          }
-    
-          // Assuming the successful response includes the updated reservation, you might want to update your local state
-          const updatedReservation = await response.json();
-          console.log('Reservation status updated successfully:', updatedReservation);
-    
-          // Update local state to reflect the change
-          const updatedReservations = formData.map(reservation =>
-            reservation.id === reservationId ? { ...reservation, status: 'canceled' } : reservation
-          );
-          setFormData(updatedReservations);
-        } catch (error) {
-          console.error('Error canceling reservation:', error);
-        }
-      }
-
-      // Inside your updateStatus function, after successfully updating the reservation
-      handleStatusUpdate(newStatus, reservationId);
-      
+      // Handle other status updates similarly, if applicable
     };
-    
         const [successPopup, setSuccessPopup] = useState({ show: false, message: '' });
 
-        const handleStatusUpdate = (newStatus, reservationId) => {
+        const handleClick = (action, reservationId) => {
           let message = '';
-          switch (newStatus) {
-              case 'accepted':
-                  message = `Reservation ${reservationId} has been successfully accepted. We'll inform the customer with an email. Thank you!`;
-                  break;
-              case 'refused':
-                  message = `Reservation ${reservationId} has been successfully declined. We'll inform the customer accordingly. Thank you!`;
-                  break;
-              case 'canceled':
-                  message = `Reservation ${reservationId} has been successfully canceled. We'll inform the customer accordingly. Thank you!`;
-                  break;
-              default:
-                  console.error('Unhandled status:', newStatus);
-                  return; // Exit if the status is not recognized
+          switch (action) {
+            case 'accept':
+              message = `Reservation ${reservationId} has been successfully accepted. We'll inform the customer with an email. Thank you!`;
+              break;
+            case 'decline':
+              message = `Reservation ${reservationId} has been successfully declined. We'll inform the customer accordingly. Thank you!`;
+              break;
+            case 'cancel':
+              message = `Reservation ${reservationId} has been successfully canceled. We'll inform the customer accordingly. Thank you!`;
+              break;
+            default:
+              console.error('Unhandled action:', action);
+              return; // Exit if the action is not recognized
           }
-      
+        
           // Show the success message popup
-          setSuccessPopup({ show: true, message });
-      
+          setSuccessPopup({ show: true, message: message });
+        
           // Optionally close the popup after some time
           setTimeout(() => setSuccessPopup({ show: false, message: '' }), 3000);
-      };
-      
+        };
 
         const [isEditModalOpen, setIsEditModalOpen] = useState(false);
         const [editingReservation, setEditingReservation] = useState(null);
@@ -505,8 +468,8 @@ const Checkin = () => {
   </div>
 )}
 
-  {/* Declined Reservations table */}
-  <div className="mt-8">
+        {/* Declined Reservations table */}
+      <div className="mt-8">
   <h2 className="text-lg font-semibold">Declined Reservations</h2>
   <table className="min-w-full mt-2">
     <thead>
@@ -518,6 +481,7 @@ const Checkin = () => {
         <th className="px-4 py-2 border">Customer Info</th>
         <th className="px-4 py-2 border">Status</th>
         <th className="px-4 py-2 border">Reason</th>
+        <th className="px-4 py-2 border">Action</th>
       </tr>
     </thead>
     <tbody>
@@ -538,11 +502,15 @@ const Checkin = () => {
             </button>
             </td>
             <td className="px-4 py-2 border">Do not follow rental guidelines</td>
+            <td className="px-4 py-2 border flex justify-around">
+              {/* Define your actions for declined reservations, such as a possibility to review or delete */}
+              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">Review</button>
+            </td>
           </tr>
         ))
       ) : (
         <tr>
-          <td colSpan="7" className="text-center py-3">No declined reservations found.</td>
+          <td colSpan="8" className="text-center py-3">No declined reservations found.</td>
         </tr>
       )}
     </tbody>
