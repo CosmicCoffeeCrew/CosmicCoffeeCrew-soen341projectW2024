@@ -1,142 +1,107 @@
-//------------------------------
-//*****************************
-//For axios import
-//npm install axios
-//Becarefull where you installed
-//*****************************
-//------------------------------
-
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-//import axios from 'axios'; //For backend purpose
+import { useNavigate, useLocation } from 'react-router-dom';
+import './PaymentPage.css';
+
 const PaymentPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const {
+    currentCharge,
+    startDate,
+    endDate,
+    vehicleId
+  } = location.state || {};
+
   const [paymentDetails, setPaymentDetails] = useState({
     cardNumber: '',
     expiryDate: '',
     cvv: '',
     cardholderName: '',
-    paymentMethod: 'card', // Default to card payment
+    paymentMethod: 'card',
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setPaymentDetails(prevDetails => ({
+    setPaymentDetails((prevDetails) => ({
       ...prevDetails,
-      [name]: value
+      [name]: value,
     }));
-    
   };
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    //console.log('Payment details: ', paymentDetails);
-    // Here you would integrate with a payment API
-    navigate('/payment-success');
+    setTimeout(() => {
+      alert('Payment processed successfully!');
+      navigate('/payment-success');
+    }, 1000); // Fake delay of 1 second
   };
-
-  //---------------------------BACKEND------------------------------------
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  
-  //   // Validate payment details here before sending
-  
-  //   try {
-  //     // Send payment information to your backend server
-  //     const response = await axios.post('https://yourbackend.com/api/payment', paymentDetails);
-  //     // Handle the response from the backend
-  //     if (response.data.success) {
-  //       console.log('Payment successful');
-  //       // Navigate to a success page or reset form ---> We need to do one when everything is working adequately
-  //     } else {
-  //       console.error('Payment failed:', response.data.message);
-  //       // Show error message
-  //     }
-  //   } catch (error) {
-  //     console.error('Payment error:', error);
-  //     // Show error message
-  //   }
-  // };
-  //--------------------------------------------------------------------------------------------------
-  
+  const formatStartDate = startDate ? new Date(startDate).toLocaleDateString() : '';
+  const formatEndDate = endDate ? new Date(endDate).toLocaleDateString() : '';
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <h2 className="text-2xl font-bold mb-4 text-center">Payment Information</h2>
-        <form onSubmit={handleSubmit}>
-          {/* Payment method selection */}
-          <div className="mb-4">
-            <span className="text-gray-700">Payment Method</span>
-            <div className="mt-2">
-              <label className="inline-flex items-center">
-                <input
-                  type="radio"
-                  className="form-radio"
-                  name="paymentMethod"
-                  value="card"
-                  checked={paymentDetails.paymentMethod === 'card'}
-                  onChange={handleChange}
-                />
-                <span className="ml-2">Card</span>
-              </label>
-              <label className="inline-flex items-center ml-6">
-                <input
-                  type="radio"
-                  className="form-radio"
-                  name="paymentMethod"
-                  value="paypal"
-                  checked={paymentDetails.paymentMethod === 'paypal'}
-                  onChange={handleChange}
-                />
-                <span className="ml-2">PayPal</span>
-              </label>
-              <label className="inline-flex items-center ml-6">
-                <input
-                  type="radio"
-                  className="form-radio"
-                  name="paymentMethod"
-                  value="checking"
-                  checked={paymentDetails.paymentMethod === 'checking'}
-                  onChange={handleChange}
-                />
-                <span className="ml-2">Checking</span>
-              </label>
-            </div>
-          </div>
-
-          {/* Conditional rendering for Card Details if 'card' is selected */}
-          {paymentDetails.paymentMethod === 'card' && (
-            <div className="grid gap-4 mb-4">
-              <div>
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="cardNumber">
-                  Card Number
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="cardNumber"
-                  type="text"
-                  placeholder="1111 2222 3333 4444"
-                  name="cardNumber"
-                  value={paymentDetails.cardNumber}
-                  onChange={handleChange}
-                />
-              </div>
-              {/* ...other input fields like cardholderName, expiryDate, cvv */}
-            </div>
-          )}
-
-          {/* Submit button */}
-          <div className="flex items-center justify-center">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-            >
-              Pay Now
-            </button>
-          </div>
-        </form>
+    <div className="payment-page-container">
+      <form onSubmit={handleSubmit} className="payment-form">
+        <h2 className="payment-form-title">Payment Information</h2>
+  
+        {/* Displaying reservation and charge details */}
+      <div className="reservation-details mb-4">
+        <p><strong>Reference Number:</strong> {vehicleId || 'N/A'}</p>
+        <p><strong>Start Date:</strong> {formatStartDate}</p>
+        <p><strong>End Date:</strong> {formatEndDate}</p>
+        <p><strong>Charge:</strong> ${currentCharge || 0}</p>
+        <p className="additional-fees" style={{color: 'red'}}>An additional $500 will be added to your fees until you checkout.</p>
       </div>
+  
+        {paymentDetails.paymentMethod === 'card' && (
+          <div className="card-details-section">
+            <div className="input-group">
+              <label htmlFor="cardNumber">Card Number</label>
+              <input
+                type="text"
+                id="cardNumber"
+                name="cardNumber"
+                value={paymentDetails.cardNumber}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="input-group">
+              <label htmlFor="expiryDate">Expiry Date</label>
+              <input
+                type="text"
+                id="expiryDate"
+                name="expiryDate"
+                value={paymentDetails.expiryDate}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="input-group">
+              <label htmlFor="cvv">CVV</label>
+              <input
+                type="text"
+                id="cvv"
+                name="cvv"
+                value={paymentDetails.cvv}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="input-group">
+              <label htmlFor="cardholderName">Cardholder Name</label>
+              <input
+                type="text"
+                id="cardholderName"
+                name="cardholderName"
+                value={paymentDetails.cardholderName}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+        )}
+        <button type="submit" className="pay-now-button">Pay Now</button>
+      </form>
     </div>
   );
 };

@@ -3,7 +3,10 @@ import { useParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useAuthContext } from '../../../hooks/useAuthContext';
+import { useNavigate } from 'react-router-dom';
+
 //import Vehicle from '../../../../../backend/models/vehicleModel';
+//Payement
 
 const RentalFormPage = () => {
   const { vehicleId } = useParams();
@@ -19,6 +22,8 @@ const RentalFormPage = () => {
   const [messageType, setMessageType] = useState('error'); // 'success' or 'error'
   
   const { user } = useAuthContext();
+
+  const navigate = useNavigate(); // Hook to programatically navigate
 
   useEffect(() => {
     console.log('Current user: ', user);
@@ -106,6 +111,8 @@ const RentalFormPage = () => {
         const errorResponse = await response.json();
         throw new Error(errorResponse.message || 'Failed to create reservation');
       }
+       // If the reservation was successfully created, navigate to the payment page
+       navigate('/PaymentPage', { state: { currentCharge, startDate, endDate, vehicleId } }); // Pass any necessary state
 
        // Set message for successful operation
        setMessageType('success'); // Set the message type to success

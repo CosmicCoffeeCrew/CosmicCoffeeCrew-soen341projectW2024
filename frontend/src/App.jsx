@@ -15,27 +15,21 @@ import Footer from "./components/Footer/Footer";
 import AdminDashboard from "./pages/Admin";
 import CSRPage from "./pages/CSR";
 
-//Inventory Cars:
-//Testing with invetory page:
+//Return Instructions
+import ReturnInstructionsPage from './pages/ReturnInstructionsPage';
 
-//import InventoryPage from "./components/InventoryPage/InventoryPage";
-//<Route path="/InventoryPage" element={<InventoryPage/>} />
-
-//import VehicleDetailPage from './components/InventoryPage/VehicleDetailPage';
-//------
+//Catalogue
 import ProductCatalogue from "./components/Catalogue/ProductCatalogue";
-//import VehicleDetailPage from './components/Catalogue/View_details/VehicleDetailPage';
-//<Route path="/inventory/:vehicleId" element={<VehicleDetailPage />} />
 import RentalFormPage from './components/Catalogue/View_details/RentalFormPage';
-// import RentalForm from './components/Catalogue/RentalFormPage'; // Make sure this component exists
-// <Route path="/rental-form" element={<RentalForm />} />
 
-//Catalogue->ProductCatalogue
-//Catalogue->Forms->RentalFormPage.jsx
-
-// import products from './components/Catalogue/ProductDetails'; // Import products array
 //Customer Review
 import CustomerReview from "./components/CustormerReview/CustomerReview";
+
+//Payement Page
+import PaymentPage from "./components/Payement/PaymentPage";
+//import PaymentPageSuccess from "./components/Payement/PayementSuccessPage";
+import PaymentSuccessPage from "./components/Payement/PaymentSuccessPage";
+
 const App = () => {
   // dark mode start
   const [theme, setTheme] = useState(
@@ -73,9 +67,17 @@ const App = () => {
         <Route path="/CustomerReview" element = {<CustomerReview/>}/>
         <Route path="/Catalog" element={<ProductCatalogue />} />
         <Route path="/vehicles/:vehicleId" element={<RentalFormPage />} />
+        {/* Payment Page */}
+        <Route path="/PaymentPage" element={<PaymentPage/>} />
+        <Route path="/payment-success" element={<PaymentSuccessPage/>} />
+        {/* Check this page */}
         <Route path="/rental-form" element={<RentalFormPage/>} />
+        {/* Return Instructions */}
+        <Route path="/ReturnInstructionsPage" element={<ReturnInstructionsPage />} />
+        {/* Admin pages */}
         <Route path="/AdminDashboard" element={<AdminDashboard />} />
         <Route path="/" element={<AdminDashboard />} />
+        {/* CSR pages */}
         <Route path="/csr" element={<CSRPage />} />
         
       </Routes>
