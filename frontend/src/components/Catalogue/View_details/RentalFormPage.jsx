@@ -19,8 +19,6 @@ const RentalFormPage = () => {
   const [messageType, setMessageType] = useState('error'); // 'success' or 'error'
   
   const { user } = useAuthContext();
-  const userId = user.id;
-  console.log("This is the id:", userId);
 
   useEffect(() => {
     console.log('Current user: ', user);
@@ -68,7 +66,6 @@ const RentalFormPage = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(vehicle,userId);
 
     if (!vehicle) {
       setErrorMessage('Missing vehicle');
@@ -94,7 +91,7 @@ const RentalFormPage = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          userID: user.id,
+          userID: user.tempId,
           vehicleID: vehicleId,
           start_Date: startDate.toISOString(),
           end_Date: endDate.toISOString(),
