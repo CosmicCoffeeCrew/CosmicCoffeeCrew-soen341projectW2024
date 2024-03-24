@@ -27,9 +27,11 @@ import CustomerReview from "./components/CustormerReview/CustomerReview";
 
 //Payement Page
 import PaymentPage from "./components/Payement/PaymentPage";
-//import PaymentPageSuccess from "./components/Payement/PayementSuccessPage";
 import PaymentSuccessPage from "./components/Payement/PaymentSuccessPage";
 
+//CheckIn Page
+import CheckIn from "./components/CheckIn/CheckInPage";
+import ReservationsPage from './pages/Reservations'; 
 const App = () => {
   // dark mode start
   const [theme, setTheme] = useState(
@@ -67,6 +69,10 @@ const App = () => {
         <Route path="/CustomerReview" element = {<CustomerReview/>}/>
         <Route path="/Catalog" element={<ProductCatalogue />} />
         <Route path="/vehicles/:vehicleId" element={<RentalFormPage />} />
+        {/* CheckIn Page */}
+        à<Route path="/reservations" element={<ReservationsPage />} />
+        {/* <Route path="/check-in/" element={<CheckIn/>} /> */}
+        <Route path="/check-in/:reservationId" element={<CheckIn />} />
         {/* Payment Page */}
         <Route path="/PaymentPage" element={<PaymentPage/>} />
         <Route path="/payment-success" element={<PaymentSuccessPage/>} />

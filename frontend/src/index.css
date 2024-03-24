@@ -84,3 +84,19 @@ html {
 .view-details-button:hover {
   background-color: #0056b3;
 }
+button:hover {
+  background-color: #0056b3;
+}
+.check-in-button {
+  background-color: #4CAF50; /* Green background */
+  color: white; /* White text */
+  padding: 10px 20px; /* Padding around the text */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Change mouse pointer on hover */
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.check-in-button:hover {
+  background-color: #45a049; /* Darker shade of green on hover */
+}

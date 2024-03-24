@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useAuthContext } from '../hooks/useAuthContext'; // Make sure the path is correct
 import '../index.css';
-
+import {useNavigate} from 'react-router-dom';
 const ReservationsPage = () => {
   const [reservations, setReservations] = useState([]);
   const { user } = useAuthContext(); // Assuming this hook provides the logged-in user's data
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchReservations = async () => {
@@ -46,6 +47,10 @@ const ReservationsPage = () => {
       fetchReservations();
     }
   }, [user]);
+  const handleCheckIn = (reservationId) => {
+    navigate(`/check-in/${reservationId}`);
+  };
+
   //Delete Reservations
   const handleDelete = async (reservationId) => {
     if (window.confirm('Are you sure you want to delete this reservation?')) {
@@ -98,6 +103,9 @@ const ReservationsPage = () => {
               <p className="cost"><strong>Cost:</strong> ${reservation.charge || 'Unknown'}</p>
               <button onClick={() => handleDelete(reservation._id)} className="delete-reservation-button">
                 Delete Reservation
+              </button>
+              <button onClick={() => handleCheckIn(reservation._id)} className="check-in-button">
+                Check In
               </button>
             </div>
           </div>

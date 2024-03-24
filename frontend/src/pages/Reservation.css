@@ -54,7 +54,7 @@
   display: inline-block; /* Adjust display */
   width: auto; /* Auto width based on content */
   padding: 10px 20px; /* Adequate padding */
-  background-color: #dc3545!important; /* Bootstrap 'danger' color for reference */
+  background-color: #dc3545; /* Bootstrap 'danger' color for reference */
   color: #ffffff; /* White text */
   border: 1px solid #dc3545; /* Solid border */
   border-radius: 5px; /* Rounded corners */
