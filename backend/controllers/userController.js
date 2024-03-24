@@ -144,7 +144,7 @@ const signupUser = async (req,res)=> {
         const mailOptions = {
             from: 'cosmiccoffeecrew@gmail.com',
             to: userEmail,
-            subject: 'Reservation Confirmation',
+            subject: 'Sign Up Confirmation',
             html: emailContent
         };
 
