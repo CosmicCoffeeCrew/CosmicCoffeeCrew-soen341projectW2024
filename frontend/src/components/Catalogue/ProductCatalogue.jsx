@@ -1,18 +1,27 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ProductCatalogue.css';
+import { location } from '../SearchBar/SearchBar';
 
 const ProductCatalogue = () => {
     const [vehicles, setVehicles] = useState([]);
     const navigate = useNavigate();
+    let response;
 
     useEffect(() => {
         const fetchVehicles = async () => {
             try {
-                const response = await fetch('/api/vehicles');
+                //check if location was determined in Home Page search bar
+                if(location != null) {
+                    response = await fetch(`/api/vehicles/?location=${location}`);
+                }
+                else {
+                    response = await fetch('/api/vehicles');
+                }
                 if (response.ok) {
                     const json = await response.json();
                     setVehicles(json);
+                    console.log(location);
                 } else {
                     throw new Error('Failed to fetch vehicles');
                 }

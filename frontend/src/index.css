@@ -100,3 +100,38 @@ button:hover {
 .check-in-button:hover {
   background-color: #45a049; /* Darker shade of green on hover */
 }
+/* Check-In Button */
+.check-in-button {
+  background-color: #8B4513; /* Dark Brown */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-right: 10px; /* Adds space to the right */
+}
+
+/* Check-Out Button */
+.check-out-button {
+  background-color: #D2B48C; /* Light Brown (Tan) */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-right: 10px; /* Adds space to the right */
+}
+
+/* Delete Reservation Button - Assuming you might not want space after the last button, so we skip margin-right here */
+.delete-reservation-button {
+  background-color: #FF0000; /* Red */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-right: 10px; /* Adds space to the right */
+}
