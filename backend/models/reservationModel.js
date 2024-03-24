@@ -45,6 +45,9 @@ const reservationSchema = new Schema({
     checkOut: {
         type: Boolean,
         required: true
+      },
+      damageReport: {
+          type: String,
       }
 
 

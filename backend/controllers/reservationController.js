@@ -39,7 +39,7 @@ const recordReservation = async (req, res) => {
         // Calculate the charge based on the vehicle's pricePerDay and the number of days
         const charge = vehicle.pricePerDay * daysDifference;
 
-
+        const damageReport =""
         const checkIn = false
         const checkOut= false
         const reservation = new Reservation({
@@ -50,7 +50,8 @@ const recordReservation = async (req, res) => {
             charge,
             status,
             checkIn,
-            checkOut
+            checkOut,
+            damageReport
         });
 
         await reservation.save();
