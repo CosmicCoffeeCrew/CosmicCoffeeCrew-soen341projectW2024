@@ -30,8 +30,11 @@ import PaymentPage from "./components/Payement/PaymentPage";
 import PaymentSuccessPage from "./components/Payement/PaymentSuccessPage";
 
 //CheckIn Page
-import CheckIn from "./components/CheckIn/CheckInPage";
-import ReservationsPage from './pages/Reservations'; 
+import CheckIn from './components/CheckIn/CheckInPage';
+import ReservationsPage from './pages/Reservations';
+//CheckOut page
+import CheckOut from './components/CheckOut/CheckOutPage';
+//import CheckOutPage from "./components/CheckOut/CheckOutPage";
 const App = () => {
   // dark mode start
   const [theme, setTheme] = useState(
@@ -59,6 +62,7 @@ const App = () => {
     });
     AOS.refresh();
   }, []);
+
   return (
     <div className="bg-secondary-300  dark:bg-black dark:text-white text-black overflow-x-hidden">
       <Router>
@@ -70,7 +74,7 @@ const App = () => {
         <Route path="/Catalog" element={<ProductCatalogue />} />
         <Route path="/vehicles/:vehicleId" element={<RentalFormPage />} />
         {/* CheckIn Page */}
-        à<Route path="/reservations" element={<ReservationsPage />} />
+        <Route path="/reservations" element={<ReservationsPage />} />
         {/* <Route path="/check-in/" element={<CheckIn/>} /> */}
         <Route path="/check-in/:reservationId" element={<CheckIn />} />
         {/* Payment Page */}
@@ -78,6 +82,8 @@ const App = () => {
         <Route path="/payment-success" element={<PaymentSuccessPage/>} />
         {/* Check this page */}
         <Route path="/rental-form" element={<RentalFormPage/>} />
+        {/* Check out page */}
+        <Route path="/checkout" element={<CheckOut/>} />
         {/* Return Instructions */}
         <Route path="/ReturnInstructionsPage" element={<ReturnInstructionsPage />} />
         {/* Admin pages */}

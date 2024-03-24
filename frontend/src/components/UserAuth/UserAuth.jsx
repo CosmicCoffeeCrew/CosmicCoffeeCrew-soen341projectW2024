@@ -50,7 +50,7 @@ function UserAuth({ onClose, initialMode }) {
         {mode === "login" ? (
           <form onSubmit={handleLoginSubmit}>
             <div className="mb-4">
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700">Email</label>
               <input
                 type="text"
                 id="username"
