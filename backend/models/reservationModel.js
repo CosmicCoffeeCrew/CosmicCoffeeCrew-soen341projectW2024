@@ -48,6 +48,10 @@ const reservationSchema = new Schema({
       },
       damageReport: {
           type: String,
+      },
+      rentalAgreement: {
+        type:Boolean,
+        default: false
       }
 
 
