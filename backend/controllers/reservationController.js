@@ -14,8 +14,8 @@ const recordReservation = async (req, res) => {
     console.log("Attempting to record a reservation with body:", req.body);
 
     // Basic validation (you might want to replace this with a more robust solution like Joi)
-    const { userID, vehicleID, start_Date, end_Date, charge, status } = req.body;
-    if (!userID || !vehicleID || !start_Date || !end_Date || !charge || !status) {
+    const { userID, vehicleID, start_Date, end_Date, status } = req.body;
+    if (!userID || !vehicleID || !start_Date || !end_Date || !status) {
         console.error("Validation error: Missing fields in request body");
         return res.status(400).json({ error: "Missing required fields" });
     }
@@ -23,6 +23,24 @@ const recordReservation = async (req, res) => {
     try {
         // Example of using the Reservation model to record a new reservation
         // This is pseudo-code; adjust according to your actual model and database schema
+
+        // Calculate the difference in days between start_Date and end_Date
+        const startDate = new Date(start_Date);
+        const endDate = new Date(end_Date);
+        const timeDifference = endDate.getTime() - startDate.getTime();
+        const daysDifference = timeDifference / (1000 * 3600 * 24); // milliseconds to days
+
+        // Retrieve vehicle information to calculate charge
+        const vehicle = await Vehicle.findById(vehicleID);
+        if (!vehicle) {
+            throw new Error('Vehicle not found');
+        }
+
+        // Calculate the charge based on the vehicle's pricePerDay and the number of days
+        const charge = vehicle.pricePerDay * daysDifference;
+
+
+
         const reservation = new Reservation({
             userID,
             vehicleID,
@@ -34,6 +52,29 @@ const recordReservation = async (req, res) => {
 
         await reservation.save();
         console.log("Reservation recorded successfully:", reservation);
+        const user = await User.findById({_id: userID})
+        const emailContent = 
+       `<p>Dear  ${user.username} ,</p>
+        <p>Your reservation has been requested</p>
+        <p>Reservation Details:</p>
+        <ul>
+            <li>Start Date: ${start_Date}</li>
+            <li>End Date: ${end_Date}</li>
+            <li>This reservation will cost you: ${charge} CAD$ </li>
+            <li>Your request is ${status}</li>
+        </ul>
+        <p>Thank you for choosing our service.</p>`
+    ;
+    const mailOptions = {
+        from: 'cosmiccoffeecrew@gmail.com',
+        to: user.email,
+        subject: 'Reservation Confirmation',
+        html: emailContent
+    };
+
+    await transporter.sendMail(mailOptions);
+
+        
 
         // Example response; adjust as needed
         res.status(201).json(reservation);
