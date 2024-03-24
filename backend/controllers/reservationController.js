@@ -5,7 +5,7 @@ const Reservation = require ('../models/reservationModel')
 const mongoose = require('mongoose')
 const {transporter} = require('../mail')
 const { unstable_renderSubtreeIntoContainer } = require('react-dom')
-const puppeteer = require('puppeteer')
+//const puppeteer = require('puppeteer')
 const fs = require('fs-extra')
 //process.env.SECRET;
 
@@ -40,14 +40,17 @@ const recordReservation = async (req, res) => {
         const charge = vehicle.pricePerDay * daysDifference;
 
 
-
+        const checkIn = false
+        const checkOut= false
         const reservation = new Reservation({
             userID,
             vehicleID,
             start_Date,
             end_Date,
             charge,
-            status
+            status,
+            checkIn,
+            checkOut
         });
 
         await reservation.save();
@@ -330,6 +333,96 @@ const cancelReservation = async (req,res) => {
 
 }
 
+//CHECKIN USER
+
+const checkInReservation = async (req,res) => {
+    const { id } = req.params
+    
+
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({error: 'No such reservation'})
+    }
+
+    const reservation = await Reservation.findOneAndUpdate({_id: id},{'checkIn':true})
+
+    //SENDING AN EMAIL TO SAY THAT 500 CAD have been withdrawed
+
+    const user = await User.findById({_id: reservation.userID})
+        const emailContent = 
+       `<p>Dear  ${user.username} ,</p>
+        <p>Thank you for checking In!</p>
+        <h5>A deposit of 500 CAD$ has been taken from your account, and will be returned to you once you check-out.</h5>
+        
+        <p>Have a safe ride!</p>
+        <p>CocoCrew</p>
+        `
+    ;
+    const mailOptions = {
+        from: 'cosmiccoffeecrew@gmail.com',
+        to: user.email,
+        subject: 'CHECK-IN',
+        html: emailContent
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    ////////////////////////////////////////////////////////////
+
+    if(!reservation){
+        return res.status(404).json({error: 'No such reservation'})
+    }
+    res.status(200).json(reservation)
+
+}
+
+
+//CHECK OUT
+//CHECKIN USER
+
+const checkOutReservation = async (req,res) => {
+    const { id } = req.params
+    
+
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({error: 'No such reservation'})
+    }
+
+    const reservation = await Reservation.findOneAndUpdate({_id: id},{'checkOut':true})
+
+    //SENDING AN EMAIL TO SAY THAT 500 CAD have been withdrawed
+
+    const user = await User.findById({_id: reservation.userID})
+        const emailContent = 
+       `<p>Dear  ${user.username} ,</p>
+        
+       <p>We hope you had a great experience, and wish to see you again soon!</p>
+        <h3>Your 500 CAD$ deposit has been returned</h3>
+        
+        
+        <p>We care about your opinion! Please take 2 minutes to leave a rating and a review :)</p>
+        <p>CocoCrew</p>
+        `
+    ;
+    const mailOptions = {
+        from: 'cosmiccoffeecrew@gmail.com',
+        to: user.email,
+        subject: 'CHECK-OUT',
+        html: emailContent
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    ////////////////////////////////////////////////////////////
+
+    if(!reservation){
+        return res.status(404).json({error: 'No such reservation'})
+    }
+    res.status(200).json(reservation)
+
+}
+
+
+
 // //login user
 // const loginUser = async(req,res) => {
 //     res.json({mssg: 'login user'})
@@ -407,4 +500,4 @@ const rateReservation = async (req,res) => {
 
 // }
 
-module.exports = {cancelReservation, confirmReservation, updateReservation, recordReservation, getReservations, getUserReservations, getVehicleReservations,deleteReservation, rateReservation }
+module.exports = {checkOutReservation,checkInReservation,cancelReservation, confirmReservation, updateReservation, recordReservation, getReservations, getUserReservations, getVehicleReservations,deleteReservation, rateReservation }

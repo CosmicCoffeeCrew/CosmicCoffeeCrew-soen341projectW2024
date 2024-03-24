@@ -37,12 +37,21 @@ const reservationSchema = new Schema({
         type: Number,
         min: 1,
         max: 5
-    }
+    }, 
+    checkIn: {
+        type: Boolean,
+        required: true
+      },
+    checkOut: {
+        type: Boolean,
+        required: true
+      }
+
 
 })
 
 
-reservationSchema.statics.record = async function(userID, vehicleID, start_Date, end_Date, charge, status){
+reservationSchema.statics.record = async function(userID, vehicleID, start_Date, end_Date, charge, status, checkIn, checkOut){
 
 
     // validation
@@ -62,7 +71,7 @@ reservationSchema.statics.record = async function(userID, vehicleID, start_Date,
     }
 
 
-    const reservation = await this.create({userID, vehicleID, start_Date, end_Date, charge, status})
+    const reservation = await this.create({userID, vehicleID, start_Date, end_Date, charge, status, checkIn,CheckOut})
 
     return reservation
 }
