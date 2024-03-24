@@ -39,6 +39,10 @@ const vehicleSchema = new Schema({
     type: String,
     required: true
   },
+  licensePlateNumber: {
+    type: String,
+    required: true
+  },
   mileage: {
     type: Number,
     required: true

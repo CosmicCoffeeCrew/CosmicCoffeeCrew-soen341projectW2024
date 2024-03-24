@@ -12,15 +12,15 @@ const createTocken = (id) => {
 
 // Function to create a new user
 const createUser = async (req, res) => {
-    const { email, password, username, permission, License, birthdate, rentalHistory } = req.body;
+    const { email, password, username, firstName, lastName, address, contactNumber, permission, License, birthdate, rentalHistory } = req.body;
     try {
         // Check if the required fields are provided
-        if (!email || !password || !username || !permission || !License ) {
+        if (!email || !password || !username || !firstName || !lastName || !address || !contactNumber || !License || !birthdate ) {
             throw new Error("All fields must be filled");
         }
 
         // Create the user
-        const user = await User.create({ email, password, username, permission, License, birthdate, rentalHistory });
+        const user = await User.create({ email, password, username, firstName, lastName, address, contactNumber, permission, License, birthdate, rentalHistory });
 
         // Create a token
         const token = createToken(user._id);
@@ -112,9 +112,9 @@ const loginUser = async(req,res) => {
 //signup user
 //tocken authentification
 const signupUser = async (req,res)=> {
-    const {email,password, username, permission, License, birthdate, rentalHistory} = req.body
+    const {email,password, username, firstName, lastName, address, contactNumber, permission, License, birthdate, rentalHistory} = req.body
     try{
-        const user = await User.signup(email,password, username, permission, License, birthdate, rentalHistory)
+        const user = await User.signup(email,password, username, firstName, lastName, address, contactNumber, permission, License, birthdate, rentalHistory)
 
         //Create a tocken 
         const token = createTocken(user.id)

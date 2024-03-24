@@ -18,10 +18,27 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
+        type: String,
+        required: true
+    },
+    address: {
+        type: String,
+        required: true
+    },
+    contactNumber: {
+        type: String,
+        required: true
+    },
     permission: {
         type: String,
         enum: ["Customer", "CSR", "Admin"],
-        required: true
+        required: true,
+        default: "Customer"
     },
     //drivers License
     License: {
@@ -43,19 +60,33 @@ const userSchema = new Schema({
 
 // static sign up method
 
-userSchema.statics.signup = async function(email, password, username, permission, License, birthdate, rentalHistory){
+userSchema.statics.signup = async function(email, password, username, firstName, lastName, address, contactNumber, permission, License, birthdate, rentalHistory){
 
 
     // validation
-    if (!email || !password || !username || !permission || !License || !birthdate){
+    if (!email || !password || !username || !firstName || !lastName || !address || !contactNumber || !License || !birthdate){
         throw Error("All fields must be filled")
     }
     if (!validator.isEmail(email)){
         throw Error("Email is not valid")
     }
-    if (!validator.isStrongPassword(password)){
-        throw Error("Password is weak")
+    if (password.length < 8 || password.length > 20) {
+        throw Error("Password must be betewen 8 and 20 characters long")
     }
+
+    // Check if the password contains at least one special character, one capital letter,
+    // one small letter, and one number
+    const containsSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const containsCapitalLetter = /[A-Z]/.test(password);
+    const containsSmallLetter = /[a-z]/.test(password);
+    const containsNumber = /\d/.test(password);
+
+    // If all conditions are met, return true
+    if ((containsSpecialChar && containsCapitalLetter && containsSmallLetter && containsNumber) == false){
+        throw Error("Password must have at least: 1 Special Character, 1 Number, 1 Capital and Non-Capital Letter")
+    }
+
+
     const email_Exists = await this.findOne({ email })
 
     const License_Exists = await this.findOne({ License })
@@ -73,10 +104,7 @@ userSchema.statics.signup = async function(email, password, username, permission
 
     const hashPassword = await bcrypt.hash(password, salt)
 
-    const hashLicense = await bcrypt.hash(License, salt)
-
-
-    const user = await this.create({email, password: hashPassword, username, permission, License: hashLicense, birthdate, rentalHistory})
+    const user = await this.create({email, password: hashPassword, username, firstName, lastName, address, contactNumber, permission, License, birthdate, rentalHistory})
 
     return user
 }

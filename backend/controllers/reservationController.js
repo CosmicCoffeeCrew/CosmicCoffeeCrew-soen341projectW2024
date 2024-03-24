@@ -208,7 +208,7 @@ const confirmReservation = async (req,res) => {
 
     const reservation = await Reservation.findOneAndUpdate({_id: id},{'status':'accepted'})
     const user = await User.findById({_id: reservation.userID})
-
+    const vehicle = await Vehicle.findById({_id: reservation.vehicleID})
 
     try{
         const browser = await puppeteer.launch()
@@ -218,92 +218,117 @@ const confirmReservation = async (req,res) => {
         const pathTitle = "Rental Agreement { ".concat('', resId)
         const pathname = pathTitle.concat('', ' }.pdf')
 
-        await page.setContent(""+
-        "<h1>Hello</h1>"+
-        
-            
-    "<h1>Rental Agreement Number: " + resId + "</h1>" +
+        const startDate = new Date(reservation.start_Date);
+        const endDate = new Date(reservation.end_Date);
+        const timeDifference = endDate.getTime() - startDate.getTime();
+        const daysDifference = timeDifference / (1000 * 3600 * 24); // milliseconds to days
+
+        var datetime = new Date();
+
+        await page.setContent(
+        `        
+
+    <center><h1 style="font-family:verdana;"> Rental Contract </h1></center>
+    <b><p style="margin: 0px 20px 0px 20px;">Rental Agreement Number: </b>${resId} </p><br>
     
-    "<p>This Rental Agreement ('Agreement') is entered into between CosmicCoffeeCrew, located at 1455 Blvd. De Maisonneuve OuestMontreal, QC H3G 1M8 , hereinafter referred to as the 'Rental Company,' and the individual or entity identified below, hereinafter referred to as the 'Renter':</p>" +
+    <p style="margin: 0px 20px 0px 20px;">This Rental Agreement ("Agreement") is entered into between CosmicCoffeeCrew, located at 1455 Blvd. De Maisonneuve OuestMontreal, QC H3G 1M8 , hereinafter referred to as the "Rental Company," and the individual or entity identified below, hereinafter referred to as the "Renter":</p>
         
-       "<p> 1. Renter's Information: </p>" +
+       <b><p style="text-decoration: underline; margin: 10px 20px 10px 20px;" > 1. Renter's Information: </p></b>
 
-        "<p>Name: " + user.username + "</p>"+
-        "<p>Address:" +  + "</p>"+
-        "<p>Contact Number:" +  + "</p>"+
-        "<p>Email Address:" + user.email + "</p>"+
-        "<p>Driver's License Number: " + user.License + "</p>"
-        /*
-        2. Vehicle Information:
+        <p style="margin: 0px 20px 0px 20px;">Name: ${user.firstName} ${user.lastName}  </p>
+        <p style="margin: 0px 20px 0px 20px;">Address: ${user.address}</p>
+        <p style="margin: 0px 20px 0px 20px;">Contact Number: ${user.contactNumber}</p>
+        <p style="margin: 0px 20px 0px 20px;">Email Address:  ${user.email}  </p>
+        <p style="margin: 0px 20px 0px 20px;">Driver's License Number: ${user.License} </p>
+        
+        <b><p style="text-decoration: underline; margin: 10px 20px 10px 20px;"> 2. Vehicle Information: </p></b>
 
-        Make:
-        Model:
-        Year:
-        License Plate Number:
-        Vehicle Identification Number (VIN):
-        Color:
-        3. Rental Details:
+        <p style="margin: 0px 20px 0px 20px;">Make: ${vehicle.make}</p>
+        <p style="margin: 0px 20px 0px 20px;">Model:${vehicle.model}</p>
+        <p style="margin: 0px 20px 0px 20px;">Year: ${vehicle.year}</p>
+        <p style="margin: 0px 20px 0px 20px;">License Plate Number: ${vehicle.licensePlateNumber}</p>
+        <p style="margin: 0px 20px 0px 20px;">Vehicle Identification Number (VIN): ${reservation.vehicleID}</p>
+        <p style="margin: 0px 20px 0px 20px;">Color: ${vehicle.color}</p>
 
-        Rental Start Date:
-        Rental End Date:
-        Pick-up Location:
-        Drop-off Location:
-        Rental Period:
-        Mileage Limit (if applicable):
-        Rental Rate:
-        Additional Services (if any):
-        4. Rental Terms and Conditions:
+        <b><p style="text-decoration: underline; margin: 10px 20px 10px 20px;">3. Rental Details:</p></b>
 
-        The Renter acknowledges receiving the vehicle described above in good condition and agrees to return it to the Rental Company in the same condition, subject to normal wear and tear.
-        The Renter agrees to use the vehicle solely for personal or business purposes and not for any illegal activities.
-        The Renter agrees to pay the Rental Company the agreed-upon rental rate for the specified rental period. Additional charges may apply for exceeding the mileage limit, late returns, fuel refueling, or other damages.
-        The Renter agrees to bear all costs associated with traffic violations, tolls, and parking fines incurred during the rental period.
-        The Renter acknowledges that they are responsible for any loss or damage to the vehicle, including theft, vandalism, accidents, or negligence, and agrees to reimburse the Rental Company for all repair or replacement costs.
-        The Renter agrees to return the vehicle to the designated drop-off location at the agreed-upon date and time. Failure to do so may result in additional charges.
-        The Rental Company reserves the right to terminate this agreement and repossess the vehicle without prior notice if the Renter breaches any terms or conditions of this agreement.
-        The Renter acknowledges receiving and reviewing a copy of the vehicle's insurance coverage and agrees to comply with all insurance requirements during the rental period.
-        5. Indemnification:
+        <p style="margin: 0px 20px 0px 20px;">Rental Start Date: ${reservation.start_Date}</p>
+        <p style="margin: 0px 20px 0px 20px;">Rental End Date:    ${reservation.end_Date}</p>
+        <p style="margin: 0px 20px 0px 20px;">Pick-up Location: ${vehicle.location}</p>
+        <p style="margin: 0px 20px 0px 20px;">Drop-off Location: ${vehicle.location}</p>
+        <p style="margin: 0px 20px 0px 20px;">Rental Period: ${daysDifference} day(s) </p>
+        <p style="margin: 0px 20px 0px 20px;">Mileage Limit (if applicable):</p>
+        <p style="margin: 0px 20px 0px 20px;">Rental Rate: ${vehicle.pricePerDay}</p>
+        <p style="margin: 0px 20px 0px 20px;">Additional Services (if any):</p>
 
-        The Renter agrees to indemnify and hold harmless the Rental Company, its employees, agents, and affiliates from any claims, liabilities, damages, or expenses arising out of or related to the Renter's use of the vehicle.
+        <b><p style="text-decoration: underline; margin: 10px 20px 10px 20px;">4. Rental Terms and Conditions:</p></b>
+        <ul>
+        <li><p style="margin: 5px 20px 5px 2px;">The Renter acknowledges receiving the vehicle described above in good condition and agrees to return it to the Rental Company in the same condition, subject to normal wear and tear.</p></li>
+        <li><p style="margin: 5px 20px 5px 2px;">The Renter agrees to use the vehicle solely for personal or business purposes and not for any illegal activities.</p></li>
+        <li><p style="margin: 5px 20px 5px 2px;">The Renter agrees to pay the Rental Company the agreed-upon rental rate for the specified rental period. Additional charges may apply for exceeding the mileage limit, late returns, fuel refueling, or other damages.</p></li>
+        <li><p style="margin: 5px 20px 5px 2px;">The Renter agrees to bear all costs associated with traffic violations, tolls, and parking fines incurred during the rental period.</p></li>
+        <li><p style="margin: 5px 20px 5px 2px;">The Renter acknowledges that they are responsible for any loss or damage to the vehicle, including theft, vandalism, accidents, or negligence, and agrees to reimburse the Rental Company for all repair or replacement costs.</p></li>
+        <li><p style="margin: 5px 20px 5px 2px;">The Renter agrees to return the vehicle to the designated drop-off location at the agreed-upon date and time. Failure to do so may result in additional charges.</p></li>
+        <li><p style="margin: 5px 20px 5px 2px;">The Rental Company reserves the right to terminate this agreement and repossess the vehicle without prior notice if the Renter breaches any terms or conditions of this agreement.</p></li>
+        <li><p style="margin: 5px 20px 5px 2px;">The Renter acknowledges receiving and reviewing a copy of the vehicle's insurance coverage and agrees to comply with all insurance requirements during the rental period.</p></li>
+        </ul>  
+        <br><br><br><br><br><br><br><br>
 
-        6. Governing Law:
+        <b><p style="text-decoration: underline; margin: 50px 20px 10px 20px;">5. Indentification:</p></b>
 
-        This Agreement shall be governed by and construed in accordance with the laws of [Jurisdiction]. Any disputes arising under or related to this Agreement shall be resolved exclusively by the courts of [Jurisdiction].
+        <p style="margin: 0px 20px 0px 20px;" >The Renter agrees to indentify and hold harmless the Rental Company, its employees, agents, and affiliates from any claims, liabilities, damages, or expenses arising out of or related to the Renter's use of the vehicle.</p>
 
-        7. Entire Agreement:
+        <b><p style="text-decoration: underline; margin: 10px 20px 10px 20px;">6. Governing Law:</p></b>
 
-        This Agreement constitutes the entire understanding between the parties concerning the subject matter hereof and supersedes all prior agreements and understandings, whether written or oral.
+        <p style="margin: 0px 20px 0px 20px;">This Agreement shall be governed by and construed in accordance with the laws of [Jurisdiction]. Any disputes arising under or related to this Agreement shall be resolved exclusively by the courts of [Jurisdiction].</p>
 
-        8. Signatures:
+        <b><p style="text-decoration: underline; margin: 10px 20px 10px 20px;">7. Entire Agreement:</p></b>
 
-        The parties hereto have executed this Agreement as of the date first written above.
+        <p style="margin: 0px 20px 0px 20px;">This Agreement constitutes the entire understanding between the parties concerning the subject matter hereof and supersedes all prior agreements and understandings, whether written or oral.</p>
 
-        Rental Company:
+        <b><p style="text-decoration: underline; margin: 10px 20px 10px 20px;">8. Signatures:</p></b>
 
-        Signature: ___________________________
+        <p style="margin: 0px 20px 20px 20px;" >The parties hereto have executed this Agreement as of the date first written above.</p>
 
-        Print Name: __________________________
+        <b><p style="text-decoration: underline; margin: 10px 20px 10px 20px;" >Rental Company:</p></b>
 
-        Date: _______________________________
+        <b><p style="margin: 0px 20px 5px 20px;" >Signature:</b> CoCoCrew</p>
 
-        Renter:
+        <b><p style="margin: 0px 20px 5px 20px;" >Print Name:</b> CoCoCrew</p>
 
-        Signature: ___________________________
+        <b><p style="margin: 0px 20px 5px 20px;" >Date: </b>${datetime}</p>
 
-        Print Name: __________________________
+        <b><p style="text-decoration: underline; margin: 10px 20px 10px 20px;" >Renter:</p></b>
 
-        Date: _______________________________
+        <b><p style="margin: 0px 20px 5px 20px;" >Signature: </b>___________________________</p>
 
-    */)
+        <b><p style="margin: 0px 20px 5px 20px;" >Print Name: </b>__________________________</p>
+
+        <b><p style="margin: 0px 20px 5px 20px;" >Date: </b>_______________________________</p>
+
+    `)
         await page.emulateMediaType("screen")
-        await page.pdf({
+        const finalpdf = await page.pdf({
             path: pathname,
             format: 'A4',
             printBackground: true
         })
 
-        console.log('done')
         await browser.close()
+        pathtest = "./".concat(pathname)
+        const mailOptions = {
+            from: 'cosmiccoffeecrew@gmail.com',
+            to: user.email,
+            subject: 'Reservation Confirmation',
+            attachments: [{
+                filename: pathname,
+                path: pathtest,
+                contentType: 'application/pdf'
+              }]
+        };
+    
+        await transporter.sendMail(mailOptions);
+
     }
     catch(error){
         console.log(error.message)
