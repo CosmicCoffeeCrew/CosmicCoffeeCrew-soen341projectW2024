@@ -85,16 +85,28 @@ const Checkin = () => {
     };
     
 
-     const handleSubmit = (e) => {
+     const handleSubmit = async (e) => {
          e.preventDefault();
          // Collect form data
-         const formData = {
-          vehicleId,
-           pickUpDate,
-           returnDate,
-           customerId,
-           paymentMethod,
+         const newReservation = {
+           userID: customerId,
+           vehicleID: vehicleId,
+           start_Date: pickUpDate,
+           end_Date: returnDate,
+           status: "pending",
         };
+        console.log(newReservation);
+
+         // Now, make a fetch request to submit this data to your backend
+        try {
+            const response = await fetch('/api/reservations/record', {
+               method: 'POST',
+               headers: {
+                   'Content-Type': 'application/json',
+                    // Include other headers like Authorization if necessary
+               },
+               body: JSON.stringify(newReservation),
+        });
     
          setIsModalOpen(false); // Close the modal after form submission
 
@@ -106,6 +118,10 @@ const Checkin = () => {
 
          // Optionally close the success message after some time
          setTimeout(() => setSuccessPopup({ show: false, message: '' }), 3000);
+        } catch (error) {
+          console.error('Failed to submit reservation:', error);
+          // Handle submission error
+        }
        };
 
 
@@ -230,7 +246,7 @@ const updateStatus = async (reservationId, newStatus) => {
       <div className="p-4 font-serif">
          <p>  Welcome! You have logged in as a <b>Customer Service Representative.</b> </p>
          <p>  your role is crucial in verifying and managing reservation requests efficiently. Lets get Started! </p>
-         <p>  Should you receive a call from a customer wishing to make a reservation, please proceed to manually create a reservation for them by clicking on the Create a new reservation button below.</p>
+         <p>  Should you receive a call from a customer wishing to make a reservation, please proceed to manually create a reservation for them by clicking on the <b> Create a new reservation </b> button below.</p>
         <button className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleOpenModal}>
           Create a new reservation
         </button>
