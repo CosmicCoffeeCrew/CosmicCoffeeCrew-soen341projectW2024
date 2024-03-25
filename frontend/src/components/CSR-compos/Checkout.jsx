@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 
 const Checkout = () => {
 
@@ -42,6 +42,7 @@ const Checkout = () => {
              vehicleInfo: vehicle ? `${vehicle.make} ${vehicle.model}` : 'Vehicle details not available',
              customerInfo: customer ? customer.email : 'Customer details not available',
              status: reservation.status,
+             checkOut: reservation.checkOut,
            // Include any other fields you need
         };
      }));
@@ -99,7 +100,7 @@ const Checkout = () => {
 
   return (
     <div className="mt-8 mr-10 ml-10 font-serif ">
-      <h2 className="text-2xl font-semibold mt-8">Today's Scheduled Returns - {today}</h2>
+      <h2 className="text-2xl font-semibold mt-8"> Scheduled Returns For Today - {today}</h2>
       <table className="min-w-full">
         <thead>
           <tr className="bg-gray-100">
@@ -123,11 +124,20 @@ const Checkout = () => {
                 <td className="px-4 py-2 border">{reservation.vehicleInfo}</td>
                 <td className="px-4 py-2 border">{reservation.customerInfo}</td>
                 <td className="px-4 py-2 border text-center">
+                {  reservation.checkOut === false ? (
                   <button 
                     onClick={() => initiateCheckout(reservation.id)}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Initiate Check-Out
                   </button>
+                   ) : (
+                    <button
+                      disabled
+                      className="bg-green-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                      Checkout Done
+                    </button>
+                  )
+                }
                 </td>
               </tr>
             ))
@@ -224,7 +234,7 @@ const Checkout = () => {
     {showSuccessPopup && (
         <div className="fixed inset-0 flex justify-center items-center z-20">
           <div className="bg-green-500 text-white p-4 rounded-lg shadow-lg">
-           Checkout is successful for reservation {currentReservationId}. We'll inform the customer with an email. Thank you!
+           Checkout is successful for reservation {currentReservationId}. We will inform the customer with an email. Thank you!
          </div>
       </div>
   )}
