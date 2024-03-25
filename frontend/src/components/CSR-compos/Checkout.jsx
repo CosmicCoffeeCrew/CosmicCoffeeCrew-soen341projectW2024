@@ -5,7 +5,7 @@ const Checkout = () => {
   const [formData, setFormData] = useState([]); 
 
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
-  const [currentReservation, setCurrentReservation] = useState(null);
+  const [currentReservationId, setCurrentReservationId] = useState(null);
 
   const [physicalInspectionCompleted, setPhysicalInspectionCompleted] = useState(false);
   const [noDamageObserved, setNoDamageObserved] = useState(false);
@@ -58,21 +58,43 @@ const Checkout = () => {
     //Generate today's date in YYYY-MM-DD format for comparison
    const today = new Date().toISOString().split('T')[0];
 
-const initiateCheckout = (reservation) => {
- setCurrentReservation(reservation);
-  setIsCheckoutModalOpen(true);
- };
+   const initiateCheckout = (reservationId) => {
+    console.log("Setting currentReservationId to:", reservationId); // For debugging
+    setCurrentReservationId(reservationId);
+    setIsCheckoutModalOpen(true);
+  };
+  
 
-  const handleCheckoutFormSubmit = (e) => {
-    e.preventDefault();
-    console.log("Checkout Completed for", currentReservation?.id);
-    setIsCheckoutModalOpen(false);
-     // Display the success pop-up message after a brief delay
-    setTimeout(() => {
+  const handleCheckoutFormSubmit  = async (reservationId) => {
+    console.log("Attempting to checkout reservation with ID:", reservationId); // For debugging
+    try {
+        const response = await fetch(`/api/reservations/checkout/${reservationId}`, {
+          method: 'PATCH', // or 'POST' if your server expects POST for this action
+          headers: {
+            'Content-Type': 'application/json',
+            // Include any other headers your API requires
+          },
+          // No need to send body for this particular request as per your backend code
+        });
+  
+        if (!response.ok) {
+          throw new Error('Failed to complete the check-out process');
+        }
+        const data = await response.json();
+        console.log('Check-Out Successful:', data);
+        alert('Check-out successful!'); // Provide feedback to the user
+        // You can perform further actions here, such as updating the state or redirecting the user
+        setIsCheckoutModalOpen(false);
+       // Display the success pop-up message after a brief delay
+        setTimeout(() => {
         setShowSuccessPopup(true);
         // Automatically close the success pop-up after a few seconds
         setTimeout(() => setShowSuccessPopup(false), 5000);
-    }, 300);
+        }, 300);
+      } catch (error) {
+        console.error('Check-Out Error:', error);
+        alert('Error during check-out. Please try again.'); // Provide feedback to the user
+      }
   };
 
   return (
@@ -102,7 +124,7 @@ const initiateCheckout = (reservation) => {
                 <td className="px-4 py-2 border">{reservation.customerInfo}</td>
                 <td className="px-4 py-2 border text-center">
                   <button 
-                    onClick={() => initiateCheckout(reservation)}
+                    onClick={() => initiateCheckout(reservation.id)}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Initiate Check-Out
                   </button>
@@ -121,7 +143,7 @@ const initiateCheckout = (reservation) => {
        {isCheckoutModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10">
           <div className="bg-white p-2 rounded-lg shadow-xl max-w-md">
-            <form onSubmit={handleCheckoutFormSubmit} className="space-y-1 p-2">
+            <form className="space-y-1 p-2">
               <h3 className="text-lg font-semibold">Check-Out Verification</h3>
               {/* Check-Out Verification Checklist */}
 <div className="space-y-2">
@@ -179,12 +201,13 @@ const initiateCheckout = (reservation) => {
   {/* Add more additional services as needed */}
 </div>
               <h4 className="font-semibold mb-2">Review Payment Details:</h4>
-              <p>{currentReservation?.paymentInfo}</p>
+              <p>MasterCard 0094 5683 3345 8949</p>
               <div className="flex justify-between">
                {allConditionsMet && (
                    <button
-                       type="submit"
+                       type="button"
                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                       onClick={() => handleCheckoutFormSubmit(currentReservationId)} 
                     >
                     Complete Check-Out
                     </button>
@@ -201,7 +224,7 @@ const initiateCheckout = (reservation) => {
     {showSuccessPopup && (
         <div className="fixed inset-0 flex justify-center items-center z-20">
           <div className="bg-green-500 text-white p-4 rounded-lg shadow-lg">
-           Checkout is successful. We'll inform the customer with an email. Thank you!
+           Checkout is successful for reservation {currentReservationId}. We'll inform the customer with an email. Thank you!
          </div>
       </div>
   )}
