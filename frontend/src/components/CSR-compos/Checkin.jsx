@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 
 const Checkin = () => {
-      const [reservations, setReservations] = useState([]);
+    //  const [reservations, setReservations] = useState([]);
       const [formData, setFormData] = useState([]);
       const [vehicleData, setVehicleData] = useState([]);
       const [isModalOpen, setIsModalOpen] = useState(false);
@@ -256,32 +256,69 @@ const updateStatus = async (reservationId, newStatus) => {
     setTimeout(() => setSuccessPopup({ show: false, message: '' }), 3000);
 };
 
-
-        const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-        const [editingReservation, setEditingReservation] = useState(null);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [editingReservation, setEditingReservation] = useState(null);
         
-        const handleEditClick = (reservation) => {
-           setEditingReservation(reservation);
+    // Function to handle edit button click
+    const handleEditClick = (reservation) => {
+           // Set the reservation being edited
+           setEditingReservation({
+                ...reservation,
+                pickUpDate: reservation.pickUpDate.toLocaleDateString('en-CA'), // Ensure the date is in the correct format
+                returnDate: reservation.returnDate.toLocaleDateString('en-CA'),
+            });
+           // Open the edit modal
            setIsEditModalOpen(true);
-         };
+        };
 
-        const handleEditReservation = (e) => {
-           e.preventDefault();
-           const updatedReservations = reservations.map(reservation =>
-            reservation.id === editingReservation.id ? editingReservation : reservation
-           );
-           setReservations(updatedReservations);
-           setIsEditModalOpen(false); // Close the edit modal
+        // Function to handle the edit reservation form submission
+const handleEditReservation = async (e) => {
+  e.preventDefault(); // Prevent the form from refreshing the page
+  
+  try {
+    const response = await fetch(`/api/reservations/${editingReservation.id}`, {
+      method: 'PATCH', 
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        pickUpDate: editingReservation.pickUpDate,
+        returnDate: editingReservation.returnDate,
+        // Include other fields you want to update
+      }),
+    });
 
-            // Set the success message to be displayed
-            setSuccessPopup({
-                show: true,
-                message: "The changes have been successfully applied to the current reservation. We will update the customer with an email shortly."
-   });
+    if (!response.ok) {
+      throw new Error('Failed to update reservation');
+    }
 
-           // Optionally, auto-hide the success message after a few seconds
-           setTimeout(() => setSuccessPopup({ show: false, message: '' }), 5000);
-         };
+    const updatedReservation = await response.json();
+    console.log('updating reservation: ', updatedReservation);
+
+    // Update the local state to reflect the changes (optional, depending on your app's structure)
+    // This is a simple example; you might need to fetch the latest reservations list from the backend instead
+    setFormData((currentReservations) =>
+      currentReservations.map((reservation) =>
+        reservation.id === updatedReservation.id ? updatedReservation : reservation
+      )
+    );
+
+    setIsEditModalOpen(false); // Close the edit modal
+    
+    // Show success message
+    setSuccessPopup({
+      show: true, 
+      message: "The reservation has been successfully updated. An email will be sent to the customer shortly. Thank you!"
+  });
+
+  // Optionally close the success message after some time
+  setTimeout(() => setSuccessPopup({ show: false, message: '' }), 3000);
+  } catch (error) {
+    console.error("Error updating reservation:", error);
+    // Handle error (e.g., show an error message)
+  }
+};
+ 
               
 
      return (
@@ -458,21 +495,15 @@ const updateStatus = async (reservationId, newStatus) => {
          <form onSubmit={handleEditReservation} className="space-y-2 p-[2px]">
          <h3 className="text-lg font-semibold">Edit Reservation</h3>
 
-        {/* Vehicle Information */}
-         <div>
-           <label htmlFor="editVehicleInfo" className="block">Vehicle Information:</label>
-           <input type="text" id="editVehicleInfo" value={editingReservation.vehicleInfo} onChange={(e) => setEditingReservation({...editingReservation, vehicleInfo: e.target.value})} className="mb-4 w-full" />
-         </div>
-
          {/* Pickup Date */}
          <div>
-           <label htmlFor="editPickUpDate" className="block">Pickup Date:</label>
+           <label htmlFor="editPickUpDate" className="block">Select New Pickup Date:</label>
            <input type="date" id="editPickUpDate" value={editingReservation.pickUpDate} onChange={(e) => setEditingReservation({...editingReservation, pickUpDate: e.target.value})} className="mb-4 w-full" />
          </div>
 
          {/* Return Date */}
          <div>
-           <label htmlFor="editReturnDate" className="block">Return Date:</label>
+           <label htmlFor="editReturnDate" className="block">Select New Return Date:</label>
            <input type="date" id="editReturnDate" value={editingReservation.returnDate} onChange={(e) => setEditingReservation({...editingReservation, returnDate: e.target.value})} className="mb-4 w-full" />
          </div>
 
