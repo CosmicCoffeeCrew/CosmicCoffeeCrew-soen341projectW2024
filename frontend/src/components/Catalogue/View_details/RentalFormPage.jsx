@@ -134,7 +134,7 @@ const RentalFormPage = () => {
   
   }
   return (
-    <div className="container mx-auto p-8 shadow-lg rounded-lg bg-white">
+    <div className="container mx-auto p-8 shadow-lg rounded-lg dark:bg-dark bg-white">
   <h2 className="text-3xl font-bold text-center mb-6">Complete Your Rental</h2>
 
   {/* Flex container for image and information display */}
@@ -177,7 +177,7 @@ const RentalFormPage = () => {
 
   {/* Rental Form */}
   <form onSubmit={handleFormSubmit} className="mb-4">
-    <label htmlFor="startDate" className="block text-gray-700 text-sm font-bold mb-2">
+    <label htmlFor="startDate" className="block text-black-700 text-sm font-bold mb-2">
       Start Date:
     </label>
     <DatePicker
@@ -190,7 +190,7 @@ const RentalFormPage = () => {
       minDate={new Date()}
       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
     />
-    <label htmlFor="endDate" className="block text-gray-700 text-sm font-bold mb-2 mt-4">
+    <label htmlFor="endDate" className="block text-black-700 text-sm font-bold mb-2 mt-4">
       End Date:
     </label>
     <DatePicker
@@ -206,9 +206,9 @@ const RentalFormPage = () => {
     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 focus:outline-none focus:shadow-outline" type="submit">
       Submit
     </button>
+    <br></br><br></br>
   </form>
 </div>
-
   );
       
 };
