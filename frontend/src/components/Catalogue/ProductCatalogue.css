@@ -44,6 +44,7 @@
     margin: 1rem;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
+    width: calc(100% - 1rem); /* Calculate width based on margin */
     }
     
     .view-details-button:hover {
