@@ -21,6 +21,11 @@
   .vehicle-info, .reservations-list {
     margin-bottom: 20px;
   }
+
+  .vehicle-image {
+    max-width: 100% !important;
+    height: auto;
+  }  
   
   .date-picker-container {
     display: flex;
@@ -50,4 +55,3 @@
   button:hover {
     background-color: #0056b3;
   }
-  
