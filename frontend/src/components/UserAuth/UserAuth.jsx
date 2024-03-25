@@ -8,19 +8,21 @@ function UserAuth({ onClose, initialMode }) {
   const [mode, setMode] = useState(initialMode); // "login" or "signup"
   const {signup, error, isLoading} = useSignup()
   const {login, errorLog, isLoadingLog} = useLogin()
-
-
-  
+ 
   // Login form states
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
 
   // Signup form states
-  const [signupUsername, setSignupUsername] = useState('');
-  const [signupPassword, setSignupPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  // const [signupUsername, setSignupUsername] = useState('');
+  // const [signupPassword, setSignupPassword] = useState('');
   const [email, setEmail] = useState('');
-  const [permission] = useState('Customer');
+  const [address, setAddress] = useState('');
+  const [contactNumber, setContactNumber] = useState('');
+  // const [permission] = useState('Customer');
   const [license, setLicense] = useState('');
   const [birthdate, setBirthdate] = useState('');
 
@@ -34,8 +36,9 @@ function UserAuth({ onClose, initialMode }) {
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
 
-    await signup(email, signupPassword, signupUsername, permission, license, birthdate)
-    console.log("Signup", {email, signupPassword, signupUsername, permission, license, birthdate });
+    await signup(email, password, username, firstName, lastName, address, contactNumber, license, birthdate)
+    // await login(email, password)
+    console.log("Signup", {email, password, username, firstName, lastName, address, contactNumber, license, birthdate});
   };
 
   return (
@@ -87,13 +90,33 @@ function UserAuth({ onClose, initialMode }) {
           </form>
         ) : (
           <form onSubmit={handleSignupSubmit}>
-             <div className="mb-4">
-              <label htmlFor="signupUsername" className="block text-sm font-medium text-gray-700">Username</label>
+            <div className="mb-4">
+              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">First Name</label>
               <input
                 type="text"
-                id="signupUsername"
-                value={signupUsername}
-                onChange={(e) => setSignupUsername(e.target.value)}
+                id="firstName"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">Last Name</label>
+              <input
+                type="text"
+                id="lastName"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+             <div className="mb-4">
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
+              <input
+                type="text"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
@@ -111,9 +134,29 @@ function UserAuth({ onClose, initialMode }) {
               <label htmlFor="signupPassword" className="block text-sm font-medium text-gray-700">Password</label>
               <input
                 type="password"
-                id="signupPassword"
-                value={signupPassword}
-                onChange={(e) => setSignupPassword(e.target.value)}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="address" className="block text-sm font-medium text-gray-700">Address</label>
+              <input
+                type="text"
+                id="address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="contactNumber" className="block text-sm font-medium text-gray-700">Contact Number</label>
+              <input
+                type="text"
+                id="contactNumber"
+                value={contactNumber}
+                onChange={(e) => setContactNumber(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>

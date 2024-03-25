@@ -14,6 +14,7 @@ const AdminDashboard = () => {
     const [showSuccessPopup, setShowSuccessPopup] = useState(false);
     const [formData, setFormData] = useState({
         make: '',
+        licensePlateNumber: '',
         model: '',
         year: '',
         type: '',
@@ -28,9 +29,13 @@ const AdminDashboard = () => {
     });
     const [userFormData, setUserFormData] = useState({
         email: '',
+        firstName: '',
+        lastName: '',
+        address: '',
+        contactNumber: '',
         password: '',
         username: '',
-        permission: 'Customer',
+        permission: 'CSR',
         License: '',
         birthdate: '',
         rentalHistory: ''
@@ -108,6 +113,7 @@ const AdminDashboard = () => {
         // Autofill the fields with the data of the selected vehicle
         setFormData({
             make: vehicle.make || '',
+            licensePlateNumber: vehicle.licensePlateNumber || '',
             model: vehicle.model || '',
             year: vehicle.year || '',
             type: vehicle.type || '',
@@ -130,9 +136,13 @@ const AdminDashboard = () => {
         // Autofill the fields with the data of the selected user
         setUserFormData({
             email: user.email || '',
+            firstName: user.firstName || '',
+            lastName: user.lastName || '',
+            address: user.address || '',
+            contactNumber: user.contactNumber || '',
             password: user.password || '',
             username: user.username || '',
-            permission: user.permission || 'Customer',
+            permission: user.permission || 'CSR',
             License: user.License || '',
             birthdate: user.birthdate || '',
             rentalHistory: user.rentalHistory || ''
@@ -371,6 +381,10 @@ const AdminDashboard = () => {
                 <input type="text" id="make" name="make" value={formData.make} onChange={handleChange} required />
             </div>
             <div>
+                <label htmlFor="licensePlateNumber">licensePlateNumber <hr></hr> </label>
+                <input type="text" id="licensePlateNumber" name="licensePlateNumber" value={formData.licensePlateNumber} onChange={handleChange} required />
+            </div>
+            <div>
                 <label htmlFor="model">Model <hr></hr> </label>
                 <input type="text" id="model" name="model" value={formData.model} onChange={handleChange} required />
             </div>
@@ -455,6 +469,23 @@ const AdminDashboard = () => {
                                 <input type="email" id="email" name="email" value={userFormData.email} onChange={handleUserChange} />
                             </div>
                             <div>
+                                <label htmlFor="firstName">firstName <hr></hr> </label>
+                                <input type="firstName" id="firstName" name="firstName" value={userFormData.firstName} onChange={handleUserChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="lastName">lastName <hr></hr> </label>
+                                <input type="lastName" id="lastName" name="lastName" value={userFormData.lastName} onChange={handleUserChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="address">address <hr></hr> </label>
+                                <input type="address" id="address" name="address" value={userFormData.address} onChange={handleUserChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="contactNumber">contactNumber <hr></hr> </label>
+                                <input type="contactNumber" id="contactNumber" name="contactNumber" value={userFormData.contactNumber} onChange={handleUserChange} />
+                            </div>
+
+                            <div>
                                 <label htmlFor="password">Password <hr></hr> </label>
                                 <input type="password" id="password" name="password" value={userFormData.password} onChange={handleUserChange} />
                             </div>
@@ -492,6 +523,10 @@ const AdminDashboard = () => {
                     <div>
                         <label htmlFor="color">Color <hr></hr> </label>
                         <input type="text" id="color" name="color" value={formData.color} onChange={handleChange} required />
+                    </div>
+                    <div>
+                        <label htmlFor="licensePlateNumber">licensePlateNumber <hr></hr> </label>
+                        <input type="text" id="licensePlateNumber" name="licensePlateNumber" value={formData.licensePlateNumber} onChange={handleChange} required />
                     </div>
                     <div>
                         <label htmlFor="mileage">Mileage <hr></hr> </label>
@@ -534,6 +569,22 @@ const AdminDashboard = () => {
                                 <input type="email" id="email" name="email" value={userFormData.email} onChange={handleUserChange} />
                             </div>
                             <div>
+                                <label htmlFor="firstName">firstName <hr></hr> </label>
+                                <input type="firstName" id="firstName" name="firstName" value={userFormData.firstName} onChange={handleUserChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="lastName">lastName <hr></hr> </label>
+                                <input type="lastName" id="lastName" name="lastName" value={userFormData.lastName} onChange={handleUserChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="address">address <hr></hr> </label>
+                                <input type="address" id="address" name="address" value={userFormData.address} onChange={handleUserChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="contactNumber">contactNumber <hr></hr> </label>
+                                <input type="contactNumber" id="contactNumber" name="contactNumber" value={userFormData.contactNumber} onChange={handleUserChange} />
+                            </div>
+                            <div>
                                 <label htmlFor="password">Password <hr></hr> </label>
                                 <input type="password" id="password" name="password" value={userFormData.password} onChange={handleUserChange} />
                             </div>
@@ -569,6 +620,7 @@ const AdminDashboard = () => {
                                 <tr>
                                     <th>Image</th>
                                     <th>ID</th>
+                                    <th>license Plate number</th>
                                     <th>Make</th>
                                     <th>Model</th>
                                     <th>Year</th>
@@ -591,6 +643,7 @@ const AdminDashboard = () => {
                                             <img src={vehicle.image} alt="e" style={{ width: "200px", height: "auto" }} />
                                         </td>
                                         <td>{vehicle._id}</td>
+                                        <td>{vehicle.licensePlateNumber}</td>
                                         <td>{vehicle.make}</td>
                                         <td>{vehicle.model}</td>
                                         <td>{vehicle.year}</td>
@@ -623,6 +676,11 @@ const AdminDashboard = () => {
                                 <tr>
                                     <th>ID</th>
                                     <th>Email</th>
+                                    <th>firstName</th>
+                                    <th>lastName</th>
+                                    <th>address</th>
+                                    <th>contactNumber</th>
+                                    
                                     <th>Password</th>
                                     <th>Username</th>
                                     <th>Permission</th>
@@ -636,6 +694,10 @@ const AdminDashboard = () => {
                                     <tr key={user._id}>
                                         <td>{user._id}</td>
                                         <td>{user.email}</td>
+                                        <td>{user.firstName}</td>
+                                        <td>{user.lastName}</td>
+                                        <td>{user.address}</td>
+                                        <td>{user.contactNumber}</td>
                                         <td>{user.password}</td>
                                         <td>{user.username}</td>
                                         <td>{user.permission}</td>
