@@ -48,8 +48,8 @@ const ReservationsPage = () => {
     }
   }, [user]);
   const handleCheckIn = (reservationId) => {
-    navigate(`/check-in/${reservationId}`); //change in here
-    //navigate(`/check-in/${reservationId}`,{ state: reservationId }); //change in here
+    //navigate(`/check-in/${reservationId}`); //change in here
+    navigate(`/check-in/${reservationId}`,{ state: reservationId }); //change in here
   };
 
   //Delete Reservations

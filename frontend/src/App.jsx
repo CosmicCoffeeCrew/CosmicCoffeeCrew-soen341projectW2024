@@ -33,8 +33,11 @@ import PaymentSuccessPage from "./components/Payement/PaymentSuccessPage";
 import CheckIn from './components/CheckIn/CheckInPage';
 import ReservationsPage from './pages/Reservations';
 //CheckOut page
-import CheckOut from './components/CheckOut/CheckOutPage';
+import CheckOutPage from './components/CheckOut/CheckOutPage';
+
 //import CheckOutPage from "./components/CheckOut/CheckOutPage";
+
+
 const App = () => {
   // dark mode start
   const [theme, setTheme] = useState(
@@ -83,7 +86,8 @@ const App = () => {
         {/* Check this page */}
         <Route path="/rental-form" element={<RentalFormPage/>} />
         {/* Check out page */}
-        <Route path="/checkout" element={<CheckOut/>} />
+        {/* <Route path="/checkout" element={<CheckOut/>} /> */}
+        <Route path="/checkout/:reservationId" element={<CheckOutPage />} />
         {/* Return Instructions */}
         <Route path="/ReturnInstructionsPage" element={<ReturnInstructionsPage />} />
         {/* Admin pages */}
