@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Checkout = () => {
+
+  const [formData, setFormData] = useState([]); 
 
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
   const [currentReservation, setCurrentReservation] = useState(null);
@@ -14,31 +16,47 @@ const Checkout = () => {
 
  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
- const [reservations] = useState([
-   {
-      id: 'Res101',
-      pickUpDate: '2024-03-05',
-      returnDate: '2024-03-22',
-      vehicleInfo: 'Tesla Model 3',
-     customerInfo: 'Jane Doe',
-      rentalAgreement: 'Signed',
-      paymentInfo: 'MasterCard 0094 5683 3345 8949',
-      status: 'confirmed'
-    },
-    {
-     id: 'Res102',
-      pickUpDate: '2024-03-20',
-      returnDate: '2024-03-22',
-      vehicleInfo: 'Toyota',
-     customerInfo: 'Peter Peterson',
-     rentalAgreement: 'Signed',
-     paymentInfo: 'Visa 0094 5683 3345 8949',
-        status: 'confirmed'
-  }
- ]);
 
-  //Generate today's date in YYYY-MM-DD format for comparison
- const today = new Date().toISOString().split('T')[0];
+ useEffect(() => {
+    const fetchReservations = async () => {
+     try {
+      const resResponse = await fetch('/api/reservations');
+       if (!resResponse.ok) throw new Error('Failed to fetch reservations');
+       const reservations = await resResponse.json();
+       console.log("Fetched reservations:", reservations); 
+
+       const detailedReservations = await Promise.all(reservations.map(async (reservation) => {
+        //Fetch vehicle details
+          const vehicleResponse = await fetch(`/api/vehicles/${reservation.vehicleID}`);
+          const vehicle = vehicleResponse.ok ? await vehicleResponse.json() : null;
+
+        // Fetch customer details
+           const customerResponse = await fetch(`/api/users/${reservation.userID}`);
+           const customer = customerResponse.ok ? await customerResponse.json() : null;
+
+         // Combine data into a structured object
+          return {
+             id: reservation._id,
+             pickUpDate: new Date(reservation.start_Date),
+             returnDate: new Date(reservation.end_Date),
+             vehicleInfo: vehicle ? `${vehicle.make} ${vehicle.model}` : 'Vehicle details not available',
+             customerInfo: customer ? customer.email : 'Customer details not available',
+             status: reservation.status,
+           // Include any other fields you need
+        };
+     }));
+        setFormData(detailedReservations);
+        console.log("Processed formData:", formData); // Debug log after processing
+        } catch (error) {
+        console.error('Error:', error);
+     }
+    };
+
+    fetchReservations();
+    }, []); 
+ 
+    //Generate today's date in YYYY-MM-DD format for comparison
+   const today = new Date().toISOString().split('T')[0];
 
 const initiateCheckout = (reservation) => {
  setCurrentReservation(reservation);
@@ -59,21 +77,27 @@ const initiateCheckout = (reservation) => {
 
   return (
     <div className="mt-8 mr-10 ml-10 font-serif ">
-      <h2 className="text-lg font-semibold mt-8">Today's Scheduled Returns - {today}</h2>
+      <h2 className="text-2xl font-semibold mt-8">Today's Scheduled Returns - {today}</h2>
       <table className="min-w-full">
         <thead>
           <tr className="bg-gray-100">
             <th className="px-4 py-2 border">Reservation ID</th>
+            <th className="px-4 py-2 border">Pick-up Date</th>
+            <th className="px-4 py-2 border">Return Date</th>
             <th className="px-4 py-2 border">Vehicle Information</th>
             <th className="px-4 py-2 border">Customer Information</th>
             <th className="px-4 py-2 border">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {reservations.filter(reservation => reservation.returnDate === today).length > 0 ? (
-            reservations.filter(reservation => reservation.returnDate === today).map((reservation) => (
+          {formData.filter(reservation => reservation.returnDate.toISOString().split('T')[0] === today &&
+          reservation.status === 'accepted').length > 0 ? (
+            formData.filter(reservation => reservation.returnDate.toISOString().split('T')[0] === today && 
+            reservation.status === 'accepted').map((reservation) => (
               <tr key={reservation.id}>
                 <td className="px-4 py-2 border">{reservation.id}</td>
+                <td className="px-4 py-2 border">{reservation.pickUpDate.toLocaleDateString('en-CA')}</td>
+                <td className="px-4 py-2 border">{reservation.returnDate.toLocaleDateString('en-CA')}</td>
                 <td className="px-4 py-2 border">{reservation.vehicleInfo}</td>
                 <td className="px-4 py-2 border">{reservation.customerInfo}</td>
                 <td className="px-4 py-2 border text-center">
@@ -87,7 +111,7 @@ const initiateCheckout = (reservation) => {
             ))
           ) : (
             <tr>
-              <td colSpan="4" className="text-center py-3">No reservations are due for return today.</td>
+              <td colSpan="6" className="text-center py-3">No reservations are due for return today.</td>
             </tr>
           )}
         </tbody>
