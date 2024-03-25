@@ -92,45 +92,71 @@ const updateVehicle = async (req,res) => {
 
 }
 
-const availableVehicles = async (req,res) => {
+const filterVehicles = async (req,res) => {
 
-    const {startDate, endDate, location} = req.body
+    const {startDate, endDate, minpricePerDay =0, maxpricePerDay = 200, minseats = 1, location = "all", type = "all", color = "all", make = "all"} = req.body
     try{
     let vehicles = await Vehicle.find()
     let available = [];
     let i =0
-    for (let vehicle of vehicles) {
-      let reservations1 = await Reservation.find({ 
-        vehicleID: vehicle._id,  
-        start_Date: { $gte: startDate },
-        end_Date: { $lte: endDate }
-      })
-    
-      let reservations2 = await Reservation.find({ 
-        vehicleID: vehicle._id,  
-        start_Date: { $gte: startDate, $lte: endDate },
-      })
-    
-      let reservations3 = await Reservation.find({ 
-        vehicleID: vehicle._id,  
-        end_Date: { $gte: startDate, $lte: endDate },
-      })
-    
-      if (reservations1[0] == null && reservations2[0] == null && reservations3[0] == null ) {
-        if(location == ''){
-            available.push(vehicle);
+
+    if(!startDate || !endDate){
+        for (let vehicle of vehicles) {
+            if(vehicle.pricePerDay > maxpricePerDay || vehicle.pricePerDay < minpricePerDay || vehicle.seats < minseats){
+                continue
+            }
+            else{
+                if((location == "all" || location == vehicle.location) && (type == "all" || vehicle.type == type) && (color == "all" || vehicle.color == color) && (make == "all" || vehicle.make == make)){
+                    available.push(vehicle);
+                }
+                else{}
+
+            i++
+            
         }
-        else if(vehicle.location == location){
-            available.push(vehicle);
+            }
+    }
+    else{
+            for (let vehicle of vehicles) {
+            if(vehicle.pricePerDay > maxpricePerDay || vehicle.pricePerDay < minpricePerDay || vehicle.seats < minseats){
+                continue
+            }
+            else{
+            let reservations1 = await Reservation.find({ 
+                vehicleID: vehicle._id,  
+                start_Date: { $gte: startDate },
+                end_Date: { $lte: endDate },
+                status: "accepted"
+            })
+            
+            let reservations2 = await Reservation.find({ 
+                vehicleID: vehicle._id,  
+                start_Date: { $gte: startDate, $lte: endDate },
+                status: "accepted"
+            })
+            
+            let reservations3 = await Reservation.find({ 
+                vehicleID: vehicle._id,  
+                end_Date: { $gte: startDate, $lte: endDate },
+                status: "accepted"
+            })
+            if (reservations1[0] == null && reservations2[0] == null && reservations3[0] == null ) {
+
+                if((location == "all" || location == vehicle.location) && (type == "all" || vehicle.type == type) && (color == "all" || vehicle.color == color) && (make == "all" || vehicle.make == make)){
+                    available.push(vehicle);
+                }
+                else{}
+            }
+            i++
+            
         }
-      }
-    i++
+            }
     }
     res.status(200).json(available)
     return available
     }
     catch(error){
-        res.status(400).json({error: "we are here"})
+        res.status(400).json({error: error.message})
     }
 }
 
@@ -140,5 +166,5 @@ module.exports = {
     createVehicle,
     deleteVehicle,
     updateVehicle,
-    availableVehicles
+    filterVehicles
 }
