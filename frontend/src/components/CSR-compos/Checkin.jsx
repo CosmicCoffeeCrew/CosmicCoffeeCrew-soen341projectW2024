@@ -5,15 +5,12 @@ const Checkin = () => {
       const [formData, setFormData] = useState([]);
 
       const [isModalOpen, setIsModalOpen] = useState(false);
-      const [isExistingCustomer, setIsExistingCustomer] = useState(true); // To toggle between existing and new customer forms
       const [vehicleId, setVehicleId] = useState('');
       const [pickUpDate, setPickUpDate] = useState('');
       const [returnDate, setReturnDate] = useState('');
-      const [customerId, setCustomerId] = useState(''); // For existing customer
-      const [customerInfo, setCustomerInfo] = useState({ fullName: '', emailAddress: '', phoneNumber: '' }); // For existing Customer
-      const [customerName, setCustomerName] = useState(''); // For new customer
-      const [customerEmail, setCustomerEmail] = useState(''); // For new customer
-      const [customerPhone, setCustomerPhone] = useState(''); // For new customer
+      const [customerId, setCustomerId] = useState(''); 
+      const [customerEmail, setCustomerEmail] = useState(''); 
+      const [customerExists, setCustomerExists] = useState(false); // Declare customerExists state
       const [paymentMethod, setPaymentMethod] = useState('');
       const [cardNumber, setCardNumber] = useState(''); 
 
@@ -33,7 +30,7 @@ const Checkin = () => {
             // Fetch customer details
                const customerResponse = await fetch(`/api/users/${reservation.userID}`);
                const customer = customerResponse.ok ? await customerResponse.json() : null;
-    
+
              // Combine data into a structured object
               return {
                  id: reservation._id,
@@ -61,23 +58,31 @@ const Checkin = () => {
        setIsModalOpen(true);
      };
 
-   const handleCustomerIDChange = (e) => {
-         const enteredId = e.target.value;
-         setCustomerId(enteredId);
     
-         // Check if enteredId matches the hardcoded customer's ID
-         if (enteredId === hardcodedCustomer.id) {
-           // Populate the form with the hardcoded customer's information
-           setCustomerInfo({
-            fullName: hardcodedCustomer.fullName,
-             emailAddress: hardcodedCustomer.emailAddress,
-            phoneNumber: hardcodedCustomer.phoneNumber,
-           });
-         } else {
-           // Reset customerInfo if the ID does not match
-           setCustomerInfo({ fullName: '', emailAddress: '', phoneNumber: '' });
-         }
-      };
+    const handleCustomerEmailChange = async (e) => {
+      const enteredEmail = e.target.value;
+      setCustomerEmail(enteredEmail); // Assuming you have a state setter for customerEmail
+    
+      try {
+        const customerResponse = await fetch(`/api/users/?email=${enteredEmail}`);
+        const customer = customerResponse.ok ? await customerResponse.json() : null;
+        console.log('Customer Object:', customer);
+        console.log('Customer ID:', customer ? customer[0]._id : 'Customer ID not available');
+
+        if (customer[0]) {
+          // Customer found, set the customer's ID and other info
+          setCustomerId(customer[0]._id);
+          setCustomerExists(true);
+        } else {
+          // No customer found, reset states
+          setCustomerId('no customer found');
+          setCustomerExists(false);
+        }
+      } catch (error) {
+        console.error("Failed to fetch customer", error);
+        // Handle error, e.g., reset states or show an error message
+      }
+    };
     
 
      const handleSubmit = (e) => {
@@ -87,17 +92,9 @@ const Checkin = () => {
           vehicleId,
            pickUpDate,
            returnDate,
-           customerInfo: isExistingCustomer ? { customerId }  : { customerName, customerEmail, customerPhone },
+           customerId,
            paymentMethod,
         };
-    
-//         // Here you would typically send formData to your backend via an API call
-//         // Example:
-//         // await fetch('/api/reservations', {
-//         //   method: 'POST',
-//         //   headers: { 'Content-Type': 'application/json' },
-//         //   body: JSON.stringify(formData),
-//         // });
     
          setIsModalOpen(false); // Close the modal after form submission
 
@@ -111,14 +108,6 @@ const Checkin = () => {
          setTimeout(() => setSuccessPopup({ show: false, message: '' }), 3000);
        };
 
-       // Hardcoded customer data for demonstration
-        const hardcodedCustomer = {
-          id: '123',
-          fullName: 'John Doe',
-          emailAddress: 'john.doe@example.com',
-          phoneNumber: '555-1234',
-     };
-    
 
 const updateStatus = async (reservationId, newStatus) => {
     if (newStatus === 'accepted') {
@@ -150,6 +139,7 @@ const updateStatus = async (reservationId, newStatus) => {
           console.error('Error confirming reservation:', error);
         }
       }
+
     // Handle other status updates similarly, if applicable
     if (newStatus === 'refused') {
       try {
@@ -239,8 +229,8 @@ const updateStatus = async (reservationId, newStatus) => {
      return (
       <div className="p-4 font-serif">
          <p>  Welcome! You have logged in as a <b>Customer Service Representative.</b> </p>
-         <p>  your role is crucial in verifying and managing reservation requests efficiently. Let's get Started! </p>
-         <p>  Should you receive a call from a customer wishing to make a reservation, please proceed to manually create a reservation for them by clicking on the 'Create a new reservation' button below.</p>
+         <p>  your role is crucial in verifying and managing reservation requests efficiently. Lets get Started! </p>
+         <p>  Should you receive a call from a customer wishing to make a reservation, please proceed to manually create a reservation for them by clicking on the Create a new reservation button below.</p>
         <button className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleOpenModal}>
           Create a new reservation
         </button>
@@ -264,39 +254,16 @@ const updateStatus = async (reservationId, newStatus) => {
                <label htmlFor="returnDate" className="block">Return Date:</label>
                <input type="date" id="returnDate" value={returnDate} onChange={(e) => setReturnDate(e.target.value)} className="mb-4 w-full" />
 
-               {/* Customer Info */}
-               <div>
-                 <button type="button" onClick={() => setIsExistingCustomer(true)}  className={`px-4 py-2 mr-2 ml-2 rounded ${isExistingCustomer ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}>Existing Customer</button>
-                 <button type="button" onClick={() => setIsExistingCustomer(false)}  className={`px-4 py-2 mr-2 ml-2 rounded ${isExistingCustomer ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}>New Customer</button>
-                
-                  {isExistingCustomer ? (
-                   // Existing Customer Form
-                    <div>
-                     <label htmlFor="customerId" className="block">Enter Customer ID:</label>
-                     <input type="text" id="customerId" value={customerId} onChange={handleCustomerIDChange} 
-                      className="mb-4 w-full p-2 border rounded" />
+              {/* Customer Email */}
+               <label htmlFor="customerEmail" className="block">Customer Email:</label>
+               <input type="email" id="customerEmail" value={customerEmail} onChange={handleCustomerEmailChange} className="mb-4 w-full" />
 
-                   {/* Display customer info if available */}
-                   {customerId === hardcodedCustomer.id && (
-                     <div className="mb-4">
-                        <p><strong>Full Name:</strong> {customerInfo.fullName}</p>
-                        <p><strong>Email Address:</strong> {customerInfo.emailAddress}</p>
-                        <p><strong>Phone Number:</strong> {customerInfo.phoneNumber}</p>
-                      </div>
-                   )}
+               {/* Display Customer ID if customer exists (after checking database in handleCustomerEmailChange) */}
+               {customerExists && (
+                  <div className="mb-4">
+                    <p><strong>Customer ID:</strong> {customerId}</p>
                  </div>
-                 ) : (
-                  // New Customer Form
-                   <div>
-                    <label htmlFor="customerName" className="block mt-4">Full Name:</label>
-                     <input type="text" id="customerName" className="mb-4 w-full" />
-                     <label htmlFor="customerEmail" className="block">Email Address:</label>
-                     <input type="email" id="customerEmail" className="mb-4 w-full" />
-                     <label htmlFor="customerPhone" className="block">Phone Number:</label>
-                     <input type="text" id="customerPhone" className="mb-4 w-full" />
-                   </div>
-                 )}
-               </div>
+                )}
 
                 {/* Payment Method */}
                 <label htmlFor="paymentMethod" className="block">Payment Method:</label>
@@ -344,7 +311,7 @@ const updateStatus = async (reservationId, newStatus) => {
                      <td className="px-4 py-2 border">{reservation.vehicleInfo}</td>
                      <td className="px-4 py-2 border">{reservation.customerInfo}</td>
                      <td className="px-4 py-2 border">Signed</td>
-                     <td className="px-4 py-2 border">MasterCard 0094 5683 3345 8949</td>
+                     <td className="px-4 py-2 border">Credit Card xxxx-xxxx-xxxx-xxxx</td>
                      <td className="px-4 py-2 border flex justify-around">
                      <button 
                        onClick={() => updateStatus(reservation.id, 'accepted')}
@@ -508,4 +475,3 @@ const updateStatus = async (reservationId, newStatus) => {
  };
 
 export default Checkin;
-
