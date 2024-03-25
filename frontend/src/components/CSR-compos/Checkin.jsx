@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react';
 const Checkin = () => {
       const [reservations, setReservations] = useState([]);
       const [formData, setFormData] = useState([]);
-
+      const [vehicleData, setVehicleData] = useState([]);
       const [isModalOpen, setIsModalOpen] = useState(false);
       const [vehicleId, setVehicleId] = useState('');
       const [pickUpDate, setPickUpDate] = useState('');
@@ -11,7 +11,7 @@ const Checkin = () => {
       const [customerId, setCustomerId] = useState(''); 
       const [customerEmail, setCustomerEmail] = useState(''); 
       const [customerExists, setCustomerExists] = useState(false); // Declare customerExists state
-      const [paymentMethod, setPaymentMethod] = useState('');
+     // const [paymentMethod, setPaymentMethod] = useState('');
       const [cardNumber, setCardNumber] = useState(''); 
 
       useEffect(() => {
@@ -49,9 +49,45 @@ const Checkin = () => {
            console.error('Error:', error);
         }
     };
-    
-       fetchReservations();
-     }, []);
+    fetchReservations();
+  }, []);
+
+  useEffect(() => {
+  const fetchVehicles = async () => {
+    try {
+      const resResponse = await fetch('/api/vehicles');
+      if (!resResponse.ok) throw new Error('Failed to fetch vehicles');
+      const vehicles = await resResponse.json();
+      console.log("Fetched vehicles:", vehicles);
+
+      const detailedVehicles = vehicles.map((vehicle) => ({
+        id: vehicle._id, // Assuming the vehicle object has an _id property
+        make: vehicle.make,
+        licensePlateNumber: vehicle.licensePlateNumber,
+        model: vehicle.model,
+        year: vehicle.year,
+        type: vehicle.type,
+        color: vehicle.color,
+        location: vehicle.location,
+        fuelType: vehicle.fuelType,
+        seats: vehicle.seats,
+        pricePerDay: vehicle.pricePerDay,
+        image: vehicle.image,
+        // Include any other fields as needed
+      }));
+      
+      setVehicleData(detailedVehicles);
+      console.log("Processed detailedVehicles:", detailedVehicles);
+      // Assuming you have a state setter for vehicles data, similar to setFormData in your reservations fetch
+      // setVehiclesData(detailedVehicles);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  fetchVehicles();
+}, []);
+
     
 
     const handleOpenModal = () => {
@@ -107,8 +143,14 @@ const Checkin = () => {
                },
                body: JSON.stringify(newReservation),
         });
+        if (!response.ok) {
+          throw new Error('Network response was not ok.');
+        }
     
-         setIsModalOpen(false); // Close the modal after form submission
+        const result = await response.json();
+        console.log('Reservation submitted successfully:', result);
+    
+        setIsModalOpen(false); // Close the modal after form submission
 
         // Show success message
          setSuccessPopup({
@@ -484,6 +526,46 @@ const updateStatus = async (reservationId, newStatus) => {
      </tbody>
    </table>
  </div>
+
+     {/* Vehicles table */}
+     <div className="mt-8">
+  <h2 className="text-lg font-semibold">Available Vehicles</h2>
+  <table className="min-w-full mt-2">
+    <thead>
+      <tr>
+        <th className="px-4 py-2 border">Vehicle ID</th>
+        <th className="px-4 py-2 border">Make & Model</th>
+        <th className="px-4 py-2 border">Year</th>
+        <th className="px-4 py-2 border">Type</th>
+        <th className="px-4 py-2 border">Color</th>
+        <th className="px-4 py-2 border">Price Per Day</th>
+        <th className="px-4 py-2 border">Image</th>
+      </tr>
+    </thead>
+    <tbody>
+      {vehicleData.length > 0 ? (
+        vehicleData.map((vehicle) => (
+          <tr key={vehicle.id}>
+            <td className="px-4 py-2 border">{vehicle.id}</td>
+            <td className="px-4 py-2 border">{`${vehicle.make} ${vehicle.model}`}</td>
+            <td className="px-4 py-2 border">{vehicle.year}</td>
+            <td className="px-4 py-2 border">{vehicle.type}</td>
+            <td className="px-4 py-2 border">{vehicle.color}</td>
+            <td className="px-4 py-2 border">{`$${vehicle.pricePerDay}`}</td>
+            <td className="px-4 py-2 border">
+              <img src={vehicle.image} alt={`${vehicle.make} ${vehicle.model}`} className="w-20 h-20 object-cover"/>
+            </td>
+          </tr>
+        ))
+      ) : (
+        <tr>
+          <td colSpan="7" className="text-center py-3">No vehicles found.</td>
+        </tr>
+      )}
+    </tbody>
+  </table>
+</div>
+
 </div>
 
     
