@@ -40,14 +40,14 @@ const ProductCatalogue = () => {
     };
     
     return (
-        <div className="catalogue-container">
+        <div className="catalogue-container dark:bg-dark bg-white">
             <h1 className="catalogue-title">Catalogue</h1>
-            <div className="catalogue-grid">
+            <div className="catalogue-grid ">
                 {vehicles.map((vehicle) => (
-                    <div key={vehicle._id} className="vehicle-card" data-aos="fade-up" data-aos-delay={vehicle.aosDelay}>
+                    <div key={vehicle._id} className="vehicle-card dark:bg-dark bg-white" data-aos="fade-up" data-aos-delay={vehicle.aosDelay}>
                         <h2 className="vehicle-make">{vehicle.make}</h2>
                         <img src={vehicle.image} alt={`${vehicle.make} ${vehicle.model}`} className="vehicle-image" />
-                        <div className="vehicle-info">
+                        <div className="vehicle-info dark:bg-dark bg-white">
                             <h3 className="vehicle-model">{`${vehicle.model} (${vehicle.year})`}</h3>
                             <p className="vehicle-type">{vehicle.type}</p>
                             <p className="vehicle-mileage">{`${vehicle.mileage} km`}</p>
