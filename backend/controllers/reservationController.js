@@ -362,6 +362,31 @@ const cancelReservation = async (req,res) => {
 
     const reservation = await Reservation.findOneAndUpdate({_id: id},{'status':'refused'})
 
+    //SENDING AN EMAIL TO SAY THAT 500 CAD have been withdrawed
+
+    const user = await User.findById({_id: reservation.userID})
+        const emailContent = 
+       `<p>Dear  ${user.username} ,</p>
+        <p>Thank you for using our services!</p>
+        <h5>After carefully evaluating your reservation, we are sorry to announce that at this time we won't be able to provide you with the specific services you asked for. 
+        For more information, please contact us at this email.</h5>
+
+        
+        <p>Thank you for your understanding, and we hope to see you soon!!</p>
+        <p>CocoCrew</p>
+        `
+    ;
+    const mailOptions = {
+        from: 'cosmiccoffeecrew@gmail.com',
+        to: user.email,
+        subject: 'Reservation refused!',
+        html: emailContent
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    ////////////////////////////////////////////////////////////
+
     if(!reservation){
         return res.status(404).json({error: 'No such reservation'})
     }
