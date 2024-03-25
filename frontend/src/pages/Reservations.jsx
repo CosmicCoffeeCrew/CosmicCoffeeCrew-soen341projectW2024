@@ -101,7 +101,8 @@ const ReservationsPage = () => {
                 <h3>{`${reservation.vehicle?.make || 'Unknown Make'} ${reservation.vehicle?.model || 'Unknown Model'} (${reservation.vehicle?.year || 'Unknown Year'})`}</h3>
                 {/* ... other details ... */}
                 <p><strong>Rental Dates:</strong> {new Date(reservation.start_Date).toLocaleDateString()} - {new Date(reservation.end_Date).toLocaleDateString()}</p>
-                <p className="cost"><strong>Cost:</strong> ${reservation.charge || 'Unknown'}</p>
+                <p className="cost"><strong>Cost:</strong> {reservation.charge || 'Unknown'} CAD$</p>
+                <p className="status"><strong>Status:</strong> {reservation.status || 'Unknown'}</p>
                 <button onClick={() => handleDelete(reservation._id)} className="delete-reservation-button">
                   Delete Reservation
                 </button>

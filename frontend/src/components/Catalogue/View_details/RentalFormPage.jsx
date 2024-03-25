@@ -4,11 +4,13 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useNavigate } from 'react-router-dom';
+// import {UserAuth} from '../../UserAuth/UserAuth';
 
 //import Vehicle from '../../../../../backend/models/vehicleModel';
 //Payement
 
 const RentalFormPage = () => {
+  // const {userAuth} = UserAuth();
   const { vehicleId } = useParams();
   const [vehicle, setVehicle] = useState(null);
   const [reservations, setReservations] = useState([]);
@@ -77,6 +79,7 @@ const RentalFormPage = () => {
       return;
     }
     if (!user) {
+      // userAuth();
       setErrorMessage('Missing user');
       return;
     }
@@ -140,6 +143,8 @@ const RentalFormPage = () => {
         <p><strong>Vehicle:</strong> {vehicle.make} {vehicle.model} ({vehicle.year})</p>
         {/* <p><strong>Price per Day:</strong> ${vehicle.pricePerDay}</p> */}
         <p><strong>Price per Day:</strong> ${vehicle ? vehicle.pricePerDay : 'Loading...'}</p>
+        <p><strong>Description:</strong> {vehicle ? vehicle.description : 'Loading...'}</p>
+        <img src={vehicle.image} alt={`${vehicle.make} ${vehicle.model}`} className="vehicle-image" />
       </div>
 
 
