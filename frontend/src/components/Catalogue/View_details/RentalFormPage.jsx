@@ -146,8 +146,7 @@ const RentalFormPage = () => {
 
     {/* Vehicle Information Display */}
     <div className="w-full md:w-1/2 pl-4">
-      <h3 className="text-xl font-semibold mb-2">Vehicle Information</h3>
-      <p><strong>Vehicle:</strong> {vehicle.make} {vehicle.model} ({vehicle.year})</p>
+      <h3 className="text-xl font-semibold mb-2">{vehicle.make} {vehicle.model} ({vehicle.year})</h3>
       <p><strong>Price per Day:</strong> ${vehicle ? vehicle.pricePerDay : 'Loading...'}</p>
       <p><strong>Type:</strong> {vehicle ? vehicle.type : 'Loading...'}</p>
       <p><strong>Color:</strong> {vehicle ? vehicle.color : 'Loading...'}</p>
@@ -155,7 +154,21 @@ const RentalFormPage = () => {
       <p><strong>Transmission:</strong> {vehicle ? vehicle.transmission : 'Loading...'}</p>
       <p><strong>Fuel Type:</strong> {vehicle ? vehicle.fuelType : 'Loading...'}</p>
       <p><strong>Number of Seats:</strong> {vehicle ? vehicle.seats : 'Loading...'}</p>
-      <p><strong>Description:</strong> {vehicle ? vehicle.description : 'Loading...'}</p>
+      <p><strong>Description:</strong> {vehicle ? vehicle.description : 'Loading...'}</p><br></br><br></br><br></br>
+      
+      <h1>
+      <strong>Rating </strong><br></br>
+      {vehicle ? 
+          (vehicle.totalRating === 0 ? 'No rating yet' :
+              Array.from({ length: vehicle.totalRating }, (_, index) => (
+                  <img key={index} src="https://cdn.icon-icons.com/icons2/1389/PNG/512/star_96096.png" alt="Star" style={{ width: "40px", height: "auto", display: "inline-block" }} />
+              ))
+          )
+          :
+          'Loading...'
+      }
+      </h1>
+
     </div>
   </div>
 
@@ -219,7 +232,7 @@ const RentalFormPage = () => {
             <div className="review-content">
               <img src="https://cdn4.iconfinder.com/data/icons/profession-avatar-5/64/13-astronaut-512.png" alt="User Avatar" className="user-avatar" />
               <div className="review-info">
-                <h4 className="username">{review.userID}</h4>
+                <h4 className="username">{review.username}</h4>
                 <p className="rating">Rating: {review.rating}</p>
                 <p className="message">{review.msg}</p>
               </div>
