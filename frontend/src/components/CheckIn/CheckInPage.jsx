@@ -1,10 +1,10 @@
 import {useState } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate, /*useLocation*/ } from 'react-router-dom';
 import  '../CheckIn/CheckInPage.css';
 const CheckInPage = () => {
   const { reservationId } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
+  //const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
@@ -33,7 +33,7 @@ const CheckInPage = () => {
   };
 
   // Accessing the data passed in state
-  const additionalData = location.state?.additionalData;
+  //const additionalData = location.state?.additionalData;
   const handleCheckIn = async () => {
     if (!validateForm()) { // First, validate the form
       return; // Stop the function if validation fails
@@ -43,17 +43,13 @@ const CheckInPage = () => {
     try {
       // Assuming your API requires both license plate and credit card number,
       // you'll include them in the request's body.
-      const response = await fetch(`/api/reservations/record/${reservationId}`, {
-        method: 'POST',
+      const response = await fetch(`/api/reservations/checkin/${reservationId}`, {
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ...additionalData, // Keep your additional data if needed
-          licensePlate: formData.licensePlate, // Send license plate info
-          creditCard: formData.creditCard, // Send credit card info
-          checkIn : true,
-          checkOut: false,
+          inDamageReport: formData.inDamageReport, 
         }),
       });
   
@@ -130,6 +126,16 @@ const CheckInPage = () => {
         value={formData.creditCard}
         onChange={handleInputChange}
         maxLength="16"
+        required
+      />
+
+      <label htmlFor="inDamageReport">Damage Report:</label>
+      <input
+        id="inDamageReport"
+        name="inDamageReport"
+        type="text"
+        value={formData.inDamageReport}
+        onChange={handleInputChange}
         required
       />
 

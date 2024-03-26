@@ -41,19 +41,13 @@ const recordReservation = async (req, res) => {
         // Calculate the charge based on the vehicle's pricePerDay and the number of days
         const charge = vehicle.pricePerDay * daysDifference;
 
-        const damageReport =""
-        const checkIn = false
-        const checkOut= false
         const reservation = new Reservation({
             userID,
             vehicleID,
             start_Date,
             end_Date,
             charge,
-            status,
-            checkIn,
-            checkOut,
-            damageReport
+            status
         });
 
         await reservation.save();
@@ -133,6 +127,21 @@ const getReservations= async (req,res) => {
     const reservations = await Reservation.find(req.query);
     res.status(200).json(reservations)
 }
+
+const getReservation = async (req,res) => {
+    const {id} =req.params
+
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({error: 'No such reservation'})
+    }
+    const reservation = await Reservation.findById(id)
+
+    if(!reservation){
+        return res.status(404).json({error: 'No such reservation'})
+    }
+    res.status(200).json(reservation)
+}
+
 //Get reservations based on a specific vehicle ID
 const getVehicleReservations = async (req, res) => {
     const { vehicleID } = req.params;
@@ -398,14 +407,14 @@ const cancelReservation = async (req,res) => {
 
 const checkInReservation = async (req,res) => {
     const { id } = req.params
+    const { inDamageReport } = req.body
     
-
     if(!mongoose.Types.ObjectId.isValid(id)){
         return res.status(404).json({error: 'No such reservation'})
     }
 
     const reservation = await Reservation.findOneAndUpdate({_id: id},{'checkIn':true})
-
+    const reservation2 = await Reservation.findOneAndUpdate({_id: id},{'inDamageReport':inDamageReport})
     //SENDING AN EMAIL TO SAY THAT 500 CAD have been withdrawed
 
     const user = await User.findById({_id: reservation.userID})
@@ -429,10 +438,10 @@ const checkInReservation = async (req,res) => {
 
     ////////////////////////////////////////////////////////////
 
-    if(!reservation){
+    if(!reservation2){
         return res.status(404).json({error: 'No such reservation'})
     }
-    res.status(200).json(reservation)
+    res.status(200).json(reservation2)
 
 }
 
@@ -561,4 +570,4 @@ const rateReservation = async (req,res) => {
 
 // }
 
-module.exports = {checkOutReservation,checkInReservation,cancelReservation, confirmReservation, updateReservation, recordReservation, getReservations, getUserReservations, getVehicleReservations,deleteReservation, rateReservation }
+module.exports = {getReservation, checkOutReservation,checkInReservation,cancelReservation, confirmReservation, updateReservation, recordReservation, getReservations, getUserReservations, getVehicleReservations,deleteReservation, rateReservation }

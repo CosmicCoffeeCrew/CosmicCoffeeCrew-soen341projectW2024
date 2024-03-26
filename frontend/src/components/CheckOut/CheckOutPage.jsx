@@ -1,5 +1,5 @@
-import { useState } from 'react';
-//import { useParams, useNavigate } from 'react-router-dom';
+import { useState, /*useEffect*/} from 'react';
+// import { useParams } from 'react-router-dom';
 import '../CheckOut/CheckOutPage.css'; // Ensure this path matches the location of your CSS file
 
 import PropTypes from 'prop-types';
@@ -8,7 +8,25 @@ const CheckOutPage = () => {
     const [isDamaged, setIsDamaged] = useState(false);
     const [damageReport, setDamageReport] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
-    const rentalEndDate = "2024-12-31"; // Example date //Need to implemented with the date given
+    // const { reservationID } = useParams().reservationId;
+    // console.log(useParams().reservationId)
+    // const  [reservation, setReservation] = useState("");
+
+
+    // const fetchResDetails = async (ResId) => {
+    //       try {
+    //         const response = await fetch('/api/reservations/' +ResId);
+    //         if (!response.ok) throw new Error('Network response was not ok');
+    //         const data = await response.json();
+    //         console.log(data)
+    //         // setReservation(data);
+    //         return data
+    //       } catch (error) {
+    //         console.error("Error fetching res details:", error);
+    //       }
+    //     };
+
+    const rentalEndDate = "2024/03/26"; // Example date //Need to implemented with the date given
 
     const handleDamageCheckChange = (event) => {
         setIsDamaged(event.target.checked);
@@ -128,11 +146,10 @@ const CheckOutPage = () => {
                     </>
                 )}
                 {/* Additional Content: Refund Notice */}
-                <div class="mt-5 text-red-600 bg-red-100 border-l-4 border-red-500 p-4 sm:p-6 md:mt-6 md:p-8 lg:mt-8">
-                    <p class="font-bold">Refund Notice:</p>
+                <div className="mt-5 text-red-600 bg-red-100 border-l-4 border-red-500 p-4 sm:p-6 md:mt-6 md:p-8 lg:mt-8">
+                    <p className="font-bold">Refund Notice:</p>
                     <p>The $500 that was paid will be returned to your account within 5-7 business days following the vehicle inspection.</p>
                 </div>
-
                 <div className="mt-4">
                     <button
                         type="submit"

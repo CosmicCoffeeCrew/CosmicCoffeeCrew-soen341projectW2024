@@ -3,7 +3,7 @@ const express = require('express')
 const router = express.Router()
 
 //controller functions
-const{checkInReservation,checkOutReservation,cancelReservation, confirmReservation, recordReservation, getReservations , getUserReservations, getVehicleReservations, deleteReservation, updateReservation, rateReservation}= require('../controllers/reservationController')
+const{getReservation, checkInReservation,checkOutReservation,cancelReservation, confirmReservation, recordReservation, getReservations , getUserReservations, getVehicleReservations, deleteReservation, updateReservation, rateReservation}= require('../controllers/reservationController')
 
 //CheckIn/CheckOut
 router.patch('/checkin/:id',checkInReservation)
@@ -17,6 +17,10 @@ router.post('/record', recordReservation)
 
 //get all reservations route
 router.get('/', getReservations)
+
+//get all reservations route
+router.get('/:id', getReservation)
+
 
 //get a specific user's reservations
 router.get('/user/:userID', getUserReservations)

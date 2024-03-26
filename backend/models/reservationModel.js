@@ -40,15 +40,24 @@ const reservationSchema = new Schema({
     }, 
     checkIn: {
         type: Boolean,
-        required: true
+        required: true,
+        default: false
       },
     checkOut: {
         type: Boolean,
+        default: false,
         required: true
       },
-      damageReport: {
+      inDamageReport: {
           type: String,
+          required: false,
+          default: ""
       },
+      outDamageReport: {
+        type: String,
+        required: false,
+        default: ""
+    },
       rentalAgreement: {
         type:Boolean,
         default: false
