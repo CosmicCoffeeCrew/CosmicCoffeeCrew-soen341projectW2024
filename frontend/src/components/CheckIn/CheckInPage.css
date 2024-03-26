@@ -1,0 +1,56 @@
+/* CheckInPage.css */
+.check-in-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.check-in-title {
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.check-in-button {
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.check-in-button:hover {
+  background-color: #0056b3;
+}
+
+.check-in-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+.check-in-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Adds space between form elements */
+}
+
+.check-in-form label {
+  margin-bottom: 5px;
+}
+
+.check-in-form input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.check-in-button {
+  margin-top: 20px;
+}

@@ -1,0 +1,57 @@
+.rental-form-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 8px;
+  }
+  
+  .rental-form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .error-message {
+    background-color: #ffdddd;
+    border-left: 6px solid #f44336;
+    margin-bottom: 15px;
+    padding: 10px;
+  }
+  
+  .vehicle-info, .reservations-list {
+    margin-bottom: 20px;
+  }
+
+  .vehicle-image {
+    max-width: 100% !important;
+    height: auto;
+  }  
+  
+  .date-picker-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .date-picker-container > * {
+    flex: 1;
+    margin-right: 10px;
+  }
+  
+  .date-picker-container > *:last-child {
+    margin-right: 0;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
