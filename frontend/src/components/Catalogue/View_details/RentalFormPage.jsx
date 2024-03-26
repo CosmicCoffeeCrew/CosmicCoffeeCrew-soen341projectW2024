@@ -208,6 +208,29 @@ const RentalFormPage = () => {
     </button>
     <br></br><br></br>
   </form>
+
+  {/* Display reviews */}
+  <div className="mt-4">
+    <h3 className="text-xl font-semibold mb-2">Reviews</h3>
+    {vehicle.reviews.length > 0 ? (
+      vehicle.reviews.map((review, index) => (
+        <div key={index} className="border border-gray-200 p-2 mb-2">
+          <div className="review-card">
+            <div className="review-content">
+              <img src="https://cdn4.iconfinder.com/data/icons/profession-avatar-5/64/13-astronaut-512.png" alt="User Avatar" className="user-avatar" />
+              <div className="review-info">
+                <h4 className="username">{review.userID}</h4>
+                <p className="rating">Rating: {review.rating}</p>
+                <p className="message">{review.msg}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))
+    ) : (
+      <p>No reviews available for this vehicle.</p>
+    )}
+  </div>
 </div>
   );
       
