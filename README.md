@@ -21,16 +21,8 @@ We identify three primary users: Customers, Customer service representatives (CS
 
 Here are a couple of demo videos showcasing the functionality and features of our car rental app:
 
-- [Sprint 3- Start a reservation]("https://drive.google.com/file/d/1NaPuWOosC0FjoQjUk35rdT4yVar38hCf/view?usp=sharing")
-- [Sprint3- Checkin/ Checkout by Customer]("https://drive.google.com/file/d/1j07RO6ogGrnxdtxI0X6n6ShR1ZzGuxC_/view?usp=sharing")
-
- ## Project Demo Videos
-
-Here are a couple of demo videos showcasing the functionality and features of our car rental app:
-
-- [**Demo Video 1 - Overview & Features**]([https://drive.google.com/file/d/your-first-video-id/view?usp=sharing](https://drive.google.com/file/d/1NaPuWOosC0FjoQjUk35rdT4yVar38hCf/view?usp=sharing) "CosmicCoffeeCrew App Overview")
-- [**Demo Video 2 - Detailed Walkthrough**]([https://drive.google.com/file/d/your-second-video-id/view?usp=sharing](https://drive.google.com/file/d/1j07RO6ogGrnxdtxI0X6n6ShR1ZzGuxC_/view?usp=sharing) "Detailed Walkthrough of CosmicCoffeeCrew App")
-
+- [Sprint 3- Start a reservation](https://drive.google.com/file/d/1NaPuWOosC0FjoQjUk35rdT4yVar38hCf/view?usp=sharing)
+- [Sprint3- Checkin/ Checkout by Customer](https://drive.google.com/file/d/1j07RO6ogGrnxdtxI0X6n6ShR1ZzGuxC_/view?usp=sharing)
 
 
 
