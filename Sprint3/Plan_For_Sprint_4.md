@@ -3,6 +3,7 @@
 - Improve the frontend and intuitivity of the UI (also check that dark mode is properly implemented in every component)
 - Configure Payment Portal
 - Connect reviews to the database
+- Implement the filters in backend instead of frontend so that the website runs more smoothly
 
 
 **Custom Feature for Last Sprint : Chauffeur Service**
