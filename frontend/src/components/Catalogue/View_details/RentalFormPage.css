@@ -55,3 +55,40 @@
   button:hover {
     background-color: #0056b3;
   }
+
+  /* Custom styles for the review cards */
+.review-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.review-content {
+  display: flex;
+  align-items: center;
+}
+
+.user-avatar {
+  width: 80px; /* Adjust as needed */
+  height: 80px; /* Adjust as needed */
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.review-info {
+  flex: 1; /* This allows the info to take up the remaining space */
+}
+
+.review-card h4 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.review-card p {
+  margin-bottom: 4px;
+}
+
+.review-card .username {
+  font-weight: bold;
+}
