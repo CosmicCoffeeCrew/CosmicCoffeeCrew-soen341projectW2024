@@ -89,6 +89,7 @@ const vehicleSchema = new Schema({
   },
   reviews: [{
     userID: String,
+    username: String,
     msg: String,
     rating: Number
   }]
