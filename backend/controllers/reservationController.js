@@ -539,11 +539,15 @@ const rateReservation = async (req,res) => {
     const {rating, review} = req.body
     vId = reservation.vehicleID
     const vehicle = await Vehicle.findById({_id: vId})
+    uId = reservation.userID
+
+    const user = await User.findById({_id: uId})
 
         const newnumofratings = vehicle.numOfRatings + 1
         const newtotalrating = vehicle.totalRating + rating
         const reviewobj = {
             userID: reservation.userID,
+            username: user.username,
             msg: review,
             rating: rating
           }
