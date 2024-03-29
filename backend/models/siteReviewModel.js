@@ -8,6 +8,10 @@ const reviewSchema = new Schema({
         type: String,
         required: true
     },
+    username:{
+        type: String,
+        required: true
+    },
     review: {
         type: String,
         required: true
@@ -19,11 +23,11 @@ const reviewSchema = new Schema({
 })
 
 
-reviewSchema.statics.record = async function(userID, review, ){
+reviewSchema.statics.record = async function(userID, username, review, rating){
 
 
     // validation
-    if (!userID || !review || !rating){
+    if (!userID || !username || !review || !rating){
         throw Error("All fields must be filled")
     }
     const user_Exists = await User.findById(userID)
@@ -32,7 +36,7 @@ reviewSchema.statics.record = async function(userID, review, ){
         return res.status(404).json({error: 'No such User'})
     }
 
-    const siteReview = await this.create({userID, review, rating})
+    const siteReview = await this.create({userID, username, review, rating})
 
     return siteReview
 }

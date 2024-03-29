@@ -11,13 +11,14 @@ const { unstable_renderSubtreeIntoContainer } = require('react-dom')
 const recordSiteReview = async (req, res) => {
 
     // Basic validation (you might want to replace this with a more robust solution like Joi)
-    const { userID, review, rating} = req.body;
-    if (!userID || !review || !rating) {
+    const { userID, username, review, rating} = req.body;
+    if (!userID || !username || !review || !rating) {
         return res.status(400).json({ error: "Missing required fields" });
     }
     try {
         const siteReview = new SiteReview({
             userID,
+            username,
             review,
             rating
         });
@@ -26,7 +27,7 @@ const recordSiteReview = async (req, res) => {
 
         const user = await User.findById({_id: userID})
         const emailContent = 
-       `<p>Dear  ${user.username} ,</p>
+       `<p>Dear  ${username} ,</p>
         <p>Your review has been taken into consideration</p>
         <p>Review Details:</p>
         <ul>
