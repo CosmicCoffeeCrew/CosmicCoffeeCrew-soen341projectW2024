@@ -87,7 +87,7 @@ reservationSchema.statics.record = async function(userID, vehicleID, start_Date,
     }
 
 
-    const reservation = await this.create({userID, vehicleID, start_Date, end_Date, charge, status, checkIn,CheckOut})
+    const reservation = await this.create({userID, vehicleID, start_Date, end_Date, charge, status, checkIn, checkOut})
 
     return reservation
 }
