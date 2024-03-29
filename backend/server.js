@@ -8,6 +8,8 @@ const mongoose = require('mongoose')
 const vehicleRoutes = require('./routes/vehicles')
 const userRoutes = require('./routes/users')
 const reservationRoutes = require('./routes/reservations')
+const siteReviewRoutes = require('./routes/siteReview')
+
 
 // express app
 const app = express()
@@ -24,6 +26,8 @@ app.use((req, res, next) => {
 app.use('/api/vehicles',vehicleRoutes)
 app.use('/api/users',userRoutes)
 app.use('/api/reservations',reservationRoutes)
+app.use('/api/sitereviews',siteReviewRoutes)
+
 
 
 // connect to db
