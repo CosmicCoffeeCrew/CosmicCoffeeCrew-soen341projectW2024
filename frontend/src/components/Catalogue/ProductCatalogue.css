@@ -1,65 +1,131 @@
+/* Main Container */
 .catalogue-container {
+    max-width: 1200px; /* Restricts the container's width for larger screens */
+    margin: auto; /* Centers the container on the page */
     padding: 2rem;
-    background-color: #f5f5f5; /* Light background color */
+    background-color: #f9f9f9; /* A lighter shade for a modern look */
+    border-radius: 8px; /* Adds rounded corners */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for depth */
 }
 
 .catalogue-title {
     text-align: center;
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 2rem;
+    color: #333; /* Darker color for contrast */
+    font-size: 2rem; /* Increases size for importance */
+    margin-bottom: 2rem; /* Adds space below the title */
 }
 
+.filter-bar {
+    display: flex;
+    justify-content: center; /* Centers the filters */
+    gap: 20px; /* Spaces out the filters */
+    margin-bottom: 2rem; /* Adds space below the filter bar */
+}
+
+.filter-input {
+    padding: 0.75rem 1rem; /* Increases padding for a larger click area */
+    border-radius: 20px; /* Rounds the edges of the inputs */
+    border: 1px solid #ccc; /* Defines a subtle border */
+    font-size: 1rem; /* Ensures text is easily readable */
+    width: 200px; /* Standardizes width for uniformity */
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); /* Adds an inner shadow for depth */
+}
+
+.filter-input:focus {
+    outline: none; /* Removes the default focus outline */
+    border-color: #007bff; /* Highlights the input when focused */
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25); /* Adds a glow effect */
+}
+.filter-bar {
+    display: flex; /* Aligns children inline */
+    justify-content: center; /* Centers the filter bar */
+    gap: 10px; /* Adds space between inputs and button */
+    margin-bottom: 20px; /* Adds space below the filter bar */
+}
+
+.filter-input, .reset-filters-button {
+    padding: 0.75rem; /* Uniform padding for inputs and button */
+    font-size: 1rem; /* Ensures text size consistency */
+    border-radius: 4px; /* Optional: Rounds corners for a modern look */
+    border: 1px solid #ccc; /* Light border for inputs and button */
+}
+
+.reset-filters-button {
+    background-color: #d2b08c; /* Light background for the button */
+    cursor: pointer; /* Changes cursor to pointer on hover */
+    border: none; /* Removes border for a button-like appearance */
+    /* Add more styling as needed */
+}
+
+.reset-filters-button:hover {
+    background-color: #e4cfba; /* Slightly darker background on hover */
+}
+/* Grid Layout */
 .catalogue-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1rem;
-    align-items: stretch;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Auto-adjust column count */
+    gap: 2rem;
+    padding: 0;
 }
 
+/* Vehicle Card */
 .vehicle-card {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
-}
-
-.vehicle-make, .vehicle-model, .vehicle-type, .vehicle-mileage, .vehicle-location, .vehicle-price {
-    margin: 0.5rem;
+    justify-content: space-between; /* Ensures footer aligns at bottom */
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .vehicle-image {
     width: 100%;
-    height: 200px;
+    height: auto; /* Adjust height automatically to maintain aspect ratio */
     object-fit: cover;
 }
 
+/* Details Section */
+.vehicle-details, .vehicle-info {
+    padding: 1rem;
+}
+
+.vehicle-details > h2, .vehicle-details > h3, .vehicle-info > p {
+    margin: 0.5rem 0; /* Consistent spacing */
+    color: #555; /* Softer color for text */
+}
+
 .view-details-button {
-    background-color: #007bff; /* Primary color for the button */
+    padding: 0.75rem 1.5rem;
+    margin: 1rem;
+    background-color: #007bff;
     color: white;
     border: none;
-    padding: 0.5rem 1rem;
-    margin: 1rem;
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-    width: calc(100% - 1rem); /* Calculate width based on margin */
-    }
-    
-    .view-details-button:hover {
-    background-color: #0056b3; /* Darker shade for hover effect */
-    }
-    
-    .vehicle-info {
-    padding: 0.5rem 1rem;
-    background-color: #fafafa; /* Slightly off-white for the vehicle info background /
-    border-top: 1px solid #eee; / Light border for separation from the image */
-    }
-    
-    /* Responsive tweaks for smaller screens */
-    @media (max-width: 768px) {
+    transition: background-color 0.2s, transform 0.1s;
+    align-self: center;
+}
+
+.view-details-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+.no-vehicles {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    padding: 2rem 0;
+}
+.button-container {
+    padding: 1rem;
+    display: flex;
+    justify-content: center; /* This centers the button horizontally */
+    width: 100%; /* Ensures the container spans the full width of the card */
+}
+
+@media (max-width: 768px) {
     .catalogue-grid {
-    grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Single column for mobile */
     }
 }
