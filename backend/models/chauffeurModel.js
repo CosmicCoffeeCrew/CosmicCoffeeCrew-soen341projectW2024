@@ -40,10 +40,6 @@ const chauffeurSchema = new Schema({
         type: Number,
         required: true,
     },
-    numOfRatings: {
-        type: Number,
-        default: 0
-    },
     totalRating: {
         type: Number,
         default: 0
