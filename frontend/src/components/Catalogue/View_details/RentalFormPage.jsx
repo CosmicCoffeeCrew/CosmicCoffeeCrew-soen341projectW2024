@@ -160,7 +160,7 @@ const RentalFormPage = () => {
       <strong>Rating </strong><br></br>
       {vehicle ? 
           (vehicle.totalRating === 0 ? 'No rating yet' :
-              Array.from({ length: vehicle.totalRating }, (_, index) => (
+              Array.from({ length: (vehicle.totalRating/vehicle.numOfRatings) }, (_, index) => (
                   <img key={index} src="https://cdn.icon-icons.com/icons2/1389/PNG/512/star_96096.png" alt="Star" style={{ width: "40px", height: "auto", display: "inline-block" }} />
               ))
           )

@@ -9,6 +9,8 @@ const vehicleRoutes = require('./routes/vehicles')
 const userRoutes = require('./routes/users')
 const reservationRoutes = require('./routes/reservations')
 const siteReviewRoutes = require('./routes/siteReview')
+const chauffeurRoutes = require('./routes/chauffeurs')
+
 
 
 // express app
@@ -27,7 +29,7 @@ app.use('/api/vehicles',vehicleRoutes)
 app.use('/api/users',userRoutes)
 app.use('/api/reservations',reservationRoutes)
 app.use('/api/sitereviews',siteReviewRoutes)
-
+app.use('/api/chauffeurs',chauffeurRoutes)
 
 
 // connect to db
