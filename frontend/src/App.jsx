@@ -35,7 +35,8 @@ import ReservationsPage from './pages/Reservations';
 //CheckOut page
 import CheckOutPage from './components/CheckOut/CheckOutPage';
 
-//import CheckOutPage from "./components/CheckOut/CheckOutPage";
+//Chauffeur page
+import ChauffeurPage from "./components/Chauffeurs/ChauffeurPage";
 
 
 const App = () => {
@@ -95,6 +96,8 @@ const App = () => {
         <Route path="/" element={<AdminDashboard />} />
         {/* CSR pages */}
         <Route path="/csr" element={<CSRPage />} />
+        {/* Chauffeur Page */}
+        <Route path="/chauffeur" element={<ChauffeurPage/>} />
         
       </Routes>
       <Footer />
