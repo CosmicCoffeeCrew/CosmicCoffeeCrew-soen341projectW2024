@@ -39,7 +39,20 @@ const recordReservation = async (req, res) => {
         }
 
         // Calculate the charge based on the vehicle's pricePerDay and the number of days
+        
+        const user = await User.findById({_id: userID})
+
         const charge = vehicle.pricePerDay * daysDifference;
+        let creditsUsed = user.credits
+
+        if(charge >= user.credits){
+            await User.findOneAndUpdate({_id: userID}, {"credits": 0})
+        }
+        else{
+            const newcreds = creditsUsed - charge
+            await User.findOneAndUpdate({_id: userID}, {"credits": newcreds})
+            creditsUsed = charge
+        }
 
         const reservation = new Reservation({
             userID,
@@ -47,12 +60,12 @@ const recordReservation = async (req, res) => {
             start_Date,
             end_Date,
             charge,
+            creditsUsed,
             status
         });
 
         await reservation.save();
         console.log("Reservation recorded successfully:", reservation);
-        const user = await User.findById({_id: userID})
         const emailContent = 
        `<p>Dear  ${user.username} ,</p>
         <p>Your reservation has been requested</p>
@@ -60,7 +73,8 @@ const recordReservation = async (req, res) => {
         <ul>
             <li>Start Date: ${start_Date}</li>
             <li>End Date: ${end_Date}</li>
-            <li>This reservation will cost you: ${charge} CAD$ </li>
+            <li>This reservation initial cost is: ${charge} CAD$ </li>
+            <li>This reservation will cost you: ${charge - creditsUsed} CAD$ after your account credits are used</li>
             <li>Your request is ${status}</li>
         </ul>
         <p>Thank you for choosing our service.</p>`
@@ -68,7 +82,7 @@ const recordReservation = async (req, res) => {
     const mailOptions = {
         from: 'cosmiccoffeecrew@gmail.com',
         to: user.email,
-        subject: 'Reservation Confirmation',
+        subject: 'Reservation Request Received',
         html: emailContent
     };
 

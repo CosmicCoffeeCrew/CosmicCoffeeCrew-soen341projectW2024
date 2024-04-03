@@ -25,6 +25,11 @@ const reservationSchema = new Schema({
         type: String,    //make integer later
         required: true,
     },
+    creditsUsed: {
+        type: Number,
+        default: 0,
+        required: false
+    },
     status :{
         type : String,
         enum:["pending","accepted","refused"],

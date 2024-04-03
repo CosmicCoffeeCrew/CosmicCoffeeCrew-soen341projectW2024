@@ -55,6 +55,11 @@ const userSchema = new Schema({
     rentalHistory: {
         type: Array,
         required: false
+    },
+    credits: {
+        type: Number,
+        default: 0,
+        required: false
     }
 
 })
