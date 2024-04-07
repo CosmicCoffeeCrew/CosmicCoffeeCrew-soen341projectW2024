@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './ChauffeurPage.css';
 
 const ChauffeurPage = () => {
@@ -67,6 +68,8 @@ const ChauffeurPage = () => {
 
             if (response.ok) {
                 // Handle booking confirmation
+                const bookedChauffeur = await response.json();
+                navigate('/thank-you', { state: { chauffeurName: bookedChauffeur.firstName } });
             } else {
                 throw new Error('Failed to submit booking');
             }

@@ -37,6 +37,7 @@ import CheckOutPage from './components/CheckOut/CheckOutPage';
 
 //Chauffeur page
 import ChauffeurPage from "./components/Chauffeurs/ChauffeurPage";
+import ThankYouPage from "./components/Chauffeurs/ThankYouPage";
 
 
 const App = () => {
@@ -98,6 +99,7 @@ const App = () => {
         <Route path="/csr" element={<CSRPage />} />
         {/* Chauffeur Page */}
         <Route path="/chauffeur" element={<ChauffeurPage/>} />
+        <Route path="/thank-you" element={<ThankYouPage />} />
         
       </Routes>
       <Footer />
