@@ -38,6 +38,9 @@ const recordReservation = async (req, res) => {
             throw new Error('Vehicle not found');
         }
 
+        if(daysDifference < 0){
+            throw new Error("End date CANNOT be before the start date")
+        }
         // Calculate the charge based on the vehicle's pricePerDay and the number of days
         
         const user = await User.findById({_id: userID})
