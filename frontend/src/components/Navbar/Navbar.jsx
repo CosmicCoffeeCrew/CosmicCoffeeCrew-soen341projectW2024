@@ -28,24 +28,30 @@ export const Navlinks = [
   },
   {
     id: 4,
+    name: "CHAUFFEUR",
+    link: "/chauffeur",
+    permission: "Customer"
+  },
+  {
+    id: 5,
     name: "ABOUT US",
     link: "/#about",
     permission: "Customer"
   },
   {
-    id:5,
+    id: 6,
     name:"OUR REVIEWS",
     link:"/CustomerReview",
     permission: "Customer"
   },
   {
-    id: 6,
+    id: 7,
     name: "ADMIN",
     link: "/AdminDashboard",
     permission: "Admin"
   },
   {
-    id: 7, 
+    id: 8, 
     name: "CSR",
     link: "/CSR",
     permission: "CSR"
