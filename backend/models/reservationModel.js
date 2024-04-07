@@ -22,8 +22,8 @@ const reservationSchema = new Schema({
         required: true
     },
     charge: {
-        type: String,    //make integer later
-        required: true,
+        type: Number,    //make integer later
+        required: true, 
     },
     creditsUsed: {
         type: Number,

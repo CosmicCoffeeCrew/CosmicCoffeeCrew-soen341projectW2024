@@ -36,6 +36,10 @@ const chauffeurSchema = new Schema({
         required: true,
         enum: ['Montreal', 'Ottawa','Toronto','Vancouver','Halifax','Edmonton']
     },
+    description: {
+        type: String,
+        required: true
+    },
     pricePerDay: {
         type: Number,
         required: true,
