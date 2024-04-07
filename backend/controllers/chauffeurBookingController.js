@@ -13,7 +13,7 @@ const recordBooking = async (req, res) => {
     console.log("Attempting to record a Booking with body:", req.body);
 
     // Basic validation (you might want to replace this with a more robust solution like Joi)
-    const { userID, chauffeurID, date, time, pickUpLocation, dropOffLocation, status } = req.body;
+    const { userID, chauffeurID, date, time, pickUpLocation, dropOffLocation, charge, status } = req.body;
     if (!userID || !chauffeurID || !date || !time || !status) {
         console.error("Validation error: Missing fields in request body");
         return res.status(400).json({ error: "Missing required fields" });
@@ -170,7 +170,7 @@ const getChauffeurBookings = async (req, res) => {
     }
 
     try {
-        const bookings = await Chauffeur.find({ chauffeurID });
+        const bookings = await ChauffeurBooking.find({ chauffeurID });
 
         if (bookings.length === 0) {
             return res.status(404).json({ error: 'No bookings found for this chauffeurID' });
@@ -260,7 +260,7 @@ const confirmBooking = async (req,res) => {
     if(!booking){
         return res.status(404).json({error: 'No such booking'})
     }
-    res.status(200).json(reservation)
+    res.status(200).json(booking)
 
 }
 
@@ -345,7 +345,7 @@ const rateBooking = async (req,res) => {
     const {rating, review} = req.body
     cId = booking.chauffeurID
     const chauffeur = await Chauffeur.findById({_id: cId})
-    uId = reservation.userID
+    uId = booking.userID
 
     const user = await User.findById({_id: uId})
 
