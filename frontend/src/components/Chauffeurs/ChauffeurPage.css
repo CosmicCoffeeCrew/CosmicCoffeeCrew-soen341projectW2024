@@ -1,102 +1,58 @@
-.chauffeur-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.chauffeur-title {
-    text-align: center;
-    margin-bottom: 30px;
+.thank-you-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f4f8;
     color: #333;
-    font-size: 2rem;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
 }
 
-.location-selector select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.thank-you-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5em;
 }
 
-.chauffeur-selection {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-}
-
-.chauffeur-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: box-shadow 0.3s;
-}
-
-.chauffeur-card:hover {
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.chauffeur-image {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-.chauffeur-info {
-    padding: 15px;
-    background: #f9f9f9;
-}
-
-.chauffeur-name {
-    margin-top: 0;
-    color: #222;
-    font-size: 1.25rem;
-}
-
-.chauffeur-price, .chauffeur-sex {
+.thank-you-message {
+    font-size: 1.2rem;
     color: #555;
-    font-size: 1rem;
-    margin: 5px 0;
+    margin-bottom: 2em;
 }
 
-.chauffeur-reviews {
-    margin-top: 10px;
-}
-
-.chauffeur-review {
-    background: #e7e7e7;
-    border-radius: 5px;
-    padding: 5px 10px;
-    margin-bottom: 5px;
-    font-size: 0.9rem;
-}
-
-.booking-form {
-    margin-top: 30px;
-    background: #fff;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.booking-form input, .booking-form button {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.submit-booking-button {
-    background-color: #28a745;
+.back-to-menu-button {
+    background-color: #4caf50;
     color: white;
-    font-size: 1rem;
     border: none;
+    padding: 1em 2em;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, box-shadow 0.3s;
     cursor: pointer;
-    transition: background-color 0.3s;
+    text-decoration: none;
+    display: inline-block;
 }
 
-.submit-booking-button:hover {
-    background-color: #218838;
+.back-to-menu-button:hover {
+    background-color: #45a049;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+    .thank-you-container h1 {
+        font-size: 2rem;
+    }
+
+    .thank-you-message {
+        font-size: 1rem;
+    }
+
+    .back-to-menu-button {
+        padding: 0.8em 1.5em;
+        font-size: 0.9rem;
+    }
 }

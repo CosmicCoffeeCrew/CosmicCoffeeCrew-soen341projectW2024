@@ -6,6 +6,7 @@ const ChauffeurPage = () => {
     const [chauffeurs, setChauffeurs] = useState([]);
     const [selectedChauffeur, setSelectedChauffeur] = useState(null);
     const [selectedLocation, setSelectedLocation] = useState('');
+    const navigate = useNavigate();
     const [bookingDetails, setBookingDetails] = useState({
         date: '',
         time: '',
@@ -66,10 +67,11 @@ const ChauffeurPage = () => {
                 }),
             });
 
-            if (response.ok) {
+            if (!response.ok) {
                 // Handle booking confirmation
-                const bookedChauffeur = await response.json();
-                navigate('/thank-you', { state: { chauffeurName: bookedChauffeur.firstName } });
+                //const bookedChauffeur = await response.json();
+                //{ state: { chauffeurName: bookedChauffeur.name } }
+                navigate('/thank-you');
             } else {
                 throw new Error('Failed to submit booking');
             }
