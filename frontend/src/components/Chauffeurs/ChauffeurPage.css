@@ -1,65 +1,102 @@
-/* General container styles */
-.booking-container {
-    max-width: 600px;
-    margin: auto;
+.chauffeur-container {
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 20px;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-h1 {
-    color: #333;
+.chauffeur-title {
     text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+    font-size: 2rem;
 }
 
-/* Style for the form inputs */
-.pickup-details-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.pickup-details-form input {
+.location-selector select {
+    width: 100%;
     padding: 10px;
+    margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-/* Chauffeur selection styles */
 .chauffeur-selection {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 15px;
-    margin-bottom: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
 }
 
 .chauffeur-card {
-    padding: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    overflow: hidden;
+    transition: box-shadow 0.3s;
 }
 
 .chauffeur-card:hover {
-    transform: scale(1.05);
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-/* Button styling */
-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.chauffeur-image {
     width: 100%;
-    font-size: 16px;
-    transition: background-color 0.2s ease-in-out;
+    height: auto;
+    display: block;
 }
 
-button:hover {
-    background-color: #0056b3;
+.chauffeur-info {
+    padding: 15px;
+    background: #f9f9f9;
+}
+
+.chauffeur-name {
+    margin-top: 0;
+    color: #222;
+    font-size: 1.25rem;
+}
+
+.chauffeur-price, .chauffeur-sex {
+    color: #555;
+    font-size: 1rem;
+    margin: 5px 0;
+}
+
+.chauffeur-reviews {
+    margin-top: 10px;
+}
+
+.chauffeur-review {
+    background: #e7e7e7;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.booking-form {
+    margin-top: 30px;
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.booking-form input, .booking-form button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.submit-booking-button {
+    background-color: #28a745;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-booking-button:hover {
+    background-color: #218838;
 }

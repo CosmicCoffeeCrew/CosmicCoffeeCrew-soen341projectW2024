@@ -1,102 +1,152 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './ChauffeurPage.css';
 
 const ChauffeurPage = () => {
     const [chauffeurs, setChauffeurs] = useState([]);
+    const [selectedChauffeur, setSelectedChauffeur] = useState(null);
     const [selectedLocation, setSelectedLocation] = useState('');
-    const [pickupDetails, setPickupDetails] = useState({ location: '', time: '' });
-    const navigate = useNavigate();
+    const [bookingDetails, setBookingDetails] = useState({
+        date: '',
+        time: '',
+        duration: ''
+    });
+    const locations = ['Montreal', 'Ottawa', 'Toronto', 'Vancouver', 'Halifax', 'Edmonton'];
 
+    // Fetching chauffeurs on component mount
     useEffect(() => {
-        if (selectedLocation) {
-            const fetchAvailableChauffeurs = async () => {
-                try {
-                    const response = await fetch(`/api/chauffeurs/available?location=${selectedLocation}`);
+        async function fetchChauffeurs() {
+            let response;
+            try {
+                response = await fetch(`/api/chauffeurs?location=${selectedLocation}`);
+                if (response.ok) {
                     const json = await response.json();
                     setChauffeurs(json);
-                } catch (error) {
-                    console.error('Error fetching chauffeurs:', error);
+                } else {
+                    throw new Error('Failed to fetch chauffeurs');
                 }
-            };
-            fetchAvailableChauffeurs();
+            } catch (error) {
+                console.error('Error fetching chauffeurs:', error);
+            }
+        }
+        if (selectedLocation) {
+            fetchChauffeurs();
         }
     }, [selectedLocation]);
 
-    const handleLocationChange = (e) => {
-        setSelectedLocation(e.target.value);
+    const handleSelectChauffeur = (chauffeurId) => {
+        const chauffeur = chauffeurs.find(c => c._id === chauffeurId);
+        setSelectedChauffeur(chauffeur);
     };
 
-    const handlePickupDetailsChange = (e) => {
+    const handleBookingChange = (e) => {
         const { name, value } = e.target;
-        setPickupDetails(prevDetails => ({
+        setBookingDetails(prevDetails => ({
             ...prevDetails,
             [name]: value
         }));
     };
 
-    const bookChauffeur = async (chauffeurId) => {
+    const handleLocationChange = (e) => {
+        setSelectedLocation(e.target.value);
+        setSelectedChauffeur(null); // Deselect chauffeur when changing location
+        setChauffeurs([]);
+    };
+
+    const handleSubmitBooking = async () => {
         try {
-            const response = await fetch('/api/bookings/create', {
+            const response = await fetch('/api/bookChauffeur', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    chauffeurId,
-                    pickupDetails,
+                    ...bookingDetails,
+                    chauffeurId: selectedChauffeur._id
                 }),
             });
+
             if (response.ok) {
-                navigate('/booking/confirmation');
+                // Handle booking confirmation
             } else {
-                throw new Error('Booking failed');
+                throw new Error('Failed to submit booking');
             }
         } catch (error) {
-            console.error('Error creating booking:', error);
+            console.error('Error submitting booking:', error);
         }
     };
 
     return (
-        <div className="booking-container">
-            <h1>Book Your Chauffeur</h1>
-            <select value={selectedLocation} onChange={handleLocationChange} className="location-selector">
+        <div className="chauffeur-container">
+        <h1 className="chauffeur-title">Book a Chauffeur</h1>
+        
+        <div className="location-selector">
+            <select value={selectedLocation} onChange={handleLocationChange}>
                 <option value="">Select Location</option>
-                <option value="Montreal">Montreal</option>
-                <option value="Ottawa">Ottawa</option>
-                <option value="Toronto">Toronto</option>
-                <option value="Vancouver">Vancouver</option>
-                <option value="Halifax">Halifax</option>
-                <option value="Edmonton">Edmonton</option>
+                {locations.map(location => (
+                    <option key={location} value={location}>{location}</option>
+                ))}
             </select>
-            <div className="pickup-details-form">
+        </div>
+
+        {selectedLocation && (
+    <div className="chauffeur-selection">
+        {chauffeurs.map((chauffeur) => (
+            <div key={chauffeur._id} className="chauffeur-card" onClick={() => handleSelectChauffeur(chauffeur._id)}>
+                <img src={chauffeur.image} alt={`${chauffeur.firstName} ${chauffeur.lastName}`} className="chauffeur-image" />
+                <div className="chauffeur-info">
+                    <h2 className="chauffeur-name">{`${chauffeur.firstName} ${chauffeur.lastName}`}</h2>
+                    <p className="chauffeur-price">{`Price per day: $${chauffeur.pricePerDay}`}</p>
+                    <p className="chauffeur-sex">{`Sex: ${chauffeur.sex}`}</p>
+                    {/* <div className="chauffeur-reviews"> */}
+                        {/* Ensure reviews is an array before mapping */}
+                        {/* {Array.isArray(chauffeur.reviews) ? ( */}
+                            {/* chauffeur.reviews.map((review, index) => ( */}
+                                {/* <p key={index} className="chauffeur-review">{review}</p> */}
+                            {/* )) */}
+                        {/* ) : ( */}
+                            {/* <p>No reviews available.</p> */}
+                        {/* )} */}
+                    {/* </div> */}
+                </div>
+            </div>
+        ))}
+    </div>
+)}
+        {selectedChauffeur && (
+            <div className="booking-form">
+                <input
+                    type="date"
+                    name="date"
+                    value={bookingDetails.date}
+                    onChange={handleBookingChange}
+                />
+                <input
+                    type="time"
+                    name="time"
+                    value={bookingDetails.time}
+                    onChange={handleBookingChange}
+                />
                 <input
                     type="text"
                     name="location"
-                    value={pickupDetails.location}
-                    onChange={handlePickupDetailsChange}
-                    placeholder="Pickup Location"
+                    value={bookingDetails.location}
+                    onChange={handleBookingChange}
+                    placeholder="Pick-up location"
                 />
                 <input
-                    type="datetime-local"
-                    name="time"
-                    value={pickupDetails.time}
-                    onChange={handlePickupDetailsChange}
-                    placeholder="Pickup Time"
+                    type="number"
+                    name="duration"
+                    value={bookingDetails.duration}
+                    onChange={handleBookingChange}
+                    placeholder="Duration (in hours)"
                 />
+                <button className="submit-booking-button" onClick={handleSubmitBooking}>
+                    Submit Booking
+                </button>
             </div>
-            <div className="chauffeur-selection">
-                {chauffeurs.length > 0 ? chauffeurs.map((chauffeur) => (
-                    <div key={chauffeur._id} className="chauffeur-card" onClick={() => bookChauffeur(chauffeur._id)}>
-                        <p>Name: {chauffeur.firstName} {chauffeur.lastName}</p>
-                        <p>Location: {chauffeur.location}</p>
-                        <p>Price Per Day: ${chauffeur.pricePerDay}</p>
-                        <p>Total Rating: {chauffeur.totalRating}</p>
-                    </div>
-                )) : <p>No chauffeurs available in selected location.</p>}
-            </div>
-        </div>
-    );
+        )}
+    </div>
+);
 };
 
 export default ChauffeurPage;
