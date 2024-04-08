@@ -56,7 +56,7 @@ const ChauffeurPage = () => {
 
     const handleSubmitBooking = async () => {
         try {
-            const response = await fetch('/api/bookChauffeur', {
+            const response = await fetch('/api/bookings/book', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
