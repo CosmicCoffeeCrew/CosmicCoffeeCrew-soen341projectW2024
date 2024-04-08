@@ -67,7 +67,7 @@ const ChauffeurPage = () => {
                 }),
             });
 
-            if (!response.ok) {
+            if (response.ok) {
                 // Handle booking confirmation
                 //const bookedChauffeur = await response.json();
                 //{ state: { chauffeurName: bookedChauffeur.name } }
