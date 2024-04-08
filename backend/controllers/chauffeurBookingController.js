@@ -1,10 +1,10 @@
-//const nodemailer  = require('nodemailer')
+const nodemailer  = require('nodemailer')
 const User = require ('../models/userModel')
 const Chauffeur = require ('../models/chauffeurModel')
 const ChauffeurBooking = require ('../models/chauffeurBookingModel')
 const mongoose = require('mongoose')
 const {transporter} = require('../mail')
-const { unstable_renderSubtreeIntoContainer } = require('react-dom')
+// const { unstable_renderSubtreeIntoContainer } = require('react-dom')
 
 //process.env.SECRET;
 
@@ -82,7 +82,7 @@ const recordBooking = async (req, res) => {
             <li>This total cost is: ${charge} CAD$ </li>
             <li>Your request is ${status}</li>
         </ul>
-        <p>Thank you for choosing our service.</p>`
+        <p>Thank you for choosing our service, we will get back to you soon.</p>`
     ;
     const mailOptions = {
         from: 'cosmiccoffeecrew@gmail.com',
@@ -242,8 +242,8 @@ const confirmBooking = async (req,res) => {
     const emailContent = 
     `<p>Dear  ${user.username} ,</p>
      <p>Thank you for using our services!</p>
-     <h5>Your Chauffer Booking has been confirmed and you will meet at the chosen date, time, and location.
-     We hipe you have a nice trip </h5>
+     <h4>Your Chauffer Booking has been confirmed and you will meet at the chosen date, time, and location.
+     We hope you have a nice trip </h4>
      <p>CocoCrew</p>
      `
  ;
