@@ -4,16 +4,14 @@ import '../index.css';
 import { useNavigate } from 'react-router-dom';
 const ReservationsPage = () => {
   const [reservations, setReservations] = useState([]);
+  const [chauffeurBookings, setChauffeurBookings] = useState([]);
   const { user } = useAuthContext(); // Assuming this hook provides the logged-in user's data
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState('');
+ // const [isLoading, setIsLoading] = useState(true);
+ //const [error, setError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchReservations = async () => {
-      setIsLoading(true);
-      setError('');
-
       try {
         // Fetch user reservations
         const resResponse = await fetch(`/api/Reservations/user/${user.tempId}`);
@@ -34,19 +32,51 @@ const ReservationsPage = () => {
         const combinedData = reservationsData.map((reservation, index) => {
           return { ...reservation, vehicle: vehiclesData[index] };
         });
-
+      
         setReservations(combinedData);
       } catch (error) {
-        setError('Error: ' + error.message);
-      } finally {
-        setIsLoading(false);
-      }
+        console.error('No vehicle reservation for this user', error);
+     }
+    };
+
+    const fetchChauffeurBookings = async () => {
+       try {
+        // Fetch user bookings of Chauffeur
+        const resResponse = await fetch(`/api/bookings/user/${user.tempId}`);
+        if (!resResponse.ok) {
+          throw new Error('Failed to fetch chauffeur bookings');
+        }
+        const chauffeurBookingData = await resResponse.json();
+        console.log("Fetched Chauffeur Bookings Data:", chauffeurBookingData); // Debugging line
+
+
+        // Fetch chauffeur for each reservation
+        const chauffeurFetchPromises = chauffeurBookingData.map((chauffeurBooking) =>
+          fetch(`/api/chauffeurs/${chauffeurBooking.chauffeurID}`).then((res) => res.json())
+        );
+
+        // Resolve all vehicle fetch promises
+        const chauffeursData = await Promise.all(chauffeurFetchPromises);
+
+        // Combine the reservations with their vehicle data
+        const combinedData = chauffeurBookingData.map((chauffeurBooking, index) => {
+          return { ...chauffeurBooking, chauffeur: chauffeursData[index] };
+        });
+        setChauffeurBookings(combinedData);
+      } catch (error) {
+        console.error('No chauffeur booking for this user', error);
+     }
+
     };
 
     if (user && user.tempId) {
-      fetchReservations();
+      (async () => {
+        await fetchReservations();
+        await fetchChauffeurBookings();
+      })();
     }
   }, [user]);
+  
   const handleCheckIn = (reservationId) => {
     //navigate(`/check-in/${reservationId}`); //change in here
     navigate(`/check-in/${reservationId}`,{ state: reservationId }); //change in here
@@ -55,8 +85,8 @@ const ReservationsPage = () => {
   //Delete Reservations
   const handleDelete = async (reservationId) => {
     if (window.confirm('Are you sure you want to delete this reservation?')) {
-      setIsLoading(true);
-      try {
+
+     
         const response = await fetch(`/api/reservations/${reservationId}`, {
           method: 'DELETE',
         });
@@ -69,15 +99,13 @@ const ReservationsPage = () => {
         setReservations(prevReservations =>
           prevReservations.filter(reservation => reservation._id !== reservationId)
         );
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setIsLoading(false);
-      }
+      
     }
   };
 
-  if (isLoading) {
+
+
+ /* if (isLoading) {
     return <div>Loading...</div>;
   }
 
@@ -89,18 +117,17 @@ const ReservationsPage = () => {
       <br />
       It is the perfect opportunity to start browsing our large selection of vehicles and chauffeurs and start planning your journey today!
     </p>
-  </div>
-  
-  ;
-  }
+  </div>;
+  } */
 
   return (
     <div className="reservations-container font-serif">
-      {reservations.length > 0 ? (
+      <h1 className="p-4 mb-6 text-xl font-semibold">My Upcoming Reservations </h1>
+      {reservations.length > 0 || chauffeurBookings.length > 0? (
         <div className="reservations-list">
-          <h1 className="p-4 text-xl font-semibold">My Upcoming Reservations</h1>
+  
           {reservations.map((reservation) => (
-            <div key={reservation._id} className="reservation-card">
+            <div key={reservation._id} className="reservation-card w-300 h-200 overflow-hidden">
               <img
                 src={reservation.vehicle?.image || 'path/to/default/image.png'}
                 alt={`${reservation.vehicle?.make || 'Vehicle'} model`}
@@ -123,6 +150,25 @@ const ReservationsPage = () => {
                   className="check-out-button"
                 >
                   Check Out
+                </button>
+              </div>
+            </div>
+          ))}
+           {chauffeurBookings.map((chauffeurBooking) => (
+            <div key={chauffeurBooking._id} className="reservation-card w-300 h-200">
+              <img
+                src={chauffeurBooking.chauffeur.image || 'path/to/default/image.png'}
+                className="vehicle-image"
+              />
+              <div className="reservation-details">
+                <h3>{`${chauffeurBooking.chauffeur?.firstName} ${chauffeurBooking.chauffeur?.lastName}`}</h3>
+                {/* ... other details ... */}
+                <p><strong>Rental Dates:</strong> {new Date(chauffeurBooking.date).toLocaleDateString()}</p>
+                <p><strong>Pick Up Location:</strong> {chauffeurBooking.pickUpLocation}</p>
+                <p className="cost"><strong>Cost:</strong> {chauffeurBooking.charge || 'Unknown'} CAD$</p>
+                <p className="status"><strong>Status:</strong> {chauffeurBooking.status || 'Unknown'}</p>
+                <button onClick={() => handleDeleteChauffeur(chauffeurBooking._id)} className="delete-reservation-button">
+                  Delete Reservation
                 </button>
               </div>
             </div>
