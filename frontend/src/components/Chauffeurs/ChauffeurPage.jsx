@@ -102,6 +102,7 @@ const ChauffeurPage = () => {
                     <h2 className="chauffeur-name">{`${chauffeur.firstName} ${chauffeur.lastName}`}</h2>
                     <p className="chauffeur-price">{`Price per day: $${chauffeur.pricePerDay}`}</p>
                     <p className="chauffeur-sex">{`Sex: ${chauffeur.sex}`}</p>
+                    <p className="chauffeur-sex">{`Description: ${chauffeur.description}`}</p>
                     {/* <div className="chauffeur-reviews"> */}
                         {/* Ensure reviews is an array before mapping */}
                         {/* {Array.isArray(chauffeur.reviews) ? ( */}
