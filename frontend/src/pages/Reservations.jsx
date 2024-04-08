@@ -82,14 +82,23 @@ const ReservationsPage = () => {
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <div className="max-w-lg mx-auto my-10 p-6 bg-white rounded-lg shadow-md font-serif">
+    <h1 className="text-xl font-semibold text-gray-800 mb-2 text-red-500 text-center">No Upcoming Reservations!</h1>
+    <p className="text-lg font-italic text-gray-600 text-center">
+      You currently do not have any upcoming reservations scheduled.
+      <br />
+      It is the perfect opportunity to start browsing our large selection of vehicles and chauffeurs and start planning your journey today!
+    </p>
+  </div>
+  
+  ;
   }
 
   return (
-    <div className="reservations-container">
-      <h2>My Reservations</h2>
+    <div className="reservations-container font-serif">
       {reservations.length > 0 ? (
         <div className="reservations-list">
+          <h1 className="p-4 text-xl font-semibold">My Upcoming Reservations</h1>
           {reservations.map((reservation) => (
             <div key={reservation._id} className="reservation-card">
               <img
@@ -120,7 +129,14 @@ const ReservationsPage = () => {
           ))}
         </div>
       ) : (
-        <p>No reservations found.</p>
+        <div className="max-w-lg mx-auto my-10 p-6 bg-white rounded-lg shadow-md font-serif">
+             <h1 className="text-xl font-semibold text-gray-800 mb-2 text-red-500 text-center">No Upcoming Reservations!</h1>
+                  <p className="text-lg text-gray-600 text-center">
+                     You currently do not have any upcoming reservations scheduled.
+                     <br />
+                     It is the perfect opportunity to start browsing our large selection of vehicles and chauffeurs and start planning your journey today!
+                  </p>
+        </div>
       )}
     </div>
   );
