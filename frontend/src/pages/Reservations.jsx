@@ -103,7 +103,25 @@ const ReservationsPage = () => {
     }
   };
 
+//Delete chauffeur bookings
+const handleDeleteChauffeur = async (chauffeurBookingId) => {
+  if (window.confirm('Are you sure you want to delete this reservation?')) {
 
+      const response = await fetch(`/api/bookings/${chauffeurBookingId}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Could not delete the reservation.');
+      }
+
+      // Filter out the deleted reservation from the state
+      setChauffeurBookings(prevChauffeurBookings =>
+        prevChauffeurBookings.filter(ChauffeurBooking=> ChauffeurBooking._id !== chauffeurBookingId)
+      );
+    
+  }
+};
 
  /* if (isLoading) {
     return <div>Loading...</div>;
