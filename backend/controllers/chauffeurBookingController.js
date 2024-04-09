@@ -13,7 +13,7 @@ const recordBooking = async (req, res) => {
     console.log("Attempting to record a Booking with body:", req.body);
 
     // Basic validation (you might want to replace this with a more robust solution like Joi)
-    const { userID, chauffeurID, date, time, location, dropOffLocation, charge } = req.body;
+    const { userID, chauffeurID, date, time, location, dropOffLocation, pricePerHour, duration } = req.body;
     if (!userID || !chauffeurID || !date || !time ) {
         console.error("Validation error: Missing fields in request body");
         return res.status(400).json({ error: "Missing required fields" });
@@ -29,7 +29,7 @@ const recordBooking = async (req, res) => {
         // const timeDifference = endDate.getTime() - startDate.getTime();
         // const daysDifference = timeDifference / (1000 * 3600 * 24); // milliseconds to days
 
-        // Retrieve vehicle information to calculate charge
+        // Retrieve vehicle information to calculate pricePerHour
         const chauffeur = await Chauffeur.findById(chauffeurID);
         if (!chauffeur) {
             throw new Error('chauffeur not found');
@@ -40,20 +40,20 @@ const recordBooking = async (req, res) => {
         // }
 
 
-        // Calculate the charge based on the vehicle's pricePerDay and the number of days
+        // Calculate the pricePerHour based on the vehicle's pricePerDay and the number of days
         
         const user = await User.findById({_id: userID})
 
-        // const charge = vehicle.pricePerDay * daysDifference;
+        // const pricePerHour = vehicle.pricePerDay * daysDifference;
         // let creditsUsed = user.credits
 
-        // if(charge >= user.credits){
+        // if(pricePerHour >= user.credits){
         //     await User.findOneAndUpdate({_id: userID}, {"credits": 0})
         // }
         // else{
-        //     const newcreds = creditsUsed - charge
+        //     const newcreds = creditsUsed - pricePerHour
         //     await User.findOneAndUpdate({_id: userID}, {"credits": newcreds})
-        //     creditsUsed = charge
+        //     creditsUsed = pricePerHour
         // }
 
         const booking = new ChauffeurBooking({
@@ -63,21 +63,24 @@ const recordBooking = async (req, res) => {
             time,
             location,
             dropOffLocation,
-            charge
+            pricePerHour,
+            duration
         });
 
         await booking.save();
         console.log("Booking recorded successfully:", booking);
+        console.log(duration,typeof(duration), chauffeur.pricePerHour)
+        const totalCost = parseInt(chauffeur.pricePerHour)  * parseInt(duration); 
         const emailContent = 
        `<p>Dear  ${user.username} ,</p>
         <p>Your Booking has been requested</p>
         <p>Chauffeur Booking Details:</p>
         <ul>
-            <li>Start Date: ${chauffeur.firstName} ${chauffeur.lastName}</li>
+            <li>Your chauffeur will be: ${chauffeur.firstName} ${chauffeur.lastName}</li>
             <li>Date: ${date}</li>
             <li>Pickup time: ${time}</li>
             <li>Pickup location: ${location}</li>
-            <li>This total cost is: ${charge} CAD$ </li>
+            <li>This total cost is: ${totalCost} CAD$ </li>
             
         </ul>
         <p>Thank you for choosing our service, we will get back to you soon.</p>`
@@ -101,9 +104,9 @@ const recordBooking = async (req, res) => {
     }
 };
 // const recordReservation = async (req,res)=> {
-//     const {userID, vehicleID, start_Date, end_Date, charge, status} = req.body
+//     const {userID, vehicleID, start_Date, end_Date, pricePerHour, status} = req.body
 //     try{
-//         const reservation = await Reservation.record(userID, vehicleID, start_Date, end_Date, charge, status)
+//         const reservation = await Reservation.record(userID, vehicleID, start_Date, end_Date, pricePerHour, status)
 
 //         // Retrieve user's email
 //         const user = await User.findById({_id: userID});
@@ -117,7 +120,7 @@ const recordBooking = async (req, res) => {
 //             <ul>
 //                 <li>Start Date: ${start_Date}</li>
 //                 <li>End Date: ${end_Date}</li>
-//                 <li>Charge: ${charge}</li>
+//                 <li>pricePerHour: ${pricePerHour}</li>
 //                 <li>Status: ${status}</li>
 //             </ul>
 //             <p>Thank you for choosing our service.</p>
