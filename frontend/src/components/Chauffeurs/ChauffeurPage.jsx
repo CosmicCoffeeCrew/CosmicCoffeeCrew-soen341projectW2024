@@ -128,7 +128,7 @@ const ChauffeurPage = () => {
                 <img src={chauffeur.image} alt={`${chauffeur.firstName} ${chauffeur.lastName}`} className="chauffeur-image" />
                 <div className="chauffeur-info">
                     <h2 className="chauffeur-name">{`${chauffeur.firstName} ${chauffeur.lastName}`}</h2>
-                    <p className="chauffeur-price">{`Price per day: $${chauffeur.pricePerDay}`}</p>
+                    <p className="chauffeur-price">{`Price per hour: $${chauffeur.pricePerHour}`}</p>
                     <p className="chauffeur-sex">{`Sex: ${chauffeur.sex}`}</p>
                     <p className="chauffeur-sex">{`Description: ${chauffeur.description}`}</p>
                     {/* <div className="chauffeur-reviews"> */}
