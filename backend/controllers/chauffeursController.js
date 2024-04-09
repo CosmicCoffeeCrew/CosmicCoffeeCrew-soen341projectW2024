@@ -7,15 +7,15 @@ const mongoose = require('mongoose')
 
 // Function to create a new user
 const createChauffeur = async (req, res) => {
-    const { email, firstName, lastName, age, sex, contactNumber, location, description, pricePerDay, image} = req.body;
+    const { email, firstName, lastName, age, sex, contactNumber, location, description, pricePerHour, image} = req.body;
     try {
         // Check if the required fields are provided
-        if (!email || !firstName || !lastName || !age || !contactNumber || !sex || !location || !description || !pricePerDay || !image) {
+        if (!email || !firstName || !lastName || !age || !contactNumber || !sex || !location || !description || !pricePerHour || !image) {
             throw new Error("All fields must be filled");
         }
 
         // Create the user
-        const chauffeur = await Chauffeur.create({ email, firstName, lastName, age, sex, contactNumber, location, description, pricePerDay, image});
+        const chauffeur = await Chauffeur.create({ email, firstName, lastName, age, sex, contactNumber, location, description, pricePerHour, image});
 
         // Return success response with token
         res.status(200).json({chauffeur});
