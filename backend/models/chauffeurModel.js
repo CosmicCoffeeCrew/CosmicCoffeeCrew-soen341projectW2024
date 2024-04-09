@@ -44,6 +44,18 @@ const chauffeurSchema = new Schema({
         type: Number,
         required: true,
     },
+    carMake: {
+        type:String,
+        required: true
+    },
+    carModel: {
+        type: String,
+        required: true
+    },
+    carYear: {
+        type: Number,
+        required: true
+    },
     image: {
         type: String,
         required: true

@@ -80,6 +80,7 @@ const recordBooking = async (req, res) => {
             <li>Date: ${date}</li>
             <li>Pickup time: ${time}</li>
             <li>Pickup location: ${location}</li>
+            <li>Car Details: ${chauffeur.carMake} ${chauffeur.carModel} ${chauffeur.carYear}</li>
             <li>This total cost is: ${totalCost} CAD$ </li>
             
         </ul>
