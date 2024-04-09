@@ -40,7 +40,7 @@ const chauffeurSchema = new Schema({
         type: String,
         required: true
     },
-    pricePerDay: {
+    pricePerHour: {
         type: Number,
         required: true,
     },
