@@ -31,6 +31,9 @@ const chauffeurBookingSchema = new Schema({
     charge: {
         type: Number
     },
+    duration: {
+        type : Number
+    },
 // status was here!
     review: {
         type: String,
@@ -45,11 +48,11 @@ const chauffeurBookingSchema = new Schema({
 })
 
 
-chauffeurBookingSchema.statics.record = async function(userID, chauffeurID, date, time, location, dropOffLocation, charge, status){
+chauffeurBookingSchema.statics.record = async function(userID, chauffeurID, date, time, location, dropOffLocation, charge, status,duration){
 
 
     // validation
-    if (!userID || !chauffeurID || !date || !time ||!status ||!location ){
+    if (!userID || !chauffeurID || !date || !time ||!status ||!location||!duration ){
         throw Error("All fields must be filled")
     }
     const user_Exists = await User.findById(userID)
@@ -65,7 +68,7 @@ chauffeurBookingSchema.statics.record = async function(userID, chauffeurID, date
     }
 
 
-    const chauffeurBooking = await this.create({userID, chauffeurID, date, time, pickUpLocation, dropOffLocation, charge, status})
+    const chauffeurBooking = await this.create({userID, chauffeurID, date, time, pickUpLocation, dropOffLocation, charge, status, duration})
 
     return chauffeurBooking
 }
