@@ -27,6 +27,47 @@ const createUser = async (req, res) => {
 
         // Return success response with token
         res.status(200).json({ email, token });
+
+        /////////////////////////////////////////////////////////////Email
+        // ///////////////////////////////////////////////////////////////// EMAIL
+        // Retrieve user's email
+        
+        const userEmail = user.email;
+
+        // Construct email content
+        if(user.permission="Chauffeur"){
+            const emailContent = `
+            <p>Dear ${user.username},</p>
+            <p>Welcome to Cosmic Coffee Crew  ZOOMVITERAPIDE Car Rental Company!</p>
+            <p>We re thrilled to have you as a driver for our team!</p>
+            <p>Best regards,</p>
+            <p>The Cosmic Coffee Crew Car Rental Team</p>
+        `;
+        } else {
+        const emailContent = `
+    <p>Dear ${user.username},</p>
+    <p>Welcome to Cosmic Coffee Crew  ZOOMVITERAPIDE Car Rental Company!</p>
+    <p>We're thrilled to have you on board and excited to assist you in exploring the world with our range of high-quality vehicles.</p>
+    <p>At Cosmic Coffee Crew, we pride ourselves on providing exceptional service and ensuring your journey is smooth and memorable.</p>
+    <p>Whether you're planning a weekend getaway, a business trip, or an adventurous road trip, our fleet of vehicles is here to cater to your needs.</p>
+    <p>Feel free to browse through our selection of vehicles and make your reservation conveniently through our website or mobile app.</p>
+    <p>If you have any questions or need assistance, our friendly team is always here to help. Don't hesitate to reach out!</p>
+    <p>Once again, welcome to the Cosmic Coffee Crew Car Rental family. We look forward to serving you!</p>
+    <p>Best regards,</p>
+    <p>The Cosmic Coffee Crew Car Rental Team</p>
+`;
+        }
+
+
+        const mailOptions = {
+            from: 'cosmiccoffeecrew@gmail.com',
+            to: userEmail,
+            subject: 'Welcome to CocoCrew!',
+            html: emailContent
+        };
+
+        await transporter.sendMail(mailOptions);
+///////////////////////////////////////////////////////////////////////
     } catch (error) {
         // Return error response
         res.status(400).json({ error: error.message });

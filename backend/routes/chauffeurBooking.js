@@ -3,13 +3,13 @@ const express = require('express')
 const router = express.Router()
 
 //controller functions
-const{getBooking,cancelBooking, confirmBooking, updateBooking, recordBooking, getBookings, getUserBookings, getChauffeurBookings,deleteBooking, rateBooking }= require('../controllers/chauffeurBookingController')
+const{getBooking, updateBooking, recordBooking, getBookings, getUserBookings, getChauffeurBookings,deleteBooking, rateBooking }= require('../controllers/chauffeurBookingController')
 
 
-//Confirm/Cancel reservation
-router.patch('/cancel/:id',cancelBooking)
-router.patch('/confirm/:id',confirmBooking)
-//record route
+// //Confirm/Cancel reservation
+// router.patch('/cancel/:id',cancelBooking)
+// router.patch('/confirm/:id',confirmBooking)
+// //record route
 router.post('/book', recordBooking)
 
 //get all reservations route

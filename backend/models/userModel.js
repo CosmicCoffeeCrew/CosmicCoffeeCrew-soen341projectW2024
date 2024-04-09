@@ -37,7 +37,7 @@ const userSchema = new Schema({
     },
     permission: {
         type: String,
-        enum: ["Customer", "CSR", "Admin"],
+        enum: ["Customer", "CSR", "Admin","Chauffeur"],
         required: true,
         default: "Customer"
     },

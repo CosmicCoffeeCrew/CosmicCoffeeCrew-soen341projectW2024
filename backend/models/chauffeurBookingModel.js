@@ -21,23 +21,17 @@ const chauffeurBookingSchema = new Schema({
         type: String,
         required: true
     },
-    pickUpLocation: {
+    location: {
         type: String,
         requried: true
     },
     dropOffLocation: {
-        type: String,
-        requried: true
+        type: String
     },
     charge: {
-        type: Number,    //make integer later
-        required: true,
+        type: Number
     },
-    status :{
-        type : String,
-        enum:["pending","accepted","refused"],
-        required:true
-    },
+// status was here!
     review: {
         type: String,
     },
@@ -51,11 +45,11 @@ const chauffeurBookingSchema = new Schema({
 })
 
 
-chauffeurBookingSchema.statics.record = async function(userID, chauffeurID, date, time, pickUpLocation, dropOffLocation, charge, status){
+chauffeurBookingSchema.statics.record = async function(userID, chauffeurID, date, time, location, dropOffLocation, charge, status){
 
 
     // validation
-    if (!userID || !chauffeurID || !date || !time || !charge ||!status ||!pickUpLocation || !dropOffLocation){
+    if (!userID || !chauffeurID || !date || !time ||!status ||!location ){
         throw Error("All fields must be filled")
     }
     const user_Exists = await User.findById(userID)

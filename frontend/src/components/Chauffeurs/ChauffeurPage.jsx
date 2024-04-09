@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../../hooks/useAuthContext';
 import './ChauffeurPage.css';
 
 const ChauffeurPage = () => {
@@ -13,6 +14,29 @@ const ChauffeurPage = () => {
         duration: ''
     });
     const locations = ['Montreal', 'Ottawa', 'Toronto', 'Vancouver', 'Halifax', 'Edmonton'];
+
+    const { user } = useAuthContext(); // Assuming this hook provides the logged-in user's data
+
+    const fetchUserID = async () => {
+        let access;
+        try {
+          if (user && user.tempId) { // Check if user is not null or undefined
+            const response = await fetch('/api/users/' + user.tempId);
+            if (response.ok) {
+                const json = await response.json();
+                access = await json._id;
+                console.log(access);  
+            } else {
+                throw new Error('Failed to fetch users');
+            }
+            return access;
+          } else {
+            throw new Error('User is null or undefined');
+          }
+        } catch (error) {
+            console.error('Error fetching users:', error);
+        }
+      };
 
     // Fetching chauffeurs on component mount
     useEffect(() => {
@@ -32,7 +56,8 @@ const ChauffeurPage = () => {
         }
         if (selectedLocation) {
             fetchChauffeurs();
-        }
+        } 
+
     }, [selectedLocation]);
 
     const handleSelectChauffeur = (chauffeurId) => {
@@ -55,6 +80,8 @@ const ChauffeurPage = () => {
     };
 
     const handleSubmitBooking = async () => {
+        const userID = await fetchUserID();
+        // console.log(userID);
         try {
             const response = await fetch('/api/bookings/book', {
                 method: 'POST',
@@ -63,7 +90,8 @@ const ChauffeurPage = () => {
                 },
                 body: JSON.stringify({
                     ...bookingDetails,
-                    chauffeurId: selectedChauffeur._id
+                    chauffeurID: selectedChauffeur._id,
+                    userID
                 }),
             });
 

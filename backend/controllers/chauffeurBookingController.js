@@ -13,8 +13,8 @@ const recordBooking = async (req, res) => {
     console.log("Attempting to record a Booking with body:", req.body);
 
     // Basic validation (you might want to replace this with a more robust solution like Joi)
-    const { userID, chauffeurID, date, time, pickUpLocation, dropOffLocation, charge, status } = req.body;
-    if (!userID || !chauffeurID || !date || !time || !status) {
+    const { userID, chauffeurID, date, time, location, dropOffLocation, charge } = req.body;
+    if (!userID || !chauffeurID || !date || !time ) {
         console.error("Validation error: Missing fields in request body");
         return res.status(400).json({ error: "Missing required fields" });
     }
@@ -61,10 +61,9 @@ const recordBooking = async (req, res) => {
             chauffeurID,
             date,
             time,
-            pickUpLocation,
+            location,
             dropOffLocation,
-            charge,
-            status
+            charge
         });
 
         await booking.save();
@@ -77,10 +76,9 @@ const recordBooking = async (req, res) => {
             <li>Start Date: ${chauffeur.firstName} ${chauffeur.lastName}</li>
             <li>Date: ${date}</li>
             <li>Pickup time: ${time}</li>
-            <li>Pickup location: ${pickUpLocation}</li>
-            <li>DropOff location: ${dropOffLocation}</li>
+            <li>Pickup location: ${location}</li>
             <li>This total cost is: ${charge} CAD$ </li>
-            <li>Your request is ${status}</li>
+            
         </ul>
         <p>Thank you for choosing our service, we will get back to you soon.</p>`
     ;
@@ -226,86 +224,86 @@ const updateBooking = async (req,res) => {
     res.status(200).json(booking)
 
 }
-//CONFIRM RESERVATION CSR
+// //CONFIRM RESERVATION CSR
 
-const confirmBooking = async (req,res) => {
-    const { id } = req.params
+// const confirmBooking = async (req,res) => {
+//     const { id } = req.params
     
 
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({error: 'No such booking'})
-    }
+//     if(!mongoose.Types.ObjectId.isValid(id)){
+//         return res.status(404).json({error: 'No such booking'})
+//     }
 
-    const booking = await ChauffeurBooking.findOneAndUpdate({_id: id},{'status':'accepted'})
-    const user = await User.findById({_id: booking.userID})
+//     const booking = await ChauffeurBooking.findOneAndUpdate({_id: id},{'status':'accepted'})
+//     const user = await User.findById({_id: booking.userID})
 
-    const emailContent = 
-    `<p>Dear  ${user.username} ,</p>
-     <p>Thank you for using our services!</p>
-     <h4>Your Chauffer Booking has been confirmed and you will meet at the chosen date, time, and location.
-     We hope you have a nice trip </h4>
-     <p>CocoCrew</p>
-     `
- ;
- const mailOptions = {
-     from: 'cosmiccoffeecrew@gmail.com',
-     to: user.email,
-     subject: 'Booking Confirmed!',
-     html: emailContent
- };
+//     const emailContent = 
+//     `<p>Dear  ${user.username} ,</p>
+//      <p>Thank you for using our services!</p>
+//      <h4>Your Chauffer Booking has been confirmed and you will meet at the chosen date, time, and location.
+//      We hope you have a nice trip </h4>
+//      <p>CocoCrew</p>
+//      `
+//  ;
+//  const mailOptions = {
+//      from: 'cosmiccoffeecrew@gmail.com',
+//      to: user.email,
+//      subject: 'Booking Confirmed!',
+//      html: emailContent
+//  };
 
- await transporter.sendMail(mailOptions);
+//  await transporter.sendMail(mailOptions);
 
 
-    if(!booking){
-        return res.status(404).json({error: 'No such booking'})
-    }
-    res.status(200).json(booking)
+//     if(!booking){
+//         return res.status(404).json({error: 'No such booking'})
+//     }
+//     res.status(200).json(booking)
 
-}
+// }
 
-//Cancel RESERVATION USER/CSR
-const cancelBooking = async (req,res) => {
-    const { id } = req.params
+// //Cancel RESERVATION USER/CSR
+// const cancelBooking = async (req,res) => {
+//     const { id } = req.params
     
 
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({error: 'No such reservation'})
-    }
+//     if(!mongoose.Types.ObjectId.isValid(id)){
+//         return res.status(404).json({error: 'No such reservation'})
+//     }
 
-    const booking = await chauffeurBooking.findOneAndUpdate({_id: id},{'status':'refused'})
+//     const booking = await chauffeurBooking.findOneAndUpdate({_id: id},{'status':'refused'})
 
-    //SENDING AN EMAIL TO SAY THAT 500 CAD have been withdrawed
+//     //SENDING AN EMAIL TO SAY THAT 500 CAD have been withdrawed
 
-    const user = await User.findById({_id: booking.userID})
-        const emailContent = 
-       `<p>Dear  ${user.username} ,</p>
-        <p>Thank you for using our services!</p>
-        <h5>After carefully evaluating your Chauffeur booking, we are sorry to announce that at this time we won't be able to provide you with the specific services you asked for. 
-        For more information, please contact us at this email.</h5>
+//     const user = await User.findById({_id: booking.userID})
+//         const emailContent = 
+//        `<p>Dear  ${user.username} ,</p>
+//         <p>Thank you for using our services!</p>
+//         <h5>After carefully evaluating your Chauffeur booking, we are sorry to announce that at this time we won't be able to provide you with the specific services you asked for. 
+//         For more information, please contact us at this email.</h5>
 
         
-        <p>Thank you for your understanding, and we hope to see you soon!!</p>
-        <p>CocoCrew</p>
-        `
-    ;
-    const mailOptions = {
-        from: 'cosmiccoffeecrew@gmail.com',
-        to: user.email,
-        subject: 'booking refused!',
-        html: emailContent
-    };
+//         <p>Thank you for your understanding, and we hope to see you soon!!</p>
+//         <p>CocoCrew</p>
+//         `
+//     ;
+//     const mailOptions = {
+//         from: 'cosmiccoffeecrew@gmail.com',
+//         to: user.email,
+//         subject: 'booking refused!',
+//         html: emailContent
+//     };
 
-    await transporter.sendMail(mailOptions);
+//     await transporter.sendMail(mailOptions);
 
-    ////////////////////////////////////////////////////////////
+//     ////////////////////////////////////////////////////////////
 
-    if(!booking){
-        return res.status(404).json({error: 'No such booking'})
-    }
-    res.status(200).json(booking)
+//     if(!booking){
+//         return res.status(404).json({error: 'No such booking'})
+//     }
+//     res.status(200).json(booking)
 
-}
+// }
 
 
 
@@ -375,4 +373,4 @@ const rateBooking = async (req,res) => {
 
 // }
 
-module.exports = {getBooking,cancelBooking, confirmBooking, updateBooking, recordBooking, getBookings, getUserBookings, getChauffeurBookings,deleteBooking, rateBooking }
+module.exports = {getBooking, updateBooking, recordBooking, getBookings, getUserBookings, getChauffeurBookings,deleteBooking, rateBooking }
