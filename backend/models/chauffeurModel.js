@@ -64,6 +64,7 @@ const chauffeurSchema = new Schema({
         type: Number,
         default: 0
     },
+    
     reviews: [{
         userID: String,
         username: String,

@@ -23,13 +23,14 @@ const chauffeurBookingSchema = new Schema({
     },
     location: {
         type: String,
-        requried: true
+        required: true
     },
     dropOffLocation: {
         type: String
     },
     charge: {
-        type: Number
+        type: Number,
+        required:true
     },
     duration: {
         type : Number
