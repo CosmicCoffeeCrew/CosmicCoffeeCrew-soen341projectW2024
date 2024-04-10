@@ -153,7 +153,7 @@ const handleDeleteChauffeur = async (chauffeurBookingId) => {
                 className="vehicle-image"
               />
               <div className="reservation-details">
-                <h3>{`${reservation.vehicle?.make || 'Unknown Make'} ${reservation.vehicle?.model || 'Unknown Model'} (${reservation.vehicle?.year || 'Unknown Year'})`}</h3>
+                <h3 className="text-xl font-semibold font-serif">{`${reservation.vehicle?.make || 'Unknown Make'} ${reservation.vehicle?.model || 'Unknown Model'} (${reservation.vehicle?.year || 'Unknown Year'})`}</h3>
                 {/* ... other details ... */}
                 <p><strong>Rental Dates:</strong> {new Date(reservation.start_Date).toLocaleDateString()} - {new Date(reservation.end_Date).toLocaleDateString()}</p>
                 <p className="cost"><strong>Cost:</strong> {reservation.charge || 'Unknown'} CAD$</p>
@@ -180,12 +180,13 @@ const handleDeleteChauffeur = async (chauffeurBookingId) => {
                 className="vehicle-image"
               />
               <div className="reservation-details">
-                <h3>{`${chauffeurBooking.chauffeur?.firstName} ${chauffeurBooking.chauffeur?.lastName}`}</h3>
+                <h3 className="text-xl font-semibold font-serif">{`${chauffeurBooking.chauffeur?.firstName} ${chauffeurBooking.chauffeur?.lastName}`}</h3>
                 {/* ... other details ... */}
-                <p><strong>Rental Dates:</strong> {new Date(chauffeurBooking.date).toLocaleDateString()}</p>
-                <p><strong>Pick Up Location:</strong> {chauffeurBooking.chauffeur.location}</p>
-                <p className="cost"><strong>Cost:</strong> {(chauffeurBooking.chauffeur.pricePerHour)|| 'Unknown'} CAD$/hour</p>
-                <p className="status"><strong>Status:</strong> {chauffeurBooking.status || 'Unknown'}</p>
+                <p><strong>Car Details:</strong> {`${chauffeurBooking.chauffeur.carMake} ${chauffeurBooking.chauffeur.carModel} ${chauffeurBooking.chauffeur.carYear}`}</p>
+                <p><strong>Booking Date:</strong> {new Date(chauffeurBooking.date).toLocaleDateString()}</p>
+                <p><strong>Duration:</strong> {(chauffeurBooking.duration) || 'Undetermined'}</p>
+                <p><strong>Pick Up Location:</strong> {(chauffeurBooking.pickUpLocation) || 'Undetermined'}</p>
+                <p className="cost"><strong>Cost:</strong> {(chauffeurBooking.charge)|| 'Unknown'} CAD$/hour</p>
                 <button onClick={() => handleDeleteChauffeur(chauffeurBooking._id)} className="delete-reservation-button">
                   Delete Reservation
                 </button>
