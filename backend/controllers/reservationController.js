@@ -1,4 +1,6 @@
-//const nodemailer  = require('nodemailer')
+// const nodemailer  = require('nodemailer')
+// schedule is for autimatically firing an email at a time T (Mainly for reminders before reservations that the driver will be there)
+const schedule = require('node-schedule');
 const User = require ('../models/userModel')
 const Vehicle = require ('../models/vehicleModel')
 const Reservation = require ('../models/reservationModel')
@@ -95,48 +97,38 @@ const recordReservation = async (req, res) => {
 
         // Example response; adjust as needed
         res.status(201).json(reservation);
+
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Schedule reminder for new reservations that have been created after the server started running:
+    {
+        const {start_Date} = reservation;
+        // Extract the date portion from the ISO string representation of the date
+        console.log(start_Date)
+    
+        const bookingDateTime = new Date(start_Date); // Combine date_temp and time_temp strings into a Date object
+    
+            // Calculate the exact time one hour before the reservation
+            const reminderDateTime = new Date(bookingDateTime.getTime() - (60 * 60 * 1000));
+    
+    
+            // Check if the reminder time is in the future
+            
+                // Schedule a job to send the reminder email one hour before the reservation time
+                const reminderJob = schedule.scheduleJob(reminderDateTime, async function() {
+                    console.log(reminderDateTime);
+                    await sendReminderEmail(reservation);
+                    console.log(`Reminder email sent for reservation: ${reservation._id}`);
+                    
+                });
+            
+            }
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     } catch (error) {
         console.error("Error recording reservation:", error);
         res.status(500).json({ error: error.message });
     }
 };
-// const recordReservation = async (req,res)=> {
-//     const {userID, vehicleID, start_Date, end_Date, charge, status} = req.body
-//     try{
-//         const reservation = await Reservation.record(userID, vehicleID, start_Date, end_Date, charge, status)
-
-//         // Retrieve user's email
-//         const user = await User.findById({_id: userID});
-//         const userEmail = user.email;
-
-//         // Construct email content
-//         const emailContent = `
-//             <p>Dear ${user.username},</p>
-//             <p>Your reservation has been successfully recorded.</p>
-//             <p>Reservation Details:</p>
-//             <ul>
-//                 <li>Start Date: ${start_Date}</li>
-//                 <li>End Date: ${end_Date}</li>
-//                 <li>Charge: ${charge}</li>
-//                 <li>Status: ${status}</li>
-//             </ul>
-//             <p>Thank you for choosing our service.</p>
-//         `;
-
-
-//         const mailOptions = {
-//             from: 'cosmiccoffeecrew@gmail.com',
-//             to: userEmail,
-//             subject: 'Reservation Confirmation',
-//             html: emailContent
-//         };
-
-//         await transporter.sendMail(mailOptions);
-//         res.status(200).json({userID, vehicleID, status})
-//     }catch(error){
-//         res.status(400).json({error:error.message})
-//     }
-// }
 
 //get reservations 
 
@@ -510,16 +502,6 @@ const checkOutReservation = async (req,res) => {
 
 
 
-// //login user
-// const loginUser = async(req,res) => {
-//     res.json({mssg: 'login user'})
-
-// }
-
-
-// //signup user
-// const signupUser = async(req,res) => {
-//     res.json({mssg: 'signup user'})
 
 //Delete Reservation based on ID
 const deleteReservation = async (req,res) => {
@@ -630,18 +612,18 @@ async function reservationReminderEmails() {
     const currentTime = new Date();
 
     reservations.forEach(reservation => {
-        // console.log("Went over this reservation: "+ reservation._id)
-        const { startDate } = reservation;
+        console.log("Went over this reservation: "+ reservation._id)
+        const { start_Date } = reservation;
         
         // const bookingDateTime = new Date(datePortion + 'T' + time); // Combine date and time strings into a Date object
-        const bookingDateTime = new Date(startDate);
+        const bookingDateTime = new Date(start_Date);
         // Calculate the exact time one hour before the reservation
         const reminderDateTime = new Date(bookingDateTime.getTime() - (60 * 60 * 1000));
         const currentTime = new Date();
 
         // Check if the reminder time is in the future
         if (reminderDateTime > currentTime) {
-            // console.log(`Reminder email scheduled for reservation: ${reservation._id}`);
+            console.log(`Reminder email scheduled for reservation: ${reservation._id}`);
             // Schedule a job to send the reminder email one hour before the reservation time
             const reminderJob = schedule.scheduleJob(reminderDateTime, async function() {
                 await sendReminderEmail(reservation);

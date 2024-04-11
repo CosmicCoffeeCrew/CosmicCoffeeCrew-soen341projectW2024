@@ -22,16 +22,7 @@ const recordBooking = async (req, res) => {
     }
 
     try {
-        // Example of using the Reservation model to record a new reservation
-        // This is pseudo-code; adjust according to your actual model and database schema
-
-        // Calculate the difference in days between start_Date and end_Date
-        // const startDate = new Date(start_Date);
-        // const endDate = new Date(end_Date);
-        // const timeDifference = endDate.getTime() - startDate.getTime();
-        // const daysDifference = timeDifference / (1000 * 3600 * 24); // milliseconds to days
-
-        // Retrieve vehicle information to calculate pricePerHour
+   
         const chauffeur = await Chauffeur.findById(chauffeurID);
         if (!chauffeur) {
             throw new Error('chauffeur not found');
@@ -46,17 +37,7 @@ const recordBooking = async (req, res) => {
         
         const user = await User.findById({_id: userID})
 
-        // const pricePerHour = vehicle.pricePerDay * daysDifference;
-        // let creditsUsed = user.credits
-
-        // if(pricePerHour >= user.credits){
-        //     await User.findOneAndUpdate({_id: userID}, {"credits": 0})
-        // }
-        // else{
-        //     const newcreds = creditsUsed - pricePerHour
-        //     await User.findOneAndUpdate({_id: userID}, {"credits": newcreds})
-        //     creditsUsed = pricePerHour
-        // }
+    
         let charge = 0;
         const booking = new ChauffeurBooking({
             userID,
@@ -137,43 +118,6 @@ const bookingDateTime = new Date(`${datePortion}T${time}`); // Combine date_temp
         res.status(500).json({ error: error.message });
     }
 };
-// const recordReservation = async (req,res)=> {
-//     const {userID, vehicleID, start_Date, end_Date, pricePerHour, status} = req.body
-//     try{
-//         const reservation = await Reservation.record(userID, vehicleID, start_Date, end_Date, pricePerHour, status)
-
-//         // Retrieve user's email
-//         const user = await User.findById({_id: userID});
-//         const userEmail = user.email;
-
-//         // Construct email content
-//         const emailContent = `
-//             <p>Dear ${user.username},</p>
-//             <p>Your reservation has been successfully recorded.</p>
-//             <p>Reservation Details:</p>
-//             <ul>
-//                 <li>Start Date: ${start_Date}</li>
-//                 <li>End Date: ${end_Date}</li>
-//                 <li>pricePerHour: ${pricePerHour}</li>
-//                 <li>Status: ${status}</li>
-//             </ul>
-//             <p>Thank you for choosing our service.</p>
-//         `;
-
-
-//         const mailOptions = {
-//             from: 'cosmiccoffeecrew@gmail.com',
-//             to: userEmail,
-//             subject: 'Reservation Confirmation',
-//             html: emailContent
-//         };
-
-//         await transporter.sendMail(mailOptions);
-//         res.status(200).json({userID, vehicleID, status})
-//     }catch(error){
-//         res.status(400).json({error:error.message})
-//     }
-// }
 
 //get Bookings 
 
@@ -261,88 +205,6 @@ const updateBooking = async (req,res) => {
     res.status(200).json(booking)
 
 }
-// //CONFIRM RESERVATION CSR
-
-// const confirmBooking = async (req,res) => {
-//     const { id } = req.params
-    
-
-//     if(!mongoose.Types.ObjectId.isValid(id)){
-//         return res.status(404).json({error: 'No such booking'})
-//     }
-
-//     const booking = await ChauffeurBooking.findOneAndUpdate({_id: id},{'status':'accepted'})
-//     const user = await User.findById({_id: booking.userID})
-
-//     const emailContent = 
-//     `<p>Dear  ${user.username} ,</p>
-//      <p>Thank you for using our services!</p>
-//      <h4>Your Chauffer Booking has been confirmed and you will meet at the chosen date, time, and location.
-//      We hope you have a nice trip </h4>
-//      <p>CocoCrew</p>
-//      `
-//  ;
-//  const mailOptions = {
-//      from: 'cosmiccoffeecrew@gmail.com',
-//      to: user.email,
-//      subject: 'Booking Confirmed!',
-//      html: emailContent
-//  };
-
-//  await transporter.sendMail(mailOptions);
-
-
-//     if(!booking){
-//         return res.status(404).json({error: 'No such booking'})
-//     }
-//     res.status(200).json(booking)
-
-// }
-
-// //Cancel RESERVATION USER/CSR
-// const cancelBooking = async (req,res) => {
-//     const { id } = req.params
-    
-
-//     if(!mongoose.Types.ObjectId.isValid(id)){
-//         return res.status(404).json({error: 'No such reservation'})
-//     }
-
-//     const booking = await chauffeurBooking.findOneAndUpdate({_id: id},{'status':'refused'})
-
-//     //SENDING AN EMAIL TO SAY THAT 500 CAD have been withdrawed
-
-//     const user = await User.findById({_id: booking.userID})
-//         const emailContent = 
-//        `<p>Dear  ${user.username} ,</p>
-//         <p>Thank you for using our services!</p>
-//         <h5>After carefully evaluating your Chauffeur booking, we are sorry to announce that at this time we won't be able to provide you with the specific services you asked for. 
-//         For more information, please contact us at this email.</h5>
-
-        
-//         <p>Thank you for your understanding, and we hope to see you soon!!</p>
-//         <p>CocoCrew</p>
-//         `
-//     ;
-//     const mailOptions = {
-//         from: 'cosmiccoffeecrew@gmail.com',
-//         to: user.email,
-//         subject: 'booking refused!',
-//         html: emailContent
-//     };
-
-//     await transporter.sendMail(mailOptions);
-
-//     ////////////////////////////////////////////////////////////
-
-//     if(!booking){
-//         return res.status(404).json({error: 'No such booking'})
-//     }
-//     res.status(200).json(booking)
-
-// }
-
-
 
 
 //Delete Reservation based on ID
@@ -442,38 +304,6 @@ async function sendReminderEmail(booking) {
     await transporter.sendMail(mailOptions);
 }
 
-// async function scheduleReminderEmails() {
-//     const bookings = await ChauffeurBooking.find({}); // Get all bookings from MongoDB
-
-//     const currentTimePlusOneHour = new Date();
-//     currentTimePlusOneHour.setHours(currentTimePlusOneHour.getHours() + 1); // Calculate current time plus one hour
-
-//     bookings.forEach(booking => {
-//         const { date, time } = booking;
-//         const bookingDateTime = new Date(date + 'T' + time); // Combine date and time strings into a Date object
-
-//         // Calculate the exact time one hour before the booking
-//         const reminderDateTime = new Date(bookingDateTime.getTime() - (60 * 60 * 1000));
-
-//         // Define a tolerance range (e.g., 1 minute)
-//         const toleranceRange = 1 * 60 * 1000; // 1 minute in milliseconds
-
-//         // Check if the current time is within the tolerance range of the reminder time
-//         if (Math.abs(currentTimePlusOneHour.getTime() - reminderDateTime.getTime()) <= toleranceRange) {
-//             // Schedule reminder job
-//             const reminderJob = schedule.scheduleJob(reminderDateTime, async function() {
-//                 await sendReminderEmail(booking);
-//                 console.log(`Reminder email sent for booking: ${booking._id}`);
-//                 // update booking status to see that it has been sent
-                
-//                 booking.status = 'reminder-sent';
-//                 await booking.save();
-//                 console.log("Booking post sending the email: ", booking)
-//             });
-//         }
-//     });
-// }
-
 
 
 // IMPORTANT UNDERRRRRRRRRRRR 
@@ -511,14 +341,6 @@ async function scheduleReminderEmails() {
     });
 }
 
-
-
-
-
-
-// Implement this function somewhere ( I m still looking where)
-// // Call the scheduling function
-// scheduleReminderEmails();
 
 
 // }
