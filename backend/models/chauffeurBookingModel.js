@@ -35,7 +35,17 @@ const chauffeurBookingSchema = new Schema({
     duration: {
         type : Number
     },
+    // totalCost: {
+    //     type: Number,    
+    //     required: true,
+    // },
 // status was here!
+    status: {
+        type : String,
+        enum:["pre-ride","reminder-sent","post-ride"],
+        required:true
+
+},
     review: {
         type: String,
     },
@@ -68,7 +78,7 @@ chauffeurBookingSchema.statics.record = async function(userID, chauffeurID, date
         return res.status(404).json({error: 'No such chauffeur'})
     }
 
-
+    status = "pre-ride"
     const chauffeurBooking = await this.create({userID, chauffeurID, date, time, pickUpLocation, dropOffLocation, charge, status, duration})
 
     return chauffeurBooking

@@ -11,6 +11,7 @@ const reservationRoutes = require('./routes/reservations')
 const siteReviewRoutes = require('./routes/siteReview')
 const chauffeurRoutes = require('./routes/chauffeurs')
 const chauffeurBookingRoutes = require('./routes/chauffeurBooking')
+const{scheduleReminderEmails} = require('./controllers/chauffeurBookingController')
 
 
 
@@ -42,10 +43,16 @@ mongoose.connect(process.env.MONGO_URI)
            console.log('connected to Db && listening on port', process.env.PORT)
         })
 
+        
+
     })
     .catch((error) => {
         console.log('Error connecting to DB:', error)
     })
+
+// Automatic email Sender Connected and Loaded
+scheduleReminderEmails();
+console.log("Automatic email Sender Connected and Loaded")
 
 // Error handling middleware
 app.use((err, req, res, next) => {
