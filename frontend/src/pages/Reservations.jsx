@@ -184,7 +184,7 @@ const handleDeleteChauffeur = async (chauffeurBookingId) => {
                 {/* ... other details ... */}
                 <p><strong>Car Details:</strong> {`${chauffeurBooking.chauffeur.carMake} ${chauffeurBooking.chauffeur.carModel} ${chauffeurBooking.chauffeur.carYear}`}</p>
                 <p><strong>Booking Date:</strong> {new Date(chauffeurBooking.date).toLocaleDateString()}</p>
-                <p><strong>Duration:</strong> {(chauffeurBooking.duration) || 'Undetermined'}</p>
+                <p><strong>Duration:</strong> {(chauffeurBooking.duration) || 'Undetermined'} hour(s)</p>
                 <p><strong>Pick Up Location:</strong> {(chauffeurBooking.location) || 'Undetermined'}</p>
                 <p className="cost"><strong>Cost:</strong> {(chauffeurBooking.charge)|| 'Unknown'} CAD$/hour</p>
                 <button onClick={() => handleDeleteChauffeur(chauffeurBooking._id)} className="delete-reservation-button">
