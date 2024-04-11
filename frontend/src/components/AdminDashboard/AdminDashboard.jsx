@@ -5,12 +5,16 @@ import PropTypes from 'prop-types';
 const AdminDashboard = () => {
     const [showVForm, setShowVForm] = useState(false);
     const [showUForm, setShowUForm] = useState(false);
+    const [showCForm, setShowCForm] = useState(false);
     const [showVTable, setShowVTable] = useState(false);
     const [showUTable, setShowUTable] = useState(false);
+    const [showCTable, setShowCTable] = useState(false);
     const [vehicles, setVehicles] = useState([]);
     const [users, setUsers] = useState([]);
+    const [chauffeurs, setChauffeurs] = useState([]);
     const [vehicleError, setVehicleError] = useState(null);
     const [userError, setUserError] = useState(null);
+    const [chauffeurError, setChauffeurError] = useState(null);
     const [showSuccessPopup, setShowSuccessPopup] = useState(false);
     const [formData, setFormData] = useState({
         make: '',
@@ -40,10 +44,28 @@ const AdminDashboard = () => {
         birthdate: '',
         rentalHistory: ''
     });
+    const [chauffeurFormData, setChauffeurFormData] = useState({
+        email: '',
+        firstName: '',
+        lastName: '',
+        age: '',
+        sex: '',
+        contactNumber: '',
+        location: '',
+        description: '',
+        pricePerHour: '',
+        carMake: '',
+        carModel: '',
+        carYear: '',
+        image: ''
+    });
+    
     const [showVEdit, setShowVEdit] = useState(null);
     const [showUEdit, setShowUEdit] = useState(null);
+    const [showCEdit, setShowCEdit] = useState(null);
     const [editedVehicle, setEditedVehicle] = useState(null); // New state to store edited vehicle
     const [editedUser, setEditedUser] = useState(null); // New state to store edited user
+    const [editedChauffeur, setEditedChauffeur] = useState(null); // New state to store edited user
 
 
     useEffect(() => {
@@ -81,15 +103,33 @@ const AdminDashboard = () => {
         }
     };
 
+    const fetchChauffeurs = async () => {
+        try {
+            const response = await fetch('/api/chauffeurs');
+            if (response.ok) {
+                const json = await response.json();
+                setChauffeurs(json);
+            } else {
+                throw new Error('Failed to fetch chauffeurs');
+            }
+        } catch (error) {
+            console.error('Error fetching chauffeurs:', error);
+            setUserError('Failed to fetch chauffeurs. Please try again later.');
+        }
+    };
+
     const handleListClick = (type) => {
         setShowVForm(type === 'vForm');
         setShowUForm(type === 'uForm');
+        setShowCForm(type === 'cForm');
         setShowVTable(type === 'vTable');
         setShowUTable(type === 'uTable');
+        setShowCTable(type === 'cTable');
         
         //if any button gets clicked, edit form disapears
         setShowVEdit(false);
         setShowUEdit(false);
+        setShowCEdit(false);
     };
 
     const handleChange = (e) => {
@@ -102,6 +142,13 @@ const AdminDashboard = () => {
     const handleUserChange = (e) => {
         setUserFormData({
             ...userFormData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleChauffeurChange = (e) => {
+        setChauffeurFormData({
+            ...chauffeurFormData,
             [e.target.name]: e.target.value
         });
     };
