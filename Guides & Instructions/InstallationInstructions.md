@@ -2,13 +2,14 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).\
 \
-### To start our project:\
+### To start our project:
+First you need to allow a new connection to the database from your adress (Any team member with username and password of database can assist in this)\
 Download the Code\
 Open two terminals, one for frontend and one for backend.\
 run `cd frontend`  and `cd backend` in each one of them respectively\
 run `npm install` in each one of them\
 finally, run `npm start` in the frontend terminal, and run `node server.js` in the backend terminal\
-\
+It will take a couple of seconds and then the website will launch on your device. 
 
 
 ## Available Scripts
