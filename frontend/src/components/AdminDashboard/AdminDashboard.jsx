@@ -396,6 +396,36 @@ const AdminDashboard = () => {
         }
     };
 
+    const handleEditChauffeurSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch(`/api/chauffeurs/${editedChauffeur._id}`, {
+                method: 'PATCH', // Use PATCH method for updating
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(chauffeurFormData)
+            });
+            console.log(response); //for debugging
+            const responseBody = await response.json();
+            console.log('Response body:', responseBody);
+            if (response.ok) {
+                // Handle success, maybe show a success message
+                console.log('Chauffeur updated successfully');
+                setChauffeurError(null); // Reset error state
+                setShowSuccessPopup(true); // Show success popup
+                fetchChauffeurs(); // Fetch chauffeurs data after submission
+            } else {
+                // Handle error, maybe show an error message
+                console.error('Failed to update chauffeur');
+                setChauffeurError('Failed to update chauffeur. Please try again later.');
+            }
+        } catch (error) {
+            console.error('Error updating chauffeur:', error);
+            setChauffeurError('Failed to update chauffeur. Please try again later.');
+        }
+    };
+
     const SuccessPopup = ({ message }) => {
         return (
             <div className="success-popup">
