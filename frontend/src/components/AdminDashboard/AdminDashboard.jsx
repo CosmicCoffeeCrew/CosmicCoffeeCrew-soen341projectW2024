@@ -444,6 +444,7 @@ const AdminDashboard = () => {
             //remove dit form if present
             setShowVEdit(false);
             setShowUEdit(false);
+            setShowCEdit(false);
 
             const response = await fetch(`/api/vehicles/${id}`, {
                 method: 'DELETE'
@@ -468,6 +469,7 @@ const AdminDashboard = () => {
             //remove dit form if present
             setShowVEdit(false);
             setShowUEdit(false);
+            setShowCEdit(false);
 
             const response = await fetch(`/api/users/${id}`, {
             method: 'DELETE'
@@ -484,6 +486,31 @@ const AdminDashboard = () => {
             console.error('Error deleting user:', error);
             setUserError('Failed to delete user. Please try again later.');
         }
+    };
+
+    // Function to handle deleting a chauffeur by ID
+    const handleDeleteChauffeur = async (id) => {
+        try {
+            //remove dit form if present
+            setShowVEdit(false);
+            setShowUEdit(false);
+            setShowCEdit(false);
+
+            const response = await fetch(`/api/chauffeurs/${id}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                // Remove the deleted chauffeur from the local state
+                setChauffeurs(chauffeurs.filter(chauffeur => chauffeur._id !== id));
+                console.log('Chauffeur deleted successfully');
+            } else {
+             console.error('Failed to delete chauffeur');
+             setChauffeurError('Failed to delete chauffeur. Please try again later.');
+          }
+     } catch (error) {
+            console.error('Error deleting chauffeur:', error);
+            setChauffeurError('Failed to delete chauffeur. Please try again later.');
+     }
     };
     
 
