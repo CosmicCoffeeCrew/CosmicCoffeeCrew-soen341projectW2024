@@ -12,7 +12,7 @@ const siteReviewRoutes = require('./routes/siteReview')
 const chauffeurRoutes = require('./routes/chauffeurs')
 const chauffeurBookingRoutes = require('./routes/chauffeurBooking')
 const{scheduleReminderEmails} = require('./controllers/chauffeurBookingController')
-
+const{reservationReminderEmails} = require('./controllers/reservationController')
 
 
 // express app
@@ -50,9 +50,13 @@ mongoose.connect(process.env.MONGO_URI)
         console.log('Error connecting to DB:', error)
     })
 
-// Automatic email Sender Connected and Loaded
+// Automatic email Sender for chauffeurs Connected and Loaded
 scheduleReminderEmails();
-console.log("Automatic email Sender Connected and Loaded")
+console.log("Automatic email Sender for chauffeurs Connected and Loaded")
+
+// Automatic email Sender for car Reservations Connected and Loaded
+reservationReminderEmails();
+console.log("Automatic email Sender for reservations Connected and Loaded")
 
 // Error handling middleware
 app.use((err, req, res, next) => {

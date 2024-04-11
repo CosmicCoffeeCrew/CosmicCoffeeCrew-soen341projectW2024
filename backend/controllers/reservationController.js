@@ -588,7 +588,74 @@ const rateReservation = async (req,res) => {
 
 }
 
+// Function to send email
+async function sendReminderEmail(reservation) {
+    // console.log(reservation);
+    // console.log(reservation.userID);
+    const user = await User.findById({_id: reservation.userID});
+    // console.log(user.username);
+    
+    const emailContent = 
+       `<p>Hi ${user.username},</p>
+
+       <p>We hope this message finds you well!</p>
+       
+       <p>This is a reminder to come and check in as your rental reservation begins in an hour.</p>
+       
+       
+       <p>If you have any questions or need to make any changes, feel free to reach out to us. We're here to assist you!</p>
+       
+       <p>Thank you for choosing Cosmic Coffee Crew. We're looking forward to serving you!</p>
+       
+       <p>Best regards,</p>
+       <p>The Cosmic Coffee Crew Team</p>
+       `;
+
+
+    const mailOptions = {
+        from: 'cosmiccoffeecrew@gmail.com',
+        to: user.email,
+        subject: 'Car Rental Booking Reminder!',
+        html: emailContent
+    };
+
+    await transporter.sendMail(mailOptions);
+}
+// IMPORTANT UNDERRRRRRRRRRRR 
+
+async function reservationReminderEmails() {
+    const reservations = await Reservation.find({}); // Get all bookings from MongoDB
+    console.log("Got the reservations")
+
+    const currentTime = new Date();
+
+    reservations.forEach(reservation => {
+        // console.log("Went over this reservation: "+ reservation._id)
+        const { startDate } = reservation;
+        
+        // const bookingDateTime = new Date(datePortion + 'T' + time); // Combine date and time strings into a Date object
+        const bookingDateTime = new Date(startDate);
+        // Calculate the exact time one hour before the reservation
+        const reminderDateTime = new Date(bookingDateTime.getTime() - (60 * 60 * 1000));
+        const currentTime = new Date();
+
+        // Check if the reminder time is in the future
+        if (reminderDateTime > currentTime) {
+            // console.log(`Reminder email scheduled for reservation: ${reservation._id}`);
+            // Schedule a job to send the reminder email one hour before the reservation time
+            const reminderJob = schedule.scheduleJob(reminderDateTime, async function() {
+                await sendReminderEmail(reservation);
+                console.log(`Reminder email sent for reservation: ${reservation._id}`);
+
+                // Update reservation status to indicate that the reminder has been sent
+                
+                console.log("Reservation post sending the email: ", reservation);
+            });
+        }
+    });
+}
+
 
 // }
 
-module.exports = {getReservation, checkOutReservation,checkInReservation,cancelReservation, confirmReservation, updateReservation, recordReservation, getReservations, getUserReservations, getVehicleReservations,deleteReservation, rateReservation }
+module.exports = {reservationReminderEmails, getReservation, checkOutReservation,checkInReservation,cancelReservation, confirmReservation, updateReservation, recordReservation, getReservations, getUserReservations, getVehicleReservations,deleteReservation, rateReservation }
