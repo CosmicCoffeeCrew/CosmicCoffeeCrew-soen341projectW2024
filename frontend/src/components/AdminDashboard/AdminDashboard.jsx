@@ -196,6 +196,29 @@ const AdminDashboard = () => {
         });
     };
 
+    const handleEditChauffeur = (chauffeur) => {
+        console.log('Editing chauffeur:', chauffeur);
+        setShowCEdit(true);
+        setEditedChauffeur(chauffeur); 
+        // Autofill the fields with the data of the selected chauffeur
+        setChauffeurFormData({
+            email: chauffeur.email || '',
+            firstName: chauffeur.firstName || '',
+            lastName: chauffeur.lastName || '',
+            age: chauffeur.age || 0,
+            sex: chauffeur.sex || '',
+            contactNumber: chauffeur.contactNumber || '',
+            location: chauffeur.location || '',
+            description: chauffeur.description || '',
+            pricePerHour: chauffeur.pricePerHour || 0,
+            carMake: chauffeur.carMake || '',
+            carModel: chauffeur.carModel || '',
+            carYear: chauffeur.carYear || 0,
+            image: chauffeur.image || ''
+        });
+        
+    };
+
     const handleSubmitVehicle = async (e) => {
         e.preventDefault();
         try {
@@ -266,6 +289,37 @@ const AdminDashboard = () => {
         } catch (error) {
             console.error('Error creating user:', error);
             setUserError('Failed to create user. Please try again later.');
+        }
+    };
+
+
+    const handleSubmitChauffeur = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch('/api/chauffeurs', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(chauffeurFormData)
+            });
+            console.log(response); //for debugging
+            const responseBody = await response.json();
+            console.log('Response body:', responseBody);
+            if (response.ok) {
+                // Handle success, maybe show a success message
+                console.log('Chauffeur created successfully');              
+                setChauffeurError(null);// Reset error state               
+                setShowSuccessPopup(true);// Show success popup
+                fetchChauffeurs();// Fetch vehicles data after submission
+            } else {
+                // Handle error, maybe show an error message
+                console.error('Failed to create chauffeur');
+                setChauffeurError('Failed to create chauffeur. Please try again later.');
+            }
+        } catch (error) {
+            console.error('Error creating chauffeur:', error);
+            setChauffeurError('Failed to create chauffeur. Please try again later.');
         }
     };
 
