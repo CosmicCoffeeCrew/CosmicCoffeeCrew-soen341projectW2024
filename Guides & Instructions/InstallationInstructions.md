@@ -1,7 +1,7 @@
 # How to start our project
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).\
-\
+
 ### To start our project:
 First you need to allow a new connection to the database from your adress (Any team member with username and password of database can assist in this)\
 Download the Code\
