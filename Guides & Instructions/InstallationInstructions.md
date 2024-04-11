@@ -1,12 +1,14 @@
 # How to start our project
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).\
-To start our project:\
+\
+### To start our project:\
 Download the Code\
 Open two terminals, one for frontend and one for backend.\
-run "cd frontend" and "cd backend" in each one of them respectively\
-run "npm install" in each one of them\
-
+run `cd frontend`  and `cd backend` in each one of them respectively\
+run `npm install` in each one of them\
+finally, run `npm start` in the frontend terminal, and run `node server.js` in the backend terminal\
+\
 
 
 ## Available Scripts
