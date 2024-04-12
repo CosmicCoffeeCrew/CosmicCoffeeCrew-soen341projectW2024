@@ -8,6 +8,7 @@ function UserAuth({ onClose, initialMode }) {
   const [mode, setMode] = useState(initialMode); // "login" or "signup"
   const {signup, error, isLoading} = useSignup()
   const {login, errorLog, isLoadingLog} = useLogin()
+  const [loggedIn, setLoggedIn] = useState(false); 
  
   // Login form states
   const [username, setUsername] = useState('');
@@ -28,9 +29,9 @@ function UserAuth({ onClose, initialMode }) {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-
     await login(username, password)
     console.log("Login", { username, password, rememberMe });
+    setLoggedIn(true);
   };
 
   const handleSignupSubmit = async (e) => {
@@ -40,6 +41,10 @@ function UserAuth({ onClose, initialMode }) {
     // await login(email, password)
     console.log("Signup", {email, password, username, firstName, lastName, address, contactNumber, license, birthdate});
   };
+
+  if (loggedIn) {
+    return null;
+  }
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50">
