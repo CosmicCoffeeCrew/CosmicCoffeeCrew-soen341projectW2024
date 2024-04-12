@@ -71,6 +71,7 @@ const AdminDashboard = () => {
     useEffect(() => {
         fetchVehicles();
         fetchUsers();
+        fetchChauffeurs();
     }, []);
 
     const fetchVehicles = async () => {
@@ -876,6 +877,7 @@ const AdminDashboard = () => {
                                 </tr>
                             </thead>
                             <tbody>
+                            
                             {vehicles.map(vehicle => (
                                     <tr key={vehicle._id}>
                                         <td>
@@ -906,6 +908,64 @@ const AdminDashboard = () => {
                         </table>
                     </div>
                 )}
+
+
+{showCTable && (
+    <div>
+        <table>
+            {/* Chauffeur table contents */}
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Age</th>
+                    <th>Sex</th>
+                    <th>Contact Number</th>
+                    <th>Location</th>
+                    <th>Description</th>
+                    <th>Price Per Hour</th>
+                    <th>Car Make</th>
+                    <th>Car Model</th>
+                    <th>Car Year</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {console.log(chauffeurs)}
+            {chauffeurs.map(chauffeur => (
+                    <tr key={chauffeur._id}>
+                        <td>
+                            <img src={chauffeur.image} alt="Chauffeur" style={{ width: "200px", height: "auto" }} />
+                        </td>
+                        <td>{chauffeur._id}</td>
+                        <td>{chauffeur.email}</td>
+                        <td>{chauffeur.firstName}</td>
+                        <td>{chauffeur.lastName}</td>
+                        <td>{chauffeur.age}</td>
+                        <td>{chauffeur.sex}</td>
+                        <td>{chauffeur.contactNumber}</td>
+                        <td>{chauffeur.location}</td>
+                        <td>{chauffeur.description}</td>
+                        <td>{chauffeur.pricePerHour}</td>
+                        <td>{chauffeur.carMake}</td>
+                        <td>{chauffeur.carModel}</td>
+                        <td>{chauffeur.carYear}</td>
+                        <td>
+                            <button className="formButton" onClick={() => handleEditChauffeur(chauffeur)}>Edit</button>
+                            <br/><br/>
+                            <button className="formButton" onClick={() => handleDeleteChauffeur(chauffeur._id)}>Delete</button>
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    </div>
+)}
+
+
 
                 {showUTable && (
                     <div>
