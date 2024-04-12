@@ -14,7 +14,10 @@ seats: Represents the number of seats in the vehicle.
 pricePerDay: Represents the rental price per day for the vehicle.
 available: Represents whether the vehicle is available for rental.
 description: Represent a small description of the vehicle.
-
+image: Stores image link and gets fetched in frontend.
+numOfRatings stores the number of ratings.
+total rating is self explanatory.
+reviews is an array storing information about different reservation
 */
 
 const vehicleSchema = new Schema({
