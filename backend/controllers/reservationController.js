@@ -1,4 +1,3 @@
-// const nodemailer  = require('nodemailer')
 // schedule is for autimatically firing an email at a time T (Mainly for reminders before reservations that the driver will be there)
 const schedule = require('node-schedule');
 const User = require ('../models/userModel')
@@ -11,7 +10,6 @@ const puppeteer = require('puppeteer')
 const fs = require('fs-extra')
 const fs2 = require('fs');
 
-//process.env.SECRET;
 
 //record a reservation
 const recordReservation = async (req, res) => {
@@ -98,8 +96,6 @@ const recordReservation = async (req, res) => {
         // Example response; adjust as needed
         res.status(201).json(reservation);
 
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Schedule reminder for new reservations that have been created after the server started running:
     {
         const {start_Date} = reservation;
@@ -123,7 +119,7 @@ const recordReservation = async (req, res) => {
                 });
             
             }
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+          
     } catch (error) {
         console.error("Error recording reservation:", error);
         res.status(500).json({ error: error.message });
@@ -403,7 +399,6 @@ const cancelReservation = async (req,res) => {
 
     await transporter.sendMail(mailOptions);
 
-    ////////////////////////////////////////////////////////////
 
     if(!reservation){
         return res.status(404).json({error: 'No such reservation'})
@@ -444,8 +439,6 @@ const checkInReservation = async (req,res) => {
     };
 
     await transporter.sendMail(mailOptions);
-
-    ////////////////////////////////////////////////////////////
 
     if(!reservation2){
         return res.status(404).json({error: 'No such reservation'})
@@ -490,8 +483,6 @@ const checkOutReservation = async (req,res) => {
     };
 
     await transporter.sendMail(mailOptions);
-
-    ////////////////////////////////////////////////////////////
 
     if(!reservation){
         return res.status(404).json({error: 'No such reservation'})
