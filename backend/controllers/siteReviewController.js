@@ -1,11 +1,8 @@
-//const nodemailer  = require('nodemailer')
 const User = require ('../models/userModel')
 const SiteReview = require ('../models/siteReviewModel')
 const mongoose = require('mongoose')
 const {transporter} = require('../mail')
 const { unstable_renderSubtreeIntoContainer } = require('react-dom')
-
-//process.env.SECRET;
 
 //record a review
 const recordSiteReview = async (req, res) => {
