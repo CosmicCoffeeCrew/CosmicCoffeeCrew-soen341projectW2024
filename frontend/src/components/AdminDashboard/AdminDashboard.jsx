@@ -49,15 +49,15 @@ const AdminDashboard = () => {
         firstName: '',
         lastName: '',
         age: '',
-        sex: '',
         contactNumber: '',
-        location: '',
         description: '',
         pricePerHour: '',
         carMake: '',
         carModel: '',
         carYear: '',
-        image: ''
+        image: '',
+        sex: 'M',
+        location: 'Montreal'
     });
     
     const [showVEdit, setShowVEdit] = useState(null);
@@ -314,6 +314,7 @@ const AdminDashboard = () => {
                 fetchChauffeurs();// Fetch vehicles data after submission
             } else {
                 // Handle error, maybe show an error message
+                console.error(chauffeurFormData);
                 console.error('Failed to create chauffeur');
                 setChauffeurError('Failed to create chauffeur. Please try again later.');
             }
@@ -521,15 +522,18 @@ const AdminDashboard = () => {
                     <div>
                         <button className="button is-primary mr-4" onClick={() => handleListClick('vForm')}>Create Vehicle</button>
                         <button className="button is-primary mr-4" onClick={() => handleListClick('uForm')}>Create User</button>
+                        <button className="button is-primary mr-4" onClick={() => handleListClick('cForm')}>Create Chauffeur</button>
                     </div>
                     <div>
                         <button className="button is-primary mr-4" onClick={() => handleListClick('vTable')}>List Vehicles</button>
                         <button className="button is-primary" onClick={() => handleListClick('uTable')}>List Users</button>
+                        <button className="button is-primary mr-4" onClick={() => handleListClick('cTable')}>List Chauffeurs</button>
                     </div>
                 </div>
 
                 {vehicleError && <div>Error: {vehicleError}</div>} {/* Render error message if vehicleError is not null */}
                 {userError && <div>Error: {userError}</div>} {/* Render error message if userError is not null */}
+                {chauffeurError && <div>Error: {chauffeurError}</div>} {/* Render error message if chauffeurError is not null */}
 
                 {showVForm && (
                     <div>
@@ -673,6 +677,83 @@ const AdminDashboard = () => {
                         </form>
                     </div>
                 )}
+
+                {showCForm &&  (
+                    <div>
+                        <form onSubmit={handleSubmitChauffeur}>
+                            <div>
+                                <label htmlFor="email">Email <hr></hr> </label>
+                                <input type="email" id="email" name="email" value={chauffeurFormData.email} onChange={handleChauffeurChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="firstName">firstName <hr></hr> </label>
+                                <input type="firstName" id="firstName" name="firstName" value={chauffeurFormData.firstName} onChange={handleChauffeurChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="lastName">lastName <hr></hr> </label>
+                                <input type="lastName" id="lastName" name="lastName" value={chauffeurFormData.lastName} onChange={handleChauffeurChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="age">age <hr></hr> </label>
+                                <input type="age" id="age" name="age" value={chauffeurFormData.age} onChange={handleChauffeurChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="contactNumber">contactNumber <hr></hr> </label>
+                                <input type="contactNumber" id="contactNumber" name="contactNumber" value={chauffeurFormData.contactNumber} onChange={handleChauffeurChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="description">description <hr></hr> </label>
+                                <input type="description" id="description" name="description" value={chauffeurFormData.description} onChange={handleChauffeurChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="pricePerHour">pricePerHour <hr></hr> </label>
+                                <input type="pricePerHour" id="pricePerHour" name="pricePerHour" value={chauffeurFormData.pricePerHour} onChange={handleChauffeurChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="carMake">carMake <hr></hr> </label>
+                                <input type="carMake" id="carMake" name="carMake" value={chauffeurFormData.carMake} onChange={handleChauffeurChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="carModel">carModel <hr></hr> </label>
+                                <input type="carModel" id="carModel" name="carModel" value={chauffeurFormData.carModel} onChange={handleChauffeurChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="carYear">carYear <hr></hr> </label>
+                                <input type="carYear" id="carYear" name="carYear" value={chauffeurFormData.carYear} onChange={handleChauffeurChange} />
+                            </div>
+                            
+                            <div>
+                                <label htmlFor="image">image <hr></hr> </label>
+                                <input type="text" id="image" name="image" value={chauffeurFormData.image} onChange={handleChauffeurChange} />
+                            </div>
+                            <div>
+                <label htmlFor="sex">Sex <hr></hr> </label>
+                <select id="sex" name="sex" value={chauffeurFormData.sex} onChange={handleChauffeurChange} required>
+                    <option value="">Select Sex</option>
+                    {['M', 'F'].map((sex) => (
+                        <option key={sex} value={sex}>{sex}</option>
+                    ))}
+                </select>
+            </div>
+                            <div>
+                <label htmlFor="location">Location <hr></hr> </label>
+                <select id="location" name="location" value={chauffeurFormData.location} onChange={handleChauffeurChange} required>
+                    <option value="">Select Location</option>
+                    {['Montreal', 'Ottawa', 'Toronto', 'Vancouver', 'Halifax', 'Edmonton'].map((location) => (
+                        <option key={location} value={location}>{location}</option>
+                    ))}
+                </select>
+            </div>
+                            <br></br>
+
+                            <button className="formButton" type="submit">Submit</button>
+
+                            {showSuccessPopup && <SuccessPopup message="Chauffeur was created successfully!" />}
+                        </form>
+                    </div>
+                )}
+
+                
 
                 {/* Display editing forms when corresponding "Edit" buttons are clicked */}
                 {showVEdit && (
