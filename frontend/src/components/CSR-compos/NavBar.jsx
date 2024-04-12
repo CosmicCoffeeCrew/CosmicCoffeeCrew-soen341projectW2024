@@ -16,4 +16,8 @@ const NavBar = ({ onCheckInClick, onCheckOutClick }) => {
      );
 };
 
+NavBar.propTypes = {
+
+};
+
 export default NavBar;
