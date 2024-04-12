@@ -6,13 +6,11 @@ const Chauffeur = require ('../models/chauffeurModel')
 const ChauffeurBooking = require ('../models/chauffeurBookingModel')
 const mongoose = require('mongoose')
 const {transporter} = require('../mail')
-// const { unstable_renderSubtreeIntoContainer } = require('react-dom')
 
-//process.env.SECRET;
 
 //record a reservation
 const recordBooking = async (req, res) => {
-    console.log("Attempting to record a Booking with body:", req.body);
+   
 
     // Basic validation (you might want to replace this with a more robust solution like Joi)
     const { userID, chauffeurID, date, time, location, dropOffLocation, pricePerHour, duration } = req.body;
@@ -27,11 +25,6 @@ const recordBooking = async (req, res) => {
         if (!chauffeur) {
             throw new Error('chauffeur not found');
         }
-
-        // if(daysDifference < 0){
-        //     throw new Error("End date CANNOT be before the start date")
-        // }
-
 
         // Calculate the pricePerHour based on the vehicle's pricePerDay and the number of days
         
@@ -100,7 +93,7 @@ const bookingDateTime = new Date(`${datePortion}T${time}`); // Combine date_temp
             const reminderJob = schedule.scheduleJob(reminderDateTime, async function() {
                 console.log(reminderDateTime);
                 await sendReminderEmail(booking);
-                console.log(`Reminder email sent for booking: ${booking._id}`);
+               // console.log(`Reminder email sent for booking: ${booking._id}`);
 
                 // Update booking status to indicate that the reminder has been sent
                 booking.status = 'reminder-sent';
