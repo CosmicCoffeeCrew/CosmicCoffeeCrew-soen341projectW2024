@@ -801,6 +801,83 @@ const AdminDashboard = () => {
                     </div>
                 )}
 
+{showCEdit && (
+                    <div>
+                        <form onSubmit={handleEditChauffeurSubmit}>
+                            <div>
+                                <label htmlFor="email">Email <hr></hr> </label>
+                                <input type="email" id="email" name="email" value={chauffeurFormData.email} onChange={handleChauffeurChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="firstName">firstName <hr></hr> </label>
+                                <input type="firstName" id="firstName" name="firstName" value={chauffeurFormData.firstName} onChange={handleChauffeurChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="lastName">lastName <hr></hr> </label>
+                                <input type="lastName" id="lastName" name="lastName" value={chauffeurFormData.lastName} onChange={handleChauffeurChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="age">age <hr></hr> </label>
+                                <input type="age" id="age" name="age" value={chauffeurFormData.age} onChange={handleChauffeurChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="contactNumber">contactNumber <hr></hr> </label>
+                                <input type="contactNumber" id="contactNumber" name="contactNumber" value={chauffeurFormData.contactNumber} onChange={handleChauffeurChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="description">description <hr></hr> </label>
+                                <input type="description" id="description" name="description" value={chauffeurFormData.description} onChange={handleChauffeurChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="pricePerHour">pricePerHour <hr></hr> </label>
+                                <input type="pricePerHour" id="pricePerHour" name="pricePerHour" value={chauffeurFormData.pricePerHour} onChange={handleChauffeurChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="carMake">carMake <hr></hr> </label>
+                                <input type="carMake" id="carMake" name="carMake" value={chauffeurFormData.carMake} onChange={handleChauffeurChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="carModel">carModel <hr></hr> </label>
+                                <input type="carModel" id="carModel" name="carModel" value={chauffeurFormData.carModel} onChange={handleChauffeurChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="carYear">carYear <hr></hr> </label>
+                                <input type="carYear" id="carYear" name="carYear" value={chauffeurFormData.carYear} onChange={handleChauffeurChange} />
+                            </div>
+                            
+                            <div>
+                                <label htmlFor="image">image <hr></hr> </label>
+                                <input type="text" id="image" name="image" value={chauffeurFormData.image} onChange={handleChauffeurChange} />
+                            </div>
+                            <div>
+                <label htmlFor="sex">Sex <hr></hr> </label>
+                <select id="sex" name="sex" value={chauffeurFormData.sex} onChange={handleChauffeurChange} required>
+                    <option value="">Select Sex</option>
+                    {['M', 'F'].map((sex) => (
+                        <option key={sex} value={sex}>{sex}</option>
+                    ))}
+                </select>
+            </div>
+                            <div>
+                <label htmlFor="location">Location <hr></hr> </label>
+                <select id="location" name="location" value={chauffeurFormData.location} onChange={handleChauffeurChange} required>
+                    <option value="">Select Location</option>
+                    {['Montreal', 'Ottawa', 'Toronto', 'Vancouver', 'Halifax', 'Edmonton'].map((location) => (
+                        <option key={location} value={location}>{location}</option>
+                    ))}
+                </select>
+            </div>
+                            <br></br>
+
+                            <button className="formButton" type="submit">Submit</button>
+
+                            {showSuccessPopup && <SuccessPopup message="Chauffeur was created successfully!" />}
+                        </form>
+                        
+                        <br></br>
+                    </div>
+                )}
+
                 {showUEdit && (
                     <div>
                         <form onSubmit={handleEditUserSubmit}>

@@ -43,6 +43,7 @@ const chauffeurBookingSchema = new Schema({
     status: {
         type : String,
         enum:["pre-ride","reminder-sent","post-ride"],
+        default: "pre-ride",
         required:true
 
 },
