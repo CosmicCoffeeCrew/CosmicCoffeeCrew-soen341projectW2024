@@ -4,6 +4,12 @@ const User = require ('./userModel')
 const Vehicle = require ('./vehicleModel')
 const Schema = mongoose.Schema
 
+/*
+The reservation schema represents the structure of a reservation, one of the core features of our application
+DO NOT CHANGE THE SCHEMA without looking at the reservationController file.
+Also change the body passed from frontend
+*/
+
 const reservationSchema = new Schema({
     userID: {
         type: String,
