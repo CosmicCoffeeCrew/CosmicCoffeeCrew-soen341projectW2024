@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-// const Reservation = mongoose.model('Reservation', reservationSchema);
-// const Reservation = require ('./reservationModel')
 
 /*
 make: Represents the make of the vehicle (e.g., Toyota, Honda).
@@ -15,8 +13,13 @@ fuelType: Represents the type of fuel the vehicle uses (e.g., gasoline, diesel).
 seats: Represents the number of seats in the vehicle.
 pricePerDay: Represents the rental price per day for the vehicle.
 available: Represents whether the vehicle is available for rental.
-description: Represent a small description of the vehicle
+description: Represent a small description of the vehicle.
+image: Stores image link and gets fetched in frontend.
+numOfRatings stores the number of ratings.
+total rating is self explanatory.
+reviews is an array storing information about different reservation
 */
+
 const vehicleSchema = new Schema({
   make: {
     type: String,
@@ -95,32 +98,6 @@ const vehicleSchema = new Schema({
   }]
 
 });
-
-// vehicleSchema.pre('save', async function(next) {
-//   const vehicleID = this._id;
-//   try {
-//       const reservations = await Reservation.find({ vehicleID });
-//       let totalRating = 0;
-//       const reviews = [];
-//       for (let reservation of reservations) {
-//           if (reservation.rating) {
-//               totalRating += reservation.rating;
-//           }
-//           if (reservation.review) {
-//               reviews.push({
-//                   userID: reservation.userID,
-//                   msg: reservation.review,
-//                   rating: reservation.rating
-//               });
-//           }
-//       }
-//       this.averageRating = totalRating / reservations.length || 0;
-//       this.reviews = reviews;
-//       next();
-//   } catch (error) {
-//       next(error);
-//   }
-// });
 
 const Vehicle = mongoose.model('Vehicle', vehicleSchema);
 
