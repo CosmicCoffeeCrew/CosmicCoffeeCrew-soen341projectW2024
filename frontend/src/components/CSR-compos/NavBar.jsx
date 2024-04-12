@@ -17,7 +17,8 @@ const NavBar = ({ onCheckInClick, onCheckOutClick }) => {
 };
 
 NavBar.propTypes = {
-
+  onCheckInClick: PropTypes.func.isRequired,
+  
 };
 
 export default NavBar;
