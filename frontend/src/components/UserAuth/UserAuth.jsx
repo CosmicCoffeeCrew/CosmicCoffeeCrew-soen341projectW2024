@@ -9,6 +9,7 @@ function UserAuth({ onClose, initialMode }) {
   const {signup, error, isLoading} = useSignup()
   const {login, errorLog, isLoadingLog} = useLogin()
   const [loggedIn, setLoggedIn] = useState(false); 
+  const [signedIn, setSignedIn] = useState(false); 
  
   // Login form states
   const [username, setUsername] = useState('');
@@ -40,9 +41,10 @@ function UserAuth({ onClose, initialMode }) {
     await signup(email, password, username, firstName, lastName, address, contactNumber, license, birthdate)
     // await login(email, password)
     console.log("Signup", {email, password, username, firstName, lastName, address, contactNumber, license, birthdate});
+    setSignedIn(true);
   };
 
-  if (loggedIn) {
+  if (loggedIn && signedIn) {
     return null;
   }
 
@@ -196,8 +198,8 @@ function UserAuth({ onClose, initialMode }) {
 }
 
 UserAuth.propTypes = {
-  onClose: PropTypes.func.isRequired, // onClose should be a function and is required
-  initialMode: PropTypes.string.isRequired, // initialMode should be a string and is required
+  onClose: PropTypes.func.isRequired, 
+  initialMode: PropTypes.string.isRequired,
 };
 
 export default UserAuth;
