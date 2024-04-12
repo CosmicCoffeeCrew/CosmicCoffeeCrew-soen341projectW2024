@@ -871,7 +871,7 @@ const AdminDashboard = () => {
 
                             <button className="formButton" type="submit">Submit</button>
 
-                            {showSuccessPopup && <SuccessPopup message="Chauffeur was created successfully!" />}
+                            {showSuccessPopup && <SuccessPopup message="Chauffeur was Updated successfully!" />}
                         </form>
                         
                         <br></br>
