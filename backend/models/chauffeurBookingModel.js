@@ -35,10 +35,6 @@ const chauffeurBookingSchema = new Schema({
     duration: {
         type : Number
     },
-    // totalCost: {
-    //     type: Number,    
-    //     required: true,
-    // },
 // status was here!
     status: {
         type : String,
