@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
 const {transporter} = require('../mail')
 
 
-//record a reservation
+//record a booking
 const recordBooking = async (req, res) => {
    
 
@@ -26,7 +26,6 @@ const recordBooking = async (req, res) => {
             throw new Error('chauffeur not found');
         }
 
-        // Calculate the pricePerHour based on the vehicle's pricePerDay and the number of days
         
         const user = await User.findById({_id: userID})
 
@@ -119,6 +118,7 @@ const getBookings= async (req,res) => {
     res.status(200).json(bookings)
 }
 
+//get a single booking info
 const getBooking = async (req,res) => {
     const {id} =req.params
 
@@ -155,7 +155,7 @@ const getChauffeurBookings = async (req, res) => {
 };
 
 
-// Get reservations based on a specific userID
+// Get booking based on a specific userID
 const getUserBookings = async (req, res) => {
     
     const { userID } = req.params;
@@ -200,7 +200,7 @@ const updateBooking = async (req,res) => {
 }
 
 
-//Delete Reservation based on ID
+//Delete booking based on ID
 const deleteBooking = async (req,res) => {
     const {id} =req.params
 
@@ -264,10 +264,9 @@ const rateBooking = async (req,res) => {
 
 // Function to send email
 async function sendReminderEmail(booking) {
-    // console.log(booking);
-    // console.log(booking.userID);
+
     const user = await User.findById({_id: booking.userID});
-    // console.log(user.username);
+
     const chauffeur = await Chauffeur.findById({_id: booking.chauffeurID})
     const emailContent = 
        `<p>Hi ${user.username},</p>
@@ -303,7 +302,7 @@ async function sendReminderEmail(booking) {
 
 async function scheduleReminderEmails() {
     const bookings = await ChauffeurBooking.find({}); // Get all bookings from MongoDB
-    console.log("Got the bookings")
+    
 
     const currentTime = new Date();
 
