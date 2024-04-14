@@ -307,18 +307,19 @@ async function scheduleReminderEmails() {
     const currentTime = new Date();
 
     bookings.forEach(booking => {
-        // console.log("Went over this booking: "+ booking._id)
+
         const { date, time } = booking;
         const datePortion = date.toISOString().slice(0, 10);
-        // const bookingDateTime = new Date(datePortion + 'T' + time); // Combine date and time strings into a Date object
+        
         const bookingDateTime = new Date(`${datePortion}T${time}`);
+
         // Calculate the exact time one hour before the booking
         const reminderDateTime = new Date(bookingDateTime.getTime() - (60 * 60 * 1000));
         const currentTime = new Date();
 
         // Check if the reminder time is in the future
         if (reminderDateTime > currentTime) {
-            // console.log(`Reminder email scheduled for booking: ${booking._id}`);
+            
             // Schedule a job to send the reminder email one hour before the booking time
             const reminderJob = schedule.scheduleJob(reminderDateTime, async function() {
                 await sendReminderEmail(booking);
