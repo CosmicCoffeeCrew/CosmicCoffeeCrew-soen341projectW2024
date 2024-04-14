@@ -96,9 +96,6 @@ const ChauffeurPage = () => {
             });
 
             if (response.ok) {
-                // Handle booking confirmation
-                //const bookedChauffeur = await response.json();
-                //{ state: { chauffeurName: bookedChauffeur.name } }
                 navigate('/thank-you');
             } else {
                 throw new Error('Failed to submit booking');
