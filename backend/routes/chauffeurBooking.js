@@ -6,29 +6,26 @@ const router = express.Router()
 const{getBooking, updateBooking, recordBooking, getBookings, getUserBookings, getChauffeurBookings,deleteBooking, rateBooking }= require('../controllers/chauffeurBookingController')
 
 
-// //Confirm/Cancel reservation
-// router.patch('/cancel/:id',cancelBooking)
-// router.patch('/confirm/:id',confirmBooking)
-// //record route
+// //booking route
 router.post('/book', recordBooking)
 
-//get all reservations route
+//get all booking route
 router.get('/', getBookings)
 
-//get all reservations route
+//get all booking route
 router.get('/:id', getBooking)
 
 
-//get a specific user's reservations
+//get a specific user's booking
 router.get('/user/:userID', getUserBookings)
 
-//get a specific vehicle's reservations
+//get a specific chauffeurs's booking
 router.get('/chauffeur/:chauffeurID',  getChauffeurBookings)
 
-//Delete a reservation based on ID
+//Delete a booking based on ID
 router.delete('/:id', deleteBooking )
 
-//Update reservation based on ID
+//Update booking based on ID
 router.patch('/:id',updateBooking)
 
 router.patch('/rate/:id', rateBooking)
