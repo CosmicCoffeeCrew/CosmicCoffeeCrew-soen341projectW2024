@@ -5,10 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './RentalFormPage.css';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useNavigate } from 'react-router-dom';
-// import {UserAuth} from '../../UserAuth/UserAuth';
 
-//import Vehicle from '../../../../../backend/models/vehicleModel';
-//Payement
 
 const RentalFormPage = () => {
   // const {userAuth} = UserAuth();
