@@ -102,7 +102,7 @@ const CheckInPage = () => {
         />
 
         <label htmlFor="creditCard">Credit Card Number:</label>
-        <input
+        <input 
           id="creditCard"
           name="creditCard"
           type="text"
@@ -114,7 +114,7 @@ const CheckInPage = () => {
 
         {/* Input for damage report */}
         <label htmlFor="inDamageReport">Damage Report:</label>
-        <input
+        <input maxLength={500}
           id="inDamageReport"
           name="inDamageReport"
           type="text"
