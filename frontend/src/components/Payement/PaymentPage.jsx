@@ -56,7 +56,7 @@ const PaymentPage = () => {
           <div className="card-details-section">
             <div className="input-group">
               <label htmlFor="cardNumber">Card Number</label>
-              <input
+              <input maxLength={20}
                 type="text"
                 id="cardNumber"
                 name="cardNumber"
