@@ -133,6 +133,7 @@ function UserAuth({ onClose, initialMode }) {
             <div className="mb-4">
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-white">Email Address</label>
               <input
+                maxLength={40}
                 type="email"
                 id="email"
                 value={email}
