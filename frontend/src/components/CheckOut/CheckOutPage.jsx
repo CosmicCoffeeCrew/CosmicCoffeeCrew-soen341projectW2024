@@ -112,6 +112,7 @@ const CheckOutPage = () => {
                 <div className="mt-4">
                     <label htmlFor="damageCheck" className="inline-flex items-center">
                         <input
+                            maxLength={500}
                             type="checkbox"
                             id="damageCheck"
                             checked={isDamaged}
