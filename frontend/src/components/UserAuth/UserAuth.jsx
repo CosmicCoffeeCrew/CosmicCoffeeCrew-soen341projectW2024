@@ -165,6 +165,7 @@ function UserAuth({ onClose, initialMode }) {
             <div className="mb-4">
               <label htmlFor="contactNumber" className="block text-sm font-medium text-gray-700 dark:text-white">Contact Number</label>
               <input
+                maxLength={30}
                 type="text"
                 id="contactNumber"
                 value={contactNumber}
@@ -175,6 +176,7 @@ function UserAuth({ onClose, initialMode }) {
             <div className="mb-4">
               <label htmlFor="license" className="block text-sm font-medium text-gray-700 dark:text-white">Driving  License Number</label>
               <input
+                maxLength={30}
                 type="text"
                 id="license"
                 value={license}
