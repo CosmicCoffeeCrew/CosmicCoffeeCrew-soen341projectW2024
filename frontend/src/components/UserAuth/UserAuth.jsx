@@ -154,6 +154,7 @@ function UserAuth({ onClose, initialMode }) {
             <div className="mb-4">
               <label htmlFor="address" className="block text-sm font-medium text-gray-700 dark:text-white">Address</label>
               <input
+                maxLength={100}
                 type="text"
                 id="address"
                 value={address}
