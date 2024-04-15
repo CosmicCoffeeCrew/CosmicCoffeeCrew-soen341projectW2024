@@ -78,7 +78,7 @@ const PaymentPage = () => {
             </div>
             <div className="input-group">
               <label htmlFor="cvv">CVV</label>
-              <input
+              <input maxLength={5}
                 type="text"
                 id="cvv"
                 name="cvv"
