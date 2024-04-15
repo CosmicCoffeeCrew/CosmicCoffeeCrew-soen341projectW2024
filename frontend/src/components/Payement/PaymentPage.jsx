@@ -89,7 +89,7 @@ const PaymentPage = () => {
             </div>
             <div className="input-group">
               <label htmlFor="cardholderName">Cardholder Name</label>
-              <input
+              <input maxLength={40}
                 type="text"
                 id="cardholderName"
                 name="cardholderName"
