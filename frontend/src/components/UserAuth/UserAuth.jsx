@@ -122,6 +122,7 @@ function UserAuth({ onClose, initialMode }) {
              <div className="mb-4">
               <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-white">Username</label>
               <input
+                maxLength={30}
                 type="text"
                 id="username"
                 value={username}
