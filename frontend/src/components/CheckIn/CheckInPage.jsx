@@ -92,7 +92,7 @@ const CheckInPage = () => {
       {/* Check-in form */}
       <form onSubmit={(e) => e.preventDefault()} className="check-in-form">
         <label htmlFor="licensePlate">License Plate:</label>
-        <input
+        <input maxLength={10}
           id="licensePlate"
           name="licensePlate"
           type="text"
