@@ -76,8 +76,7 @@ const recordReservation = async (req, res) => {
         <ul>
             <li>Start Date: ${start_Date}</li>
             <li>End Date: ${end_Date}</li>
-            <li>This reservation initial cost is: ${charge} CAD$ </li>
-            <li>This reservation will cost you: ${charge - creditsUsed} CAD$ after your account credits are used</li>
+            <li>This reservation cost is: ${charge} CAD$ </li>
             <li>Your request is ${status}</li>
         </ul>
         <p>Thank you for choosing our service.</p>`
