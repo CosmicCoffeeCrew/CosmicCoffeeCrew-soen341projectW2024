@@ -39,10 +39,6 @@ const CheckInPage = () => {
       setError("Please enter a license plate.");
       return false;
     }
-    if (!formData.inDamageReport) {
-      setError("Please enter a damage report.");
-      return false;
-    }
     return true;
   };
 
@@ -121,6 +117,7 @@ const CheckInPage = () => {
           value={formData.inDamageReport}
           onChange={handleInputChange}
           required
+          placeholder=""
         />
 
         {/* Button for check-in action */}
